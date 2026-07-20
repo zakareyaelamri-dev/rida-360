@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RIDA T.S. — 360° Performance Assessment</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{
+  --teal:#0F6E56; --teal-mid:#1D9E75; --teal-light:#E1F5EE;
+  --ink:#20201E; --ink-2:#5F5E5A; --ink-3:#888780;
+  --paper:#F7F6F2; --card:#FFFFFF; --line:#E4E2DA; --line-2:#D3D1C7;
+  --coral:#D85A30; --coral-bg:#FAECE7; --coral-dark:#712B13;
+  --blue:#378ADD; --blue-bg:#E6F1FB; --blue-dark:#0C447C;
+  --amber-bg:#FAEEDA; --amber-dark:#633806;
+  --red-bg:#FCEBEB; --red-dark:#791F1F;
+  --green-bg:#EAF3DE; --green-dark:#27500A;
+  --purple-bg:#EEEBFA; --purple-dark:#3D3580;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Segoe UI",Tahoma,system-ui,sans-serif;background:var(--paper);color:var(--ink);font-size:14px;}
+body[dir="rtl"]{font-family:Tahoma,"Segoe UI",sans-serif;}
+button{font-family:inherit;cursor:pointer;}
+input,select,textarea{font-family:inherit;font-size:13px;padding:9px 12px;border:1px solid var(--line-2);border-radius:8px;background:#fff;color:var(--ink);width:100%;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal-mid);box-shadow:0 0 0 3px rgba(29,158,117,.12);}
+label{font-size:12px;color:var(--ink-2);display:block;margin-bottom:5px;font-weight:600;}
+.btn{padding:9px 18px;border-radius:8px;border:1px solid var(--line-2);background:#fff;color:var(--ink);font-size:13px;font-weight:600;}
+.btn:hover{background:var(--paper);}
+.btn-p{background:var(--teal);border-color:var(--teal);color:#fff;}
+.btn-p:hover{background:var(--teal-mid);}
+.btn-d{background:#fff;border-color:#F0B5B5;color:var(--red-dark);}
+.btn-sm{padding:5px 12px;font-size:12px;}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
+.b-teal{background:var(--teal-light);color:var(--teal);}
+.b-amber{background:var(--amber-bg);color:var(--amber-dark);}
+.b-red{background:var(--red-bg);color:var(--red-dark);}
+.b-blue{background:var(--blue-bg);color:var(--blue-dark);}
+.b-gray{background:#EFEEE8;color:var(--ink-2);}
+.b-coral{background:var(--coral-bg);color:var(--coral-dark);}
+.b-green{background:var(--green-bg);color:var(--green-dark);}
+.b-purple{background:var(--purple-bg);color:var(--purple-dark);}
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
+  background:linear-gradient(160deg,#0A4A3A 0%,#0F6E56 55%,#1D9E75 100%);}
+.login-card{background:#fff;border-radius:16px;padding:38px 34px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.25);}
+.login-logo{width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:17px;margin:0 auto 14px;}
+#app{display:none;min-height:100vh;}
+.topbar{background:#fff;border-bottom:1px solid var(--line);padding:0 22px;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:50;}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;}
+.brand-dot{width:34px;height:34px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+.userchip{display:flex;align-items:center;gap:10px;}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--teal-light);color:var(--teal);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;}
+.lang-btn{border:1px solid var(--line-2);background:#fff;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700;}
+.layout{display:flex;min-height:calc(100vh - 58px);}
+.sidenav{width:220px;background:#fff;border-right:1px solid var(--line);padding:16px 10px;flex-shrink:0;}
+body[dir="rtl"] .sidenav{border-right:none;border-left:1px solid var(--line);}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;margin-bottom:2px;border:none;background:transparent;width:100%;text-align:start;}
+.nav-item:hover{background:var(--paper);color:var(--ink);}
+.nav-item.on{background:var(--teal-light);color:var(--teal);}
+.nav-sec{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);padding:14px 12px 6px;}
+.main{flex:1;padding:26px 28px;max-width:1080px;}
+.pg-title{font-size:20px;font-weight:700;margin-bottom:4px;}
+.pg-sub{font-size:13px;color:var(--ink-2);margin-bottom:22px;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+@media(max-width:860px){.grid2,.grid3,.grid4{grid-template-columns:1fr;}.sidenav{width:64px;}.nav-item span{display:none;}.nav-sec{display:none;}}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;}
+.stat-l{font-size:12px;color:var(--ink-2);font-weight:600;}
+.stat-v{font-size:26px;font-weight:700;margin-top:4px;}
+.stat-s{font-size:11.5px;color:var(--ink-3);margin-top:2px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{text-align:start;font-size:11.5px;color:var(--ink-3);font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:8px 10px;border-bottom:1px solid var(--line);}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#FBFAF7;}
+.rate-btns{display:flex;gap:5px;flex-shrink:0;}
+.rb{width:32px;height:32px;border-radius:50%;border:1px solid var(--line-2);background:#fff;font-size:13px;font-weight:600;color:var(--ink-2);}
+.rb.sel{background:var(--teal);color:#fff;border-color:var(--teal);}
+.modal-bg{position:fixed;inset:0;background:rgba(20,20,18,.45);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
+.modal{background:#fff;border-radius:14px;padding:24px;width:100%;max-width:560px;max-height:88vh;overflow-y:auto;}
+.modal h3{font-size:16px;margin-bottom:16px;}
+.frow{margin-bottom:12px;}
+.tree-div{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+.tree-head{background:var(--paper);padding:11px 14px;font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center;}
+.tree-body{padding:6px 14px 10px;}
+.tree-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px dashed var(--line);font-size:13px;}
+.tree-row:last-child{border-bottom:none;}
+.empty{text-align:center;padding:36px 20px;color:var(--ink-3);font-size:13px;}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 22px;border-radius:30px;font-size:13px;font-weight:600;display:none;z-index:200;}
+.gapbar{display:grid;grid-template-columns:110px 1fr 44px;gap:8px;align-items:center;font-size:11.5px;color:var(--ink-2);margin-top:4px;}
+.gtrack{height:6px;background:var(--paper);border-radius:3px;}
+.gfill{height:6px;border-radius:3px;}
+.section-t{font-size:14px;font-weight:700;margin-bottom:12px;}
+.hint{font-size:12px;color:var(--ink-3);line-height:1.6;}
+.axis-head{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin:18px 0 8px;}
+.axis-title{font-weight:700;font-size:13.5px;}
+.q-row{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:11px 4px;border-bottom:1px dashed var(--line);}
+.q-text{font-size:13px;flex:1;line-height:1.6;}
+.chk{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 0;cursor:pointer;}
+.chk input{width:auto;}
+/* ══ PRINT REPORT ══ */
+#print-area{display:none;}
+@media print{
+  body *{visibility:hidden;}
+  #print-area,#print-area *{visibility:visible;}
+  #print-area{display:block !important;position:absolute;top:0;left:0;width:100%;padding:10mm 12mm;background:#fff;}
+  .no-print{display:none !important;}
+  @page{size:A4;margin:8mm;}
+}
+.pr-head{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #0F6E56;padding-bottom:8px;margin-bottom:10px;}
+.pr-logo{width:40px;height:40px;border-radius:50%;background:#0F6E56;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;}
+.pr-title{font-size:16px;font-weight:700;color:#0F6E56;}
+.pr-sub{font-size:10px;color:#666;}
+.pr-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px 14px;font-size:10.5px;margin-bottom:8px;}
+.pr-grid b{color:#0F6E56;}
+.pr-sec{font-size:11px;font-weight:700;background:#E1F5EE;color:#0F6E56;padding:4px 8px;border-radius:4px;margin:8px 0 4px;}
+.pr-table{width:100%;border-collapse:collapse;font-size:10px;}
+.pr-table th{background:#F4F3EE;border:1px solid #DDD;padding:3px 6px;font-size:9.5px;text-transform:none;color:#444;}
+.pr-table td{border:1px solid #DDD;padding:3px 6px;}
+.pr-final{display:flex;justify-content:space-between;align-items:center;background:#0F6E56;color:#fff;border-radius:6px;padding:8px 14px;margin-top:8px;}
+.pr-sign{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;font-size:10px;}
+.pr-sign div{border-top:1px solid #999;padding-top:4px;text-align:center;color:#555;}
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-card">
+    <div style="display:flex;justify-content:flex-end;"><button class="lang-btn" onclick="toggleLang()" id="lang-btn-login">عربي</button></div>
+    <div class="login-logo">RT</div>
+    <h1 style="text-align:center;font-size:19px;margin-bottom:2px;">RIDA Technical Services</h1>
+    <p style="text-align:center;font-size:13px;color:var(--ink-2);margin-bottom:24px;" data-i="sysName">360° Performance Assessment</p>
+    <div class="frow"><label data-i="empId">Employee ID</label><input id="l-id" autocomplete="off"></div>
+    <div class="frow"><label data-i="password">Password</label><input id="l-pw" type="password"></div>
+    <p id="l-err" style="color:var(--red-dark);font-size:12px;display:none;margin-bottom:8px;" data-i="badLogin">Invalid ID or password</p>
+    <button class="btn btn-p" style="width:100%;padding:11px;" onclick="doLogin()" data-i="signIn">Sign in</button>
+    <p class="hint" style="text-align:center;margin-top:14px;" data-i="contactHR">Credentials are issued by HR. Contact the HR department if you can't sign in.</p>
+  </div>
+</div>
+
+<div id="app">
+  <div class="topbar no-print">
+    <div class="brand"><div class="brand-dot">RT</div><span>RIDA 360°</span></div>
+    <div class="userchip">
+      <button class="lang-btn" onclick="toggleLang()" id="lang-btn-app">عربي</button>
+      <div style="text-align:end;">
+        <div style="font-size:13px;font-weight:700;" id="u-name">—</div>
+        <div style="font-size:11px;color:var(--ink-3);" id="u-role">—</div>
+      </div>
+      <div class="avatar" id="u-av">—</div>
+      <button class="btn btn-sm" onclick="openPwModal()" title="Change password">🔑</button>
+      <button class="btn btn-sm" onclick="logout()" data-i="signOut">Sign out</button>
+    </div>
+  </div>
+  <div class="layout">
+    <nav class="sidenav no-print" id="sidenav"></nav>
+    <main class="main" id="main"></main>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-bg"><div class="modal" id="modal-box"></div></div>
+<div class="toast" id="toast"></div>
+<div id="print-area"></div>
+
+<script>
+/* ═══════════ I18N ═══════════ */
+let LANG='en';
+const T={
+ en:{sysName:'360° Performance Assessment',empId:'Employee ID',password:'Password',badLogin:'Invalid ID or password',signIn:'Sign in',contactHR:"Credentials are issued by HR. Contact the HR department if you can't sign in.",signOut:'Sign out',
+ dashboard:'Dashboard',selfA:'Self-assessment',rateOthers:'Rate others',myResults:'My results',trainings:'Trainings',myTeam:'My team results',employees:'Employees',raterCtl:'Rater control',approvals:'Approvals',orgStruct:'Org structure',myAssess:'My assessment',mgmt:'Management',admin:'Administration',
+ welcome:'Welcome',evalsReceived:'Evaluations received',confirmedN:'confirmed',ratingTasks:'My rating tasks',waitingInput:'waiting for your input',finalScore:'My final score',awaiting:'awaiting confirmations',pendingApprovals:'Pending approvals',needConfirm:'need your confirmation',myManager:'My manager',
+ method:'360° methodology — official RIDA weights',mgrW:'Manager 40%',selfW:'Self 20%',peerW:'Peers 20%',subW:'Subordinates 20%',mgrWd:'Direct manager rates all direct reports — includes the technical KPIs section',selfWd:'Filled honestly and objectively by the employee',peerWd:'Same administrative level with real task overlap only',subWd:'Only for employees with direct reports',
+ redist:'Redistribution rule:',redistD:'no direct subordinates → Manager 50% · Self 25% · Peers 25%.',finalRule:'Final grade:',finalRuleD:'Behavioral 40% + Technical KPIs & Objectives 60%.',scale:'Scale:',scaleD:'Excellent 90–100 · Very Good 75–89 · Good 60–74 · Acceptable 45–59.',
+ evaluate:'Evaluate',pendingEdit:'Pending — editable',confirmedLock:'Confirmed — locked',lockedMsg:'This evaluation was confirmed by the HR Manager and is locked.',sec1:'Section 1 — Behavioral Assessment',sec1d:'Rate every statement from 1 (very weak) to 5 (excellent)',ofFinal:'of final grade',
+ sec2:'Section 2 — Technical KPIs & Objectives',sec2d:'Manager only — enter achievement percentage 0–100 for each item',devPlanT:'Development Plan & Next-Period Goals',strengths:'Key strengths',devAreas:'Development areas required',goals:'Next-period goals (one per line — up to 5)',mgrRec:'Manager recommendation',choose:'— choose —',
+ submitEval:'Submit evaluation',updateEval:'Update evaluation',editableNote:'Editable while pending — locks after HR confirmation',fillAllB:'Please rate all behavioral items',fillAllT:'Please complete all technical percentages',submitted:'Submitted — pending HR confirmation',updated:'Updated — still pending',
+ rateSub:'Assignments generated from the org structure and peer groups',noTasks:'No rating assignments for you.',employee:'Employee',department:'Department',yourRole:'Your role',status:'Status',notStarted:'Not started',pending:'Pending',confirmed:'Confirmed',rateNow:'Rate now',edit:'Edit',view:'View',
+ resultsSub:'confirmed evaluations only · rater identities are never shown',noConfirmed:'No confirmed evaluations yet.',finalGrade:'Final grade',behav40:'Behavioral (40%)',tech60:'Technical KPIs (60%)',weightsApplied:'Weights applied',w360:'360 weighted',fromMgr:'from manager evaluation',redistributed:'(redistributed)',partial:'partial data',
+ byGroup:'Behavioral score by rater group',manager:'Manager',selfL:'Self',peers:'Peers',subordinates:'Subordinates',devFromMgr:'Development plan — from manager evaluation',nextGoals:'Next-period goals',printReport:'Print / Save PDF',
+ teamSub:'You can view results only for employees who report to you',noReports:'No direct reports.',final:'Final',open:'Open',trainBtn:'Trainings',
+ empSub:'Employee IDs and credentials are visible to the admin only',addEmp:'+ Add employee',searchP:'Search...',name:'Name',title:'Title',divDept:'Division / Dept',role:'Role',ratedBy:'Rated by',editEmp:'Edit employee',addEmpT:'Add employee',fullName:'Full name',jobTitle:'Job title',phone:'Phone',email:'Email',division:'Division',deptTeam:'Department / team',roleStruct:'Role in structure',chainHint:'Chain: Employee → Dept Mgr → Division Mgr → CEO. Coordinators with no dept manager report to their Division Manager.',save:'Save',cancel:'Cancel',saved:'Saved',deleted:'Deleted',reqIdName:'ID and name are required',idExists:'This ID already exists',delConfirm:'Delete this employee and all their evaluations?',
+ raterSub:'Manager chain is automatic (override when needed). Peer groups: only same administrative level with real task overlap — you decide who.',mgrRater:'Manager-rater',peerRaters:'Peer raters',subRaters:'Subordinate raters',auto:'auto',override:'override',custom:'custom',none:'none',na:'n/a',rateUp:'rate up',mgrBtn:'Manager',peersBtn:'Peers',
+ ovTitle:'Manager-rater for',ovLbl:'Choose manager-rater (override)',autoRule:'— automatic rule —',
+ peerTitle:'Peer raters for',peerHint:'Select only colleagues at the same administrative level whose tasks genuinely overlap.',resetAuto:'Reset to auto',peerSaved:'Peer group saved',backAuto:'Back to auto',
+ apprSub:'Pending evaluations remain editable by raters. Confirming locks them and includes them in results.',allDone:'No pending evaluations ✓',confirmAllB:'Confirm all',target:'Target',rater:'Rater',type:'Type',behavioral:'Behavioral',date:'Date',confirm:'Confirm',reject:'Reject',confirmedLocked:'Confirmed & locked',rejConfirm:'Reject and delete? Rater must resubmit.',rejected:'Rejected',allConfirmed:'All confirmed',
+ orgSub:'The rating chain derives from this structure',chainT:'Rating chain',chainD:'Employee → Dept Manager · Dept Managers & Coordinators → Division Manager · Division Managers → CEO · Subordinates rate their direct manager (20%) · Overrides win over all rules.',ratedByCEO:'rated by CEO',ratedByDiv:'rated by Div. Mgr',noDeptMgr:'(no dept manager — staff → Div. Mgr)',staff:'staff',managerL:'Manager',
+ chgPw:'Change my password',curPw:'Current password',newPw:'New password',confPw:'Confirm new password',pwWrong:'Current password is incorrect',pwMismatch:'New passwords do not match',pwShort:'Password must be at least 4 characters',pwChanged:'Password changed successfully',
+ trainSub:'Training programs generated from development areas — managed by the direct manager',myTrainings:'My trainings',teamTrainings:'Team trainings',addTrain:'+ Add training',trainName:'Training name',linkedAxis:'Linked development area',level:'Level',ttype:'Type',provider:'Provider / trainer',startDate:'Start date',duration:'Duration',durUnit:'Unit',tstatus:'Status',notes:'Notes',
+ lvlBasic:'Basic',lvlInter:'Intermediate',lvlAdv:'Advanced',tyCourse:'Course',tyWorkshop:'Workshop',tyOJT:'On-the-job',tyCert:'Certification',tyOnline:'Online',
+ stPlanned:'Planned',stProgress:'In progress',stDone:'Completed',stCancel:'Cancelled',
+ days:'days',weeks:'weeks',months:'months',hours:'hours',forEmp:'For employee',noTrainings:'No trainings recorded yet.',trainSaved:'Training saved',trainDeleted:'Training deleted',delTrain:'Delete this training?',general:'General',
+ repTitle:'Performance Evaluation Report',repPeriod:'Evaluation period',repEmp:'Employee name',repId:'Employee ID',repTitleJ:'Job title',repDept:'Department',repDiv:'Division',repMgr:'Direct manager',axis:'Axis',weight:'Weight',score:'Score',item:'Item',achieved:'Achieved %',grade:'Grade',behavSec:'Behavioral Assessment (40%)',techSec:'Technical KPIs & Objectives (60%)',trainSec:'Development Trainings',signEmp:'Employee signature',signMgr:'Direct manager signature',signHR:'HR Manager signature',genOn:'Generated on',byRaterG:'By rater group',recL:'Recommendation'},
+ ar:{sysName:'نظام تقييم الأداء 360°',empId:'الرقم الوظيفي',password:'كلمة المرور',badLogin:'الرقم الوظيفي أو كلمة المرور غير صحيحة',signIn:'تسجيل الدخول',contactHR:'بيانات الدخول تصدر من إدارة الموارد البشرية. تواصل معهم إن لم تستطع الدخول.',signOut:'خروج',
+ dashboard:'الرئيسية',selfA:'التقييم الذاتي',rateOthers:'تقييم الآخرين',myResults:'نتائجي',trainings:'التدريبات',myTeam:'نتائج فريقي',employees:'الموظفون',raterCtl:'إدارة المقيّمين',approvals:'الاعتمادات',orgStruct:'الهيكل التنظيمي',myAssess:'تقييمي',mgmt:'الإدارة',admin:'صلاحيات الأدمن',
+ welcome:'مرحباً',evalsReceived:'التقييمات المستلمة',confirmedN:'معتمدة',ratingTasks:'مهام التقييم',waitingInput:'بانتظار تقييمك',finalScore:'درجتي النهائية',awaiting:'بانتظار الاعتماد',pendingApprovals:'بانتظار اعتمادك',needConfirm:'تحتاج تأكيدك',myManager:'مديري المباشر',
+ method:'منهجية 360° — الأوزان الرسمية المعتمدة',mgrW:'المدير 40%',selfW:'الذاتي 20%',peerW:'الزملاء 20%',subW:'المرؤوسون 20%',mgrWd:'المدير المباشر يقيّم جميع موظفيه المباشرين — ويشمل القسم الفني KPIs',selfWd:'يملأه الموظف بنفسه بصدق وموضوعية',peerWd:'فقط من هم في نفس المستوى الإداري وتتقاطع مهامهم فعلياً',subWd:'فقط للموظفين الذين لديهم مرؤوسون مباشرون',
+ redist:'قاعدة إعادة التوزيع:',redistD:'لا يوجد مرؤوسون → المدير 50% · الذاتي 25% · الزملاء 25%.',finalRule:'الدرجة النهائية:',finalRuleD:'السلوكي 40% + الفني KPIs والأهداف 60%.',scale:'سلم الدرجات:',scaleD:'ممتاز 90–100 · جيد جداً 75–89 · جيد 60–74 · مقبول 45–59.',
+ evaluate:'تقييم',pendingEdit:'قيد الانتظار — قابل للتعديل',confirmedLock:'معتمد — مقفل',lockedMsg:'تم اعتماد هذا التقييم من مدير الموارد البشرية ولا يمكن تعديله.',sec1:'القسم الأول — المحور السلوكي',sec1d:'قيّم كل بند من 1 (ضعيف جداً) إلى 5 (ممتاز)',ofFinal:'من الدرجة النهائية',
+ sec2:'القسم الثاني — المحاور الفنية KPIs والأهداف',sec2d:'للمدير فقط — أدخل نسبة الإنجاز 0–100 لكل بند',devPlanT:'خطة التطوير وأهداف الفترة القادمة',strengths:'نقاط القوة البارزة',devAreas:'مجالات التطوير المطلوبة',goals:'أهداف الفترة القادمة (هدف في كل سطر — حتى 5)',mgrRec:'توصية المدير',choose:'— اختر —',
+ submitEval:'رفع التقييم',updateEval:'تحديث التقييم',editableNote:'قابل للتعديل حتى اعتماد الموارد البشرية',fillAllB:'يرجى تقييم جميع البنود السلوكية',fillAllT:'يرجى إدخال نسب القسم الفني كاملة',submitted:'تم الرفع — بانتظار اعتماد الموارد البشرية',updated:'تم التحديث — لا يزال قيد الانتظار',
+ rateSub:'المهام مولّدة تلقائياً من الهيكل التنظيمي ومجموعات الزملاء',noTasks:'لا توجد مهام تقييم لك.',employee:'الموظف',department:'الإدارة',yourRole:'صفتك',status:'الحالة',notStarted:'لم يبدأ',pending:'قيد الانتظار',confirmed:'معتمد',rateNow:'قيّم الآن',edit:'تعديل',view:'عرض',
+ resultsSub:'التقييمات المعتمدة فقط · هوية المقيّمين لا تظهر أبداً',noConfirmed:'لا توجد تقييمات معتمدة بعد.',finalGrade:'الدرجة النهائية',behav40:'السلوكي (40%)',tech60:'الفني KPIs (60%)',weightsApplied:'الأوزان المطبقة',w360:'وزن 360 مجمّع',fromMgr:'من تقييم المدير',redistributed:'(معاد توزيعها)',partial:'بيانات جزئية',
+ byGroup:'الدرجة السلوكية حسب جهة التقييم',manager:'المدير',selfL:'الذاتي',peers:'الزملاء',subordinates:'المرؤوسون',devFromMgr:'خطة التطوير — من تقييم المدير',nextGoals:'أهداف الفترة القادمة',printReport:'طباعة / حفظ PDF',
+ teamSub:'يمكنك رؤية نتائج الموظفين التابعين لك فقط',noReports:'لا يوجد مرؤوسون مباشرون.',final:'النهائية',open:'فتح',trainBtn:'التدريبات',
+ empSub:'الأرقام الوظيفية وبيانات الدخول تظهر للأدمن فقط',addEmp:'+ إضافة موظف',searchP:'بحث...',name:'الاسم',title:'المسمى',divDept:'الإدارة / القسم',role:'الدور',ratedBy:'يقيّمه',editEmp:'تعديل موظف',addEmpT:'إضافة موظف',fullName:'الاسم الكامل',jobTitle:'المسمى الوظيفي',phone:'الهاتف',email:'البريد',division:'الإدارة العامة',deptTeam:'القسم / الفريق',roleStruct:'الدور في الهيكل',chainHint:'السلسلة: موظف ← مدير قسم ← مدير إدارة ← المدير التنفيذي. المنسقون بدون مدير قسم يتبعون مدير الإدارة.',save:'حفظ',cancel:'إلغاء',saved:'تم الحفظ',deleted:'تم الحذف',reqIdName:'الرقم الوظيفي والاسم مطلوبان',idExists:'هذا الرقم الوظيفي موجود مسبقاً',delConfirm:'حذف هذا الموظف وجميع تقييماته؟',
+ raterSub:'سلسلة المدير تلقائية (مع إمكانية التجاوز). مجموعات الزملاء: نفس المستوى الإداري وتقاطع مهام فعلي — أنت من يحدد.',mgrRater:'المدير المقيِّم',peerRaters:'الزملاء المقيِّمون',subRaters:'المرؤوسون المقيِّمون',auto:'تلقائي',override:'تجاوز',custom:'مخصص',none:'لا يوجد',na:'—',rateUp:'يقيّمون مديرهم',mgrBtn:'المدير',peersBtn:'الزملاء',
+ ovTitle:'المدير المقيِّم لـ',ovLbl:'اختر المدير المقيِّم (تجاوز)',autoRule:'— القاعدة التلقائية —',
+ peerTitle:'الزملاء المقيِّمون لـ',peerHint:'اختر فقط الزملاء في نفس المستوى الإداري الذين تتقاطع مهامهم فعلياً.',resetAuto:'العودة للتلقائي',peerSaved:'تم حفظ مجموعة الزملاء',backAuto:'عاد للتلقائي',
+ apprSub:'التقييمات المعلقة تبقى قابلة للتعديل. الاعتماد يقفلها ويدخلها في النتائج.',allDone:'لا توجد تقييمات معلقة ✓',confirmAllB:'اعتماد الكل',target:'الموظف المُقيَّم',rater:'المقيِّم',type:'النوع',behavioral:'السلوكي',date:'التاريخ',confirm:'اعتماد',reject:'رفض',confirmedLocked:'تم الاعتماد والقفل',rejConfirm:'رفض وحذف؟ يجب على المقيِّم إعادة الرفع.',rejected:'تم الرفض',allConfirmed:'تم اعتماد الكل',
+ orgSub:'سلسلة التقييم مشتقة من هذا الهيكل',chainT:'سلسلة التقييم',chainD:'موظف ← مدير القسم · مدراء الأقسام والمنسقون ← مدير الإدارة · مدراء الإدارات ← المدير التنفيذي · المرؤوسون يقيّمون مديرهم المباشر (20%) · التجاوزات تتقدم على كل القواعد.',ratedByCEO:'يقيّمه CEO',ratedByDiv:'يقيّمه مدير الإدارة',noDeptMgr:'(بدون مدير قسم — الموظفون ← مدير الإدارة)',staff:'موظف',managerL:'المدير',
+ chgPw:'تغيير كلمة المرور',curPw:'كلمة المرور الحالية',newPw:'كلمة المرور الجديدة',confPw:'تأكيد كلمة المرور الجديدة',pwWrong:'كلمة المرور الحالية غير صحيحة',pwMismatch:'كلمتا المرور غير متطابقتين',pwShort:'كلمة المرور 4 أحرف على الأقل',pwChanged:'تم تغيير كلمة المرور بنجاح',
+ trainSub:'برامج تدريبية مشتقة من مجالات التطوير — يديرها المدير المباشر',myTrainings:'تدريباتي',teamTrainings:'تدريبات الفريق',addTrain:'+ إضافة تدريب',trainName:'اسم التدريب',linkedAxis:'مجال التطوير المرتبط',level:'المستوى',ttype:'النوع',provider:'الجهة / المدرب',startDate:'تاريخ البدء',duration:'المدة',durUnit:'الوحدة',tstatus:'الحالة',notes:'ملاحظات',
+ lvlBasic:'أساسي',lvlInter:'متوسط',lvlAdv:'متقدم',tyCourse:'دورة',tyWorkshop:'ورشة عمل',tyOJT:'تدريب أثناء العمل',tyCert:'شهادة مهنية',tyOnline:'أونلاين',
+ stPlanned:'مخطط',stProgress:'قيد التنفيذ',stDone:'مكتمل',stCancel:'ملغي',
+ days:'أيام',weeks:'أسابيع',months:'أشهر',hours:'ساعات',forEmp:'للموظف',noTrainings:'لا توجد تدريبات مسجلة بعد.',trainSaved:'تم حفظ التدريب',trainDeleted:'تم حذف التدريب',delTrain:'حذف هذا التدريب؟',general:'عام',
+ repTitle:'تقرير تقييم الأداء',repPeriod:'فترة التقييم',repEmp:'اسم الموظف',repId:'الرقم الوظيفي',repTitleJ:'المسمى الوظيفي',repDept:'القسم',repDiv:'الإدارة',repMgr:'المدير المباشر',axis:'المحور',weight:'الوزن',score:'الدرجة',item:'البند',achieved:'نسبة الإنجاز',grade:'التقدير',behavSec:'المحور السلوكي (40%)',techSec:'المحاور الفنية KPIs (60%)',trainSec:'التدريبات التطويرية',signEmp:'توقيع الموظف',signMgr:'توقيع المدير المباشر',signHR:'توقيع مدير الموارد البشرية',genOn:'تاريخ الإصدار',byRaterG:'حسب جهة التقييم',recL:'التوصية'}
+};
+function t(k){return T[LANG][k]||T.en[k]||k;}
+function toggleLang(){
+  LANG=LANG==='en'?'ar':'en';
+  try{window.storage.set('rida360-lang',LANG);}catch(e){}
+  applyLang();
+}
+function applyLang(){
+  document.documentElement.lang=LANG;
+  document.body.dir=LANG==='ar'?'rtl':'ltr';
+  document.querySelectorAll('#lang-btn-login,#lang-btn-app').forEach(b=>b.textContent=LANG==='en'?'عربي':'English');
+  document.querySelectorAll('[data-i]').forEach(el=>el.textContent=t(el.dataset.i));
+  if(USER){buildNav();go(CURRENT_PAGE);}
+}
+
+/* ═══════════ ASSESSMENT MODEL ═══════════ */
+const BEHAV_AXES=[
+ {id:'A1',w:15,ar:'الالتزام والانضباط الوظيفي',en:'Commitment & Discipline',qs:[
+  {a:'الحضور والانصراف في الوقت المحدد باستمرار.',e:'Consistent on-time attendance and departure.'},
+  {a:'الالتزام بالمواعيد النهائية لجميع المهام الموكلة.',e:'Meets deadlines for all assigned tasks.'},
+  {a:'الاستجابة السريعة والفورية للطلبات والتعليمات.',e:'Quick and immediate response to requests and instructions.'},
+  {a:'الالتزام بسياسات وإجراءات الشركة الداخلية.',e:'Adherence to internal company policies and procedures.'},
+  {a:'الحفاظ على سرية المعلومات والبيانات.',e:'Maintains confidentiality of information and data.'}]},
+ {id:'A2',w:15,ar:'جودة العمل والدقة',en:'Work Quality & Accuracy',qs:[
+  {a:'دقة المخرجات وخلوها من الأخطاء.',e:'Accuracy of outputs, free of errors.'},
+  {a:'الاهتمام بالتفاصيل والتحقق من صحة العمل قبل تسليمه.',e:'Attention to detail; verifies work before delivery.'},
+  {a:'الاتساق في جودة الأداء على مدار الفترة.',e:'Consistent quality of performance across the period.'},
+  {a:'الالتزام بمعايير الجودة المحددة من الشركة.',e:'Compliance with company quality standards.'},
+  {a:'القدرة على إدارة مهام متعددة دون المساس بالجودة.',e:'Manages multiple tasks without compromising quality.'}]},
+ {id:'A3',w:15,ar:'التواصل والتقرير',en:'Communication & Reporting',qs:[
+  {a:'وضوح التواصل الشفهي مع الزملاء والمسؤولين.',e:'Clear verbal communication with colleagues and superiors.'},
+  {a:'جودة التقارير والمراسلات الكتابية: دقة، وضوح، احترافية.',e:'Quality of written reports and correspondence: accurate, clear, professional.'},
+  {a:'الاستماع الفعال وفهم التعليمات والتوجيهات بدقة.',e:'Active listening; understands instructions precisely.'},
+  {a:'التواصل الاستباقي عند وجود عقبات أو تأخيرات.',e:'Proactive communication when obstacles or delays arise.'},
+  {a:'الاحترافية في المراسلات مع الجهات الداخلية والخارجية.',e:'Professionalism in internal and external correspondence.'},
+  {a:'القدرة على عرض المعلومات وتقديمها بشكل منظم.',e:'Presents information in an organized manner.'}]},
+ {id:'A4',w:15,ar:'العمل الجماعي والتعاون',en:'Teamwork & Cooperation',qs:[
+  {a:'دعم الزملاء ومشاركة المعرفة والخبرات.',e:'Supports colleagues; shares knowledge and experience.'},
+  {a:'المرونة والتعاون في العمل مع فرق متعددة الأقسام.',e:'Flexibility and cooperation across multi-department teams.'},
+  {a:'المساهمة الفعالة في تحقيق الأهداف الجماعية.',e:'Effective contribution to collective goals.'},
+  {a:'التعامل الإيجابي والبناء مع الخلافات وضغوط العمل.',e:'Positive, constructive handling of conflicts and work pressure.'},
+  {a:'الاحترام المتبادل وتعزيز بيئة عمل إيجابية.',e:'Mutual respect; fosters a positive work environment.'}]},
+ {id:'A5',w:15,ar:'المبادرة وحل المشكلات',en:'Initiative & Problem Solving',qs:[
+  {a:'التعرف المبكر على المشكلات والمخاطر قبل تفاقمها.',e:'Early identification of problems and risks before escalation.'},
+  {a:'تقديم حلول عملية لا مجرد رفع المشكلات للإدارة.',e:'Offers practical solutions, not just escalating problems.'},
+  {a:'اتخاذ قرارات مدروسة في الوقت المناسب.',e:'Makes considered decisions at the right time.'},
+  {a:'اقتراح مبادرات وأفكار لتحسين العمليات والكفاءة.',e:'Proposes initiatives to improve processes and efficiency.'},
+  {a:'التصرف بحكمة في المواقف غير المتوقعة.',e:'Acts wisely in unexpected situations.'}]},
+ {id:'A6',w:10,ar:'القيادة وتطوير الفريق',en:'Leadership & Team Development',leadersOnly:true,qs:[
+  {a:'وضوح التوجيه ونقل المهام للفريق بفاعلية.',e:'Clear direction; delegates tasks to the team effectively.'},
+  {a:'دعم تطوير أعضاء الفريق وتحفيزهم لتحقيق أفضل أداء.',e:'Supports team development; motivates best performance.'},
+  {a:'التفويض الفعال وتوزيع المسؤوليات بشكل مناسب.',e:'Effective delegation and appropriate distribution of responsibilities.'},
+  {a:'تحمل المسؤولية الكاملة عن نتائج الفريق.',e:'Takes full responsibility for team results.'},
+  {a:'إدارة الأداء الضعيف بأسلوب بناء وداعم.',e:'Manages underperformance constructively and supportively.'},
+  {a:'بناء بيئة عمل محفزة تشجع على الإبداع والتعلم.',e:'Builds a motivating environment encouraging creativity and learning.'}]},
+ {id:'A7',w:15,ar:'التطوير والتعلم المهني المستمر',en:'Continuous Professional Development',qs:[
+  {a:'المشاركة الفعالة في برامج التدريب والتطوير المقدمة.',e:'Active participation in offered training and development programs.'},
+  {a:'تطبيق المهارات والمعرفة المكتسبة فعلياً في بيئة العمل.',e:'Applies acquired skills and knowledge in the workplace.'},
+  {a:'البحث الذاتي عن مصادر التطوير المهني - كورسات، شهادات.',e:'Self-driven pursuit of development — courses, certifications.'},
+  {a:'الانفتاح على الملاحظات والتغذية الراجعة والاستفادة منها.',e:'Open to feedback and benefits from it.'},
+  {a:'مشاركة المعرفة المكتسبة مع الزملاء ونقل الخبرة.',e:'Shares gained knowledge and transfers expertise to colleagues.'}]}
+];
+const TECH_QS=[
+ {id:'T1',w:30,ar:"هل تم تحقيق KPI's الخاصة بالموظف لنصف السنة؟",e:"Achievement of the employee's half-year KPIs"},
+ {id:'T2',w:20,ar:'هل تم تحقيق Objectives الخاصة بالموظف لنصف السنة؟',e:"Achievement of the employee's half-year Objectives"},
+ {id:'T3',w:30,ar:'نسبة إتمام برامج التدريب والتطوير المخططة في الجدول الزمني المحدد.',e:'Completion of planned training programs on schedule'},
+ {id:'T4',w:20,ar:'كم نسبة الإنتاجية للموظف خلال نصف السنة؟',e:'Employee productivity rate during the half-year'}
+];
+const RECOMMENDS={en:['Normal continuation','Promotion','Salary increase','Development program','Warning'],ar:['استمرار طبيعي','ترقية','زيادة مالية','برنامج تطوير','إنذار']};
+function axName(ax){return LANG==='ar'?ax.ar:ax.en;}
+function qText(q){return LANG==='ar'?q.a:q.e;}
+function techName(q){return LANG==='ar'?q.ar:q.e;}
+function gradeLabel(p){
+  if(LANG==='ar'){
+    if(p>=90)return{t:'ممتاز',c:'b-green'};if(p>=75)return{t:'جيد جداً',c:'b-teal'};
+    if(p>=60)return{t:'جيد',c:'b-blue'};if(p>=45)return{t:'مقبول',c:'b-amber'};return{t:'ضعيف',c:'b-red'};
+  }
+  if(p>=90)return{t:'Excellent',c:'b-green'};if(p>=75)return{t:'Very Good',c:'b-teal'};
+  if(p>=60)return{t:'Good',c:'b-blue'};if(p>=45)return{t:'Acceptable',c:'b-amber'};return{t:'Below Standard',c:'b-red'};
+}
+
+/* ═══════════ ORG & DB ═══════════ */
+const ORG={divisions:[
+ {id:'RSS',name:'RSS Division',ar:'إدارة RSS',depts:['Human Resources','IT','Finance','Legal','Logistics','Public Relations']},
+ {id:'OPS',name:'Operation Division',ar:'إدارة العمليات',depts:['Technical','Service','Project','Construction','Repair Center']},
+ {id:'SLS',name:'Sales Division',ar:'إدارة المبيعات',depts:['Supply Chain','Sales','Business & Development']},
+ {id:'QHSE',name:'QHSE Division',ar:'إدارة QHSE',depts:['QHSE']},
+ {id:'RAS',name:'RAS Division',ar:'إدارة RAS',depts:['AI Engineering']}
+]};
+function seedEmployees(){return[
+ {id:'RTS-000',pw:'1234',name:'CEO',role:'CEO',division:'—',dept:'Executive',isAdmin:false,isCEO:true,title:'Chief Executive Officer',phone:'',email:''},
+ {id:'RTS-001',pw:'1234',name:'Zack',role:'Dept Manager',division:'RSS',dept:'Human Resources',isAdmin:true,isCEO:false,title:'HR Manager',phone:'',email:''},
+ {id:'RTS-010',pw:'1234',name:'RSS Manager',role:'Division Manager',division:'RSS',dept:'—',isAdmin:false,isCEO:false,title:'RSS Manager',phone:'',email:''},
+ {id:'RTS-011',pw:'1234',name:'Operation Manager',role:'Division Manager',division:'OPS',dept:'—',isAdmin:false,isCEO:false,title:'Operation Division Manager',phone:'',email:''},
+ {id:'RTS-012',pw:'1234',name:'Sales Manager',role:'Division Manager',division:'SLS',dept:'—',isAdmin:false,isCEO:false,title:'Sales Division Manager',phone:'',email:''},
+ {id:'RTS-013',pw:'1234',name:'QHSE Manager',role:'Division Manager',division:'QHSE',dept:'—',isAdmin:false,isCEO:false,title:'QHSE Manager',phone:'',email:''},
+ {id:'RTS-014',pw:'1234',name:'RAS Manager',role:'Division Manager',division:'RAS',dept:'—',isAdmin:false,isCEO:false,title:'RAS Division Manager',phone:'',email:''}
+];}
+let DB={employees:[],evaluations:[],overrides:{},peerMap:{},trainings:[]};
+let USER=null,CURRENT_PAGE='dashboard';
+async function saveDB(){try{await window.storage.set('rida360-db-v3',JSON.stringify(DB));}catch(e){}}
+async function loadDB(){
+  try{const r=await window.storage.get('rida360-db-v3');
+  if(r&&r.value){DB=JSON.parse(r.value);DB.peerMap=DB.peerMap||{};DB.trainings=DB.trainings||[];return;}}catch(e){}
+  try{const old=await window.storage.get('rida360-db-v2');
+  if(old&&old.value){DB=JSON.parse(old.value);DB.trainings=[];DB.peerMap=DB.peerMap||{};saveDB();return;}}catch(e){}
+  DB={employees:seedEmployees(),evaluations:[],overrides:{},peerMap:{},trainings:[]};saveDB();
+}
+async function loadLang(){try{const r=await window.storage.get('rida360-lang');if(r&&r.value)LANG=r.value;}catch(e){}applyLang();}
+
+/* ═══════════ CHAIN ═══════════ */
+function divName(id){const d=ORG.divisions.find(x=>x.id===id);if(!d)return id||'—';return LANG==='ar'?d.ar:d.name;}
+function getManagerOf(emp){
+  if(DB.overrides[emp.id])return DB.employees.find(e=>e.id===DB.overrides[emp.id])||null;
+  if(emp.isCEO)return null;
+  if(emp.role==='Division Manager')return DB.employees.find(e=>e.isCEO)||null;
+  if(emp.role==='Dept Manager'||emp.role==='Coordinator')
+    return DB.employees.find(e=>e.role==='Division Manager'&&e.division===emp.division)||null;
+  const dm=DB.employees.find(e=>e.role==='Dept Manager'&&e.division===emp.division&&e.dept===emp.dept);
+  return dm||DB.employees.find(e=>e.role==='Division Manager'&&e.division===emp.division)||null;
+}
+function getSubordinates(m){return DB.employees.filter(e=>{const x=getManagerOf(e);return x&&x.id===m.id;});}
+function isLeader(e){return getSubordinates(e).length>0;}
+function getPeersOf(emp){
+  if(DB.peerMap[emp.id])return DB.peerMap[emp.id].map(id=>DB.employees.find(e=>e.id===id)).filter(Boolean);
+  return DB.employees.filter(e=>e.id!==emp.id&&!e.isCEO&&e.division===emp.division&&e.dept===emp.dept&&e.role===emp.role);
+}
+
+/* ═══════════ ENGINE ═══════════ */
+function findEval(t,r){return DB.evaluations.find(v=>v.targetId===t&&v.raterId===r);}
+function evalsFor(t){return DB.evaluations.filter(v=>v.targetId===t);}
+function confirmedFor(t){return evalsFor(t).filter(v=>v.status==='confirmed');}
+function behavioralPercent(scores,lead){
+  let total=0,wsum=0;
+  BEHAV_AXES.forEach(ax=>{
+    if(ax.leadersOnly&&!lead)return;
+    const arr=scores[ax.id]||[];if(!arr.length)return;
+    total+=(arr.reduce((a,b)=>a+b,0)/arr.length)/5*100*ax.w;wsum+=ax.w;
+  });
+  return wsum?total/wsum:null;
+}
+function technicalPercent(tech){
+  if(!tech)return null;let total=0,wsum=0;
+  TECH_QS.forEach(q=>{if(tech[q.id]!==undefined&&tech[q.id]!==''){total+=Number(tech[q.id])*q.w;wsum+=q.w;}});
+  return wsum?total/wsum:null;
+}
+function axisAvg(evList,axId){
+  const ps=evList.map(v=>{const arr=v.scores[axId]||[];return arr.length?arr.reduce((a,b)=>a+b,0)/arr.length/5*100:null;}).filter(x=>x!==null);
+  return ps.length?ps.reduce((a,b)=>a+b,0)/ps.length:null;
+}
+function computeResults(targetId){
+  const tg=DB.employees.find(e=>e.id===targetId);
+  const lead=isLeader(tg);
+  const evs=confirmedFor(targetId);
+  const by=ty=>evs.filter(v=>v.type===ty);
+  const avgB=l=>{const ps=l.map(v=>behavioralPercent(v.scores,lead)).filter(p=>p!==null);return ps.length?ps.reduce((a,b)=>a+b,0)/ps.length:null;};
+  const mgrEv=by('manager')[0]||null;
+  const B={manager:avgB(by('manager')),self:avgB(by('self')),peer:avgB(by('peer')),sub:avgB(by('subordinate'))};
+  const counts={peer:by('peer').length,sub:by('subordinate').length};
+  const hasSubs=getSubordinates(tg).length>0;
+  const W=hasSubs?{manager:.4,self:.2,peer:.2,sub:.2}:{manager:.5,self:.25,peer:.25,sub:0};
+  let bT=0,bW=0;
+  Object.keys(W).forEach(k=>{if(W[k]>0&&B[k]!==null){bT+=B[k]*W[k];bW+=W[k];}});
+  const behavioral360=bW?bT/bW:null;
+  const technical=mgrEv?technicalPercent(mgrEv.tech):null;
+  let final=null;
+  if(behavioral360!==null&&technical!==null)final=behavioral360*.4+technical*.6;
+  else if(behavioral360!==null)final=behavioral360*.4;
+  return{B,counts,W,hasSubs,behavioral360,technical,final:final!==null?Math.round(final):null,
+    devPlan:mgrEv?mgrEv.devPlan||null:null,mgrEv,lead,evs};
+}
+
+/* ═══════════ AUTH ═══════════ */
+function doLogin(){
+  const id=document.getElementById('l-id').value.trim().toUpperCase();
+  const pw=document.getElementById('l-pw').value;
+  const u=DB.employees.find(e=>e.id.toUpperCase()===id&&e.pw===pw);
+  if(!u){document.getElementById('l-err').style.display='block';return;}
+  USER=u;
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('u-name').textContent=u.name;
+  document.getElementById('u-role').textContent=u.title+(u.isAdmin?' · Admin':'');
+  document.getElementById('u-av').textContent=u.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  buildNav();go('dashboard');
+}
+function logout(){USER=null;document.getElementById('app').style.display='none';document.getElementById('login-screen').style.display='flex';document.getElementById('l-pw').value='';}
+
+/* ═══════════ PASSWORD ═══════════ */
+function openPwModal(){
+  showModal(`<h3>${t('chgPw')}</h3>
+  <div class="frow"><label>${t('curPw')}</label><input id="pw-cur" type="password"></div>
+  <div class="frow"><label>${t('newPw')}</label><input id="pw-new" type="password"></div>
+  <div class="frow"><label>${t('confPw')}</label><input id="pw-conf" type="password"></div>
+  <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
+  <button class="btn" onclick="closeModal()">${t('cancel')}</button>
+  <button class="btn btn-p" onclick="savePw()">${t('save')}</button></div>`);
+}
+function savePw(){
+  const cur=document.getElementById('pw-cur').value,nw=document.getElementById('pw-new').value,cf=document.getElementById('pw-conf').value;
+  if(cur!==USER.pw){toast(t('pwWrong'));return;}
+  if(nw.length<4){toast(t('pwShort'));return;}
+  if(nw!==cf){toast(t('pwMismatch'));return;}
+  USER.pw=nw;const e=DB.employees.find(x=>x.id===USER.id);if(e)e.pw=nw;
+  saveDB();closeModal();toast(t('pwChanged'));
+}
+
+/* ═══════════ NAV ═══════════ */
+function buildNav(){
+  let h=`<button class="nav-item" data-p="dashboard" onclick="go('dashboard')">⌂ <span>${t('dashboard')}</span></button>
+  <div class="nav-sec">${t('myAssess')}</div>
+  <button class="nav-item" data-p="self" onclick="go('self')">✎ <span>${t('selfA')}</span></button>
+  <button class="nav-item" data-p="rate" onclick="go('rate')">☰ <span>${t('rateOthers')}</span></button>
+  <button class="nav-item" data-p="results" onclick="go('results')">◉ <span>${t('myResults')}</span></button>
+  <button class="nav-item" data-p="trainings" onclick="go('trainings')">🎓 <span>${t('trainings')}</span></button>`;
+  if(getSubordinates(USER).length)h+=`<div class="nav-sec">${t('mgmt')}</div>
+  <button class="nav-item" data-p="team" onclick="go('team')">⚑ <span>${t('myTeam')}</span></button>`;
+  if(USER.isAdmin)h+=`<div class="nav-sec">${t('admin')}</div>
+  <button class="nav-item" data-p="employees" onclick="go('employees')">◫ <span>${t('employees')}</span></button>
+  <button class="nav-item" data-p="raters" onclick="go('raters')">⇄ <span>${t('raterCtl')}</span></button>
+  <button class="nav-item" data-p="approvals" onclick="go('approvals')">✔ <span>${t('approvals')}</span></button>
+  <button class="nav-item" data-p="org" onclick="go('org')">▤ <span>${t('orgStruct')}</span></button>`;
+  document.getElementById('sidenav').innerHTML=h;
+}
+function go(p){
+  CURRENT_PAGE=p;
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
+  const M=document.getElementById('main');
+  if(p==='dashboard')M.innerHTML=pgDashboard();
+  else if(p==='self')M.innerHTML=pgEvalForm(USER.id,'self');
+  else if(p==='rate')M.innerHTML=pgRateOthers();
+  else if(p==='results')M.innerHTML=pgResults(USER.id,true);
+  else if(p==='trainings')M.innerHTML=pgTrainings();
+  else if(p==='team')M.innerHTML=pgTeam();
+  else if(p==='employees')M.innerHTML=pgEmployees();
+  else if(p==='raters')M.innerHTML=pgRaters();
+  else if(p==='approvals')M.innerHTML=pgApprovals();
+  else if(p==='org')M.innerHTML=pgOrg();
+  if(p==='results')drawRadar(USER.id);
+  TEMP={behav:{},tech:{},dev:{}};
+}
+
+/* ═══════════ DASHBOARD ═══════════ */
+function pgDashboard(){
+  const myTasks=rateTasks().filter(x=>!x.eval).length;
+  const pending=DB.evaluations.filter(v=>v.status==='pending').length;
+  const r=computeResults(USER.id);
+  let h=`<div class="pg-title">${t('welcome')}, ${USER.name.split(' ')[0]}</div>
+  <div class="pg-sub">${USER.title} — ${USER.dept!=='—'?USER.dept+', ':''}${divName(USER.division)}</div>
+  <div class="grid4">
+  <div class="stat"><div class="stat-l">${t('evalsReceived')}</div><div class="stat-v">${evalsFor(USER.id).length}</div><div class="stat-s">${confirmedFor(USER.id).length} ${t('confirmedN')}</div></div>
+  <div class="stat"><div class="stat-l">${t('ratingTasks')}</div><div class="stat-v">${myTasks}</div><div class="stat-s">${t('waitingInput')}</div></div>
+  <div class="stat"><div class="stat-l">${t('finalScore')}</div><div class="stat-v">${r.final!==null?r.final+'%':'—'}</div><div class="stat-s">${r.final!==null?gradeLabel(r.final).t:t('awaiting')}</div></div>`;
+  if(USER.isAdmin)h+=`<div class="stat"><div class="stat-l">${t('pendingApprovals')}</div><div class="stat-v">${pending}</div><div class="stat-s">${t('needConfirm')}</div></div>`;
+  else{const m=getManagerOf(USER);h+=`<div class="stat"><div class="stat-l">${t('myManager')}</div><div class="stat-v" style="font-size:15px;padding-top:6px;">${m?m.name:'—'}</div><div class="stat-s">${m?m.title:''}</div></div>`;}
+  h+=`</div><div class="card" style="margin-top:16px;">
+  <div class="section-t">${t('method')}</div>
+  <div class="grid4">
+  <div><span class="badge b-coral">${t('mgrW')}</span><p class="hint" style="margin-top:6px;">${t('mgrWd')}</p></div>
+  <div><span class="badge b-teal">${t('selfW')}</span><p class="hint" style="margin-top:6px;">${t('selfWd')}</p></div>
+  <div><span class="badge b-blue">${t('peerW')}</span><p class="hint" style="margin-top:6px;">${t('peerWd')}</p></div>
+  <div><span class="badge b-purple">${t('subW')}</span><p class="hint" style="margin-top:6px;">${t('subWd')}</p></div>
+  </div>
+  <p class="hint" style="margin-top:12px;border-top:1px solid var(--line);padding-top:10px;">
+  <b>${t('redist')}</b> ${t('redistD')}<br><b>${t('finalRule')}</b> ${t('finalRuleD')}<br><b>${t('scale')}</b> ${t('scaleD')}</p></div>`;
+  return h;
+}
+
+/* ═══════════ EVAL FORM ═══════════ */
+let TEMP={behav:{},tech:{},dev:{}};
+function pgEvalForm(targetId,type){
+  const tg=DB.employees.find(e=>e.id===targetId);
+  const existing=findEval(targetId,USER.id);
+  const locked=existing&&existing.status==='confirmed';
+  const lead=isLeader(tg);
+  let h=`<div class="pg-title">${type==='self'?t('selfA'):t('evaluate')+': '+tg.name}</div>
+  <div class="pg-sub">${tg.title} — ${tg.dept!=='—'?tg.dept+', ':''}${divName(tg.division)}
+  &nbsp;<span class="badge ${type==='self'?'b-teal':type==='manager'?'b-coral':type==='peer'?'b-blue':'b-purple'}">${type}</span>
+  ${existing?`&nbsp;<span class="badge ${locked?'b-green':'b-amber'}">${locked?t('confirmedLock'):t('pendingEdit')}</span>`:''}</div>`;
+  if(locked)h+=`<div class="card"><p class="hint">${t('lockedMsg')}</p></div>`;
+  h+=`<div class="card"><b style="font-size:13.5px;">${t('sec1')}</b> <span class="badge b-gray">40% ${t('ofFinal')}</span>
+  <p class="hint" style="margin-top:4px;">${t('sec1d')}</p></div>`;
+  BEHAV_AXES.forEach(ax=>{
+    if(ax.leadersOnly&&!lead)return;
+    h+=`<div class="axis-head"><span class="axis-title">${axName(ax)}</span><span class="badge b-teal">${ax.w}%</span></div><div class="card" style="padding:6px 18px;">`;
+    ax.qs.forEach((q,qi)=>{
+      const cur=existing&&existing.scores[ax.id]?existing.scores[ax.id][qi]:0;
+      h+=`<div class="q-row"><div class="q-text">${qText(q)}</div>
+      <div class="rate-btns">${[1,2,3,4,5].map(n=>`<button class="rb ${cur===n?'sel':''}" ${locked?'disabled':''} onclick="pickB(this,'${ax.id}',${qi},${n})">${n}</button>`).join('')}</div></div>`;
+    });
+    h+=`</div>`;
+  });
+  if(type==='manager'){
+    h+=`<div class="card" style="margin-top:20px;"><b style="font-size:13.5px;">${t('sec2')}</b> <span class="badge b-gray">60% ${t('ofFinal')}</span>
+    <p class="hint" style="margin-top:4px;">${t('sec2d')}</p></div><div class="card" style="padding:8px 18px;">`;
+    TECH_QS.forEach(q=>{
+      const cur=existing&&existing.tech?existing.tech[q.id]:'';
+      h+=`<div class="q-row"><div class="q-text">${techName(q)} <span class="badge b-blue">${q.w}%</span></div>
+      <input type="number" min="0" max="100" style="width:90px;flex-shrink:0;" value="${cur!==undefined?cur:''}" ${locked?'disabled':''} onchange="TEMP.tech['${q.id}']=this.value" placeholder="%"></div>`;
+    });
+    h+=`</div><div class="card"><b style="font-size:13.5px;">${t('devPlanT')}</b>
+    <div class="frow" style="margin-top:10px;"><label>${t('strengths')}</label><textarea rows="2" ${locked?'disabled':''} onchange="TEMP.dev.strengths=this.value">${existing&&existing.devPlan?existing.devPlan.strengths||'':''}</textarea></div>
+    <div class="frow"><label>${t('devAreas')}</label><textarea rows="2" ${locked?'disabled':''} onchange="TEMP.dev.areas=this.value">${existing&&existing.devPlan?existing.devPlan.areas||'':''}</textarea></div>
+    <div class="frow"><label>${t('goals')}</label><textarea rows="4" ${locked?'disabled':''} onchange="TEMP.dev.goals=this.value">${existing&&existing.devPlan?existing.devPlan.goals||'':''}</textarea></div>
+    <div class="frow"><label>${t('mgrRec')}</label><select ${locked?'disabled':''} onchange="TEMP.dev.recommend=this.value">
+    <option value="">${t('choose')}</option>
+    ${RECOMMENDS[LANG].map((r,i)=>`<option value="${RECOMMENDS.en[i]}" ${existing&&existing.devPlan&&existing.devPlan.recommend===RECOMMENDS.en[i]?'selected':''}>${r}</option>`).join('')}
+    </select></div></div>`;
+  }
+  if(!locked)h+=`<button class="btn btn-p" onclick="submitEval('${targetId}','${type}')">${existing?t('updateEval'):t('submitEval')}</button>
+  <span class="hint" style="margin:0 10px;">${t('editableNote')}</span>`;
+  return h;
+}
+function pickB(btn,ax,qi,val){
+  if(!TEMP.behav[ax])TEMP.behav[ax]={};
+  TEMP.behav[ax][qi]=val;
+  btn.parentElement.querySelectorAll('.rb').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+}
+function submitEval(targetId,type){
+  const tg=DB.employees.find(e=>e.id===targetId);
+  const lead=isLeader(tg);
+  const existing=findEval(targetId,USER.id);
+  const scores={};let missing=false;
+  BEHAV_AXES.forEach(ax=>{
+    if(ax.leadersOnly&&!lead)return;
+    scores[ax.id]=ax.qs.map((_,qi)=>{
+      if(TEMP.behav[ax.id]&&TEMP.behav[ax.id][qi]!==undefined)return TEMP.behav[ax.id][qi];
+      if(existing&&existing.scores[ax.id])return existing.scores[ax.id][qi];
+      return 0;});
+    if(scores[ax.id].some(s=>!s))missing=true;
+  });
+  if(missing){toast(t('fillAllB'));return;}
+  let tech=null,devPlan=null;
+  if(type==='manager'){
+    tech={};
+    TECH_QS.forEach(q=>{tech[q.id]=TEMP.tech[q.id]!==undefined?TEMP.tech[q.id]:(existing&&existing.tech?existing.tech[q.id]:'');});
+    if(TECH_QS.some(q=>tech[q.id]===''||tech[q.id]===undefined)){toast(t('fillAllT'));return;}
+    devPlan={
+      strengths:TEMP.dev.strengths!==undefined?TEMP.dev.strengths:(existing&&existing.devPlan?existing.devPlan.strengths:''),
+      areas:TEMP.dev.areas!==undefined?TEMP.dev.areas:(existing&&existing.devPlan?existing.devPlan.areas:''),
+      goals:TEMP.dev.goals!==undefined?TEMP.dev.goals:(existing&&existing.devPlan?existing.devPlan.goals:''),
+      recommend:TEMP.dev.recommend!==undefined?TEMP.dev.recommend:(existing&&existing.devPlan?existing.devPlan.recommend:'')};
+  }
+  if(existing){existing.scores=scores;if(tech)existing.tech=tech;if(devPlan)existing.devPlan=devPlan;existing.date=new Date().toISOString().slice(0,10);}
+  else DB.evaluations.push({id:'EV'+Date.now()+Math.floor(Math.random()*999),targetId,raterId:USER.id,type,scores,tech,devPlan,status:'pending',date:new Date().toISOString().slice(0,10)});
+  saveDB();toast(existing?t('updated'):t('submitted'));go('rate');
+}
+
+/* ═══════════ RATE OTHERS ═══════════ */
+function rateTasks(){
+  const tasks=[];
+  getSubordinates(USER).forEach(s=>tasks.push({emp:s,type:'manager',eval:findEval(s.id,USER.id)}));
+  DB.employees.forEach(e=>{
+    if(e.id===USER.id)return;
+    if(getPeersOf(e).some(p=>p.id===USER.id))tasks.push({emp:e,type:'peer',eval:findEval(e.id,USER.id)});
+  });
+  const m=getManagerOf(USER);
+  if(m&&!m.isCEO)tasks.push({emp:m,type:'subordinate',eval:findEval(m.id,USER.id)});
+  return tasks;
+}
+function pgRateOthers(){
+  const tasks=rateTasks();
+  let h=`<div class="pg-title">${t('rateOthers')}</div><div class="pg-sub">${t('rateSub')}</div>`;
+  if(!tasks.length)return h+`<div class="card"><div class="empty">${t('noTasks')}</div></div>`;
+  h+=`<div class="card"><table><thead><tr><th>${t('employee')}</th><th>${t('department')}</th><th>${t('yourRole')}</th><th>${t('status')}</th><th></th></tr></thead><tbody>`;
+  tasks.forEach(x=>{
+    const st=!x.eval?`<span class="badge b-gray">${t('notStarted')}</span>`:x.eval.status==='confirmed'?`<span class="badge b-green">${t('confirmed')}</span>`:`<span class="badge b-amber">${t('pending')}</span>`;
+    const badge=x.type==='manager'?'b-coral':x.type==='peer'?'b-blue':'b-purple';
+    const roleL=x.type==='manager'?t('manager'):x.type==='peer'?t('peers'):t('subordinates');
+    h+=`<tr><td><b>${x.emp.name}</b><br><span class="hint">${x.emp.title}</span></td>
+    <td>${x.emp.dept!=='—'?x.emp.dept:divName(x.emp.division)}</td>
+    <td><span class="badge ${badge}">${roleL}</span></td><td>${st}</td>
+    <td><button class="btn btn-sm" onclick="openRate('${x.emp.id}','${x.type}')">${!x.eval?t('rateNow'):x.eval.status==='pending'?t('edit'):t('view')}</button></td></tr>`;
+  });
+  return h+`</tbody></table></div>`;
+}
+function openRate(id,type){TEMP={behav:{},tech:{},dev:{}};document.getElementById('main').innerHTML=pgEvalForm(id,type);}
+
+/* ═══════════ RESULTS ═══════════ */
+function pgResults(targetId,selfView){
+  const tg=DB.employees.find(e=>e.id===targetId);
+  const r=computeResults(targetId);
+  let h=`<div class="pg-title">${selfView?t('myResults'):tg.name}</div>
+  <div class="pg-sub">${tg.title} — ${t('resultsSub')}</div>`;
+  if(r.behavioral360===null&&r.technical===null)
+    return h+`<div class="card"><div class="empty">${t('noConfirmed')}</div></div>`;
+  const g=r.final!==null?gradeLabel(r.final):null;
+  const canPrint=r.final!==null&&(USER.isAdmin||USER.id===targetId||(getSubordinates(USER).some(s=>s.id===targetId)));
+  h+=`<div class="grid4">
+  <div class="stat"><div class="stat-l">${t('finalGrade')}</div><div class="stat-v">${r.final!==null?r.final+'%':'—'}</div>
+  <div class="stat-s">${g?`<span class="badge ${g.c}">${g.t}</span>`:t('partial')}</div></div>
+  <div class="stat"><div class="stat-l">${t('behav40')}</div><div class="stat-v">${r.behavioral360!==null?Math.round(r.behavioral360)+'%':'—'}</div><div class="stat-s">${t('w360')}</div></div>
+  <div class="stat"><div class="stat-l">${t('tech60')}</div><div class="stat-v">${r.technical!==null?Math.round(r.technical)+'%':'—'}</div><div class="stat-s">${t('fromMgr')}</div></div>
+  <div class="stat"><div class="stat-l">${t('weightsApplied')}</div><div class="stat-v" style="font-size:14px;padding-top:8px;">${r.hasSubs?'40·20·20·20':'50·25·25'}</div><div class="stat-s">${r.hasSubs?'':t('redistributed')}</div></div>
+  </div>`;
+  if(canPrint)h+=`<div style="margin-bottom:14px;"><button class="btn btn-p" onclick="printReport('${targetId}')">🖨 ${t('printReport')}</button></div>`;
+  h+=`<div class="card"><canvas id="resRadar" style="max-height:360px;"></canvas></div>
+  <div class="card"><div class="section-t">${t('byGroup')}</div>`;
+  const groups=[['manager',t('manager'),'#D85A30'],['self',t('selfL'),'#1D9E75'],['peer',t('peers'),'#378ADD'],['sub',t('subordinates'),'#7A6FD0']];
+  groups.forEach(([k,lbl,col])=>{
+    if(k==='sub'&&!r.hasSubs)return;
+    const v=r.B[k];
+    h+=`<div class="gapbar"><span>${lbl}${k==='peer'?` (${r.counts.peer})`:''}${k==='sub'?` (${r.counts.sub})`:''}</span>
+    <div class="gtrack"><div class="gfill" style="width:${v!==null?Math.round(v):0}%;background:${col};"></div></div>
+    <span>${v!==null?Math.round(v)+'%':'—'}</span></div>`;
+  });
+  h+=`</div>`;
+  if(r.devPlan&&(r.devPlan.strengths||r.devPlan.areas||r.devPlan.goals)){
+    h+=`<div class="card"><div class="section-t">${t('devFromMgr')}</div>
+    ${r.devPlan.strengths?`<div class="frow"><label>${t('strengths')}</label><p style="font-size:13px;">${r.devPlan.strengths}</p></div>`:''}
+    ${r.devPlan.areas?`<div class="frow"><label>${t('devAreas')}</label><p style="font-size:13px;">${r.devPlan.areas}</p></div>`:''}
+    ${r.devPlan.goals?`<div class="frow"><label>${t('nextGoals')}</label><p style="font-size:13px;white-space:pre-line;">${r.devPlan.goals}</p></div>`:''}
+    ${r.devPlan.recommend&&!selfView?`<div class="frow"><label>${t('mgrRec')}</label><span class="badge b-teal">${recLabel(r.devPlan.recommend)}</span></div>`:''}
+    </div>`;
+  }
+  const trainings=DB.trainings.filter(x=>x.empId===targetId);
+  if(trainings.length){
+    h+=`<div class="card"><div class="section-t">${t('trainSec')}</div>${trainTable(trainings,false)}</div>`;
+  }
+  return h;
+}
+function recLabel(enVal){const i=RECOMMENDS.en.indexOf(enVal);return i>=0?RECOMMENDS[LANG][i]:enVal;}
+function drawRadar(targetId){
+  const el=document.getElementById('resRadar');if(!el)return;
+  const tg=DB.employees.find(e=>e.id===targetId);
+  const lead=isLeader(tg);
+  const evs=confirmedFor(targetId);
+  const axList=BEHAV_AXES.filter(ax=>!(ax.leadersOnly&&!lead));
+  const mk=ty=>{
+    const l=evs.filter(v=>v.type===ty);if(!l.length)return null;
+    return axList.map(ax=>{const v=axisAvg(l,ax.id);return v!==null?Math.round(v):0;});
+  };
+  const ds=[];
+  const s=mk('self');if(s)ds.push({label:t('selfL'),data:s,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,.10)',borderWidth:2,pointBackgroundColor:'#1D9E75'});
+  const p=mk('peer');if(p)ds.push({label:t('peers'),data:p,borderColor:'#378ADD',backgroundColor:'rgba(55,138,221,.06)',borderWidth:1.5,borderDash:[4,3],pointBackgroundColor:'#378ADD'});
+  const m=mk('manager');if(m)ds.push({label:t('manager'),data:m,borderColor:'#D85A30',backgroundColor:'rgba(216,90,48,.06)',borderWidth:1.5,borderDash:[2,4],pointBackgroundColor:'#D85A30'});
+  const sb=mk('subordinate');if(sb)ds.push({label:t('subordinates'),data:sb,borderColor:'#7A6FD0',backgroundColor:'rgba(122,111,208,.06)',borderWidth:1.5,borderDash:[1,3],pointBackgroundColor:'#7A6FD0'});
+  if(!ds.length)return;
+  new Chart(el,{type:'radar',data:{labels:axList.map(a=>axName(a)),datasets:ds},
+  options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10}}},
+  scales:{r:{min:0,max:100,ticks:{stepSize:20,font:{size:10},backdropColor:'transparent'},pointLabels:{font:{size:10.5,weight:'600'}}}}}});
+}
+
+/* ═══════════ PRINT REPORT ═══════════ */
+function printReport(targetId){
+  const tg=DB.employees.find(e=>e.id===targetId);
+  const r=computeResults(targetId);
+  const mgr=getManagerOf(tg);
+  const g=gradeLabel(r.final);
+  const dir=LANG==='ar'?'rtl':'ltr';
+  const year=new Date().getFullYear();
+  let axRows='';
+  const axList=BEHAV_AXES.filter(ax=>!(ax.leadersOnly&&!r.lead));
+  axList.forEach(ax=>{
+    const cells=['manager','self','peer','subordinate'].map(ty=>{
+      const l=r.evs.filter(v=>v.type===ty);
+      const v=l.length?axisAvg(l,ax.id):null;
+      return `<td style="text-align:center;">${v!==null?Math.round(v)+'%':'—'}</td>`;
+    }).join('');
+    axRows+=`<tr><td>${axName(ax)}</td><td style="text-align:center;">${ax.w}%</td>${cells}</tr>`;
+  });
+  let techRows='';
+  if(r.mgrEv&&r.mgrEv.tech){
+    TECH_QS.forEach(q=>{
+      techRows+=`<tr><td>${techName(q)}</td><td style="text-align:center;">${q.w}%</td><td style="text-align:center;">${r.mgrEv.tech[q.id]}%</td></tr>`;
+    });
+  }
+  const trainings=DB.trainings.filter(x=>x.empId===targetId);
+  let trainRows='';
+  trainings.slice(0,5).forEach(tr=>{
+    trainRows+=`<tr><td>${tr.name}</td><td>${axLabelById(tr.axis)}</td><td style="text-align:center;">${lvlLabel(tr.level)}</td><td style="text-align:center;">${tr.startDate||'—'}</td><td style="text-align:center;">${tr.durVal} ${durLabel(tr.durUnit)}</td><td style="text-align:center;">${stLabel(tr.status)}</td></tr>`;
+  });
+  const dp=r.devPlan||{};
+  document.getElementById('print-area').innerHTML=`
+  <div dir="${dir}">
+  <div class="pr-head">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="pr-logo">RT</div>
+      <div><div class="pr-title">RIDA Technical Services</div>
+      <div class="pr-sub">${t('repTitle')} — ${year}</div></div>
+    </div>
+    <div class="pr-sub">${t('genOn')}: ${new Date().toISOString().slice(0,10)}</div>
+  </div>
+  <div class="pr-grid">
+    <div><b>${t('repEmp')}:</b> ${tg.name}</div>
+    <div><b>${t('repId')}:</b> ${tg.id}</div>
+    <div><b>${t('repTitleJ')}:</b> ${tg.title}</div>
+    <div><b>${t('repDiv')}:</b> ${divName(tg.division)}</div>
+    <div><b>${t('repDept')}:</b> ${tg.dept}</div>
+    <div><b>${t('repMgr')}:</b> ${mgr?mgr.name:'—'}</div>
+  </div>
+  <div class="pr-sec">${t('behavSec')} — ${t('byRaterG')}</div>
+  <table class="pr-table"><thead><tr><th>${t('axis')}</th><th>${t('weight')}</th><th>${t('manager')} (40%)</th><th>${t('selfL')} (20%)</th><th>${t('peers')} (20%)</th><th>${t('subordinates')} (20%)</th></tr></thead>
+  <tbody>${axRows}</tbody></table>
+  <div class="pr-sec">${t('techSec')}</div>
+  <table class="pr-table"><thead><tr><th>${t('item')}</th><th>${t('weight')}</th><th>${t('achieved')}</th></tr></thead><tbody>${techRows}</tbody></table>
+  ${(dp.strengths||dp.areas||dp.goals)?`
+  <div class="pr-sec">${t('devPlanT')}</div>
+  <table class="pr-table"><tbody>
+  ${dp.strengths?`<tr><td style="width:28%;"><b>${t('strengths')}</b></td><td>${dp.strengths}</td></tr>`:''}
+  ${dp.areas?`<tr><td><b>${t('devAreas')}</b></td><td>${dp.areas}</td></tr>`:''}
+  ${dp.goals?`<tr><td><b>${t('nextGoals')}</b></td><td>${dp.goals.replace(/\n/g,'<br>')}</td></tr>`:''}
+  ${dp.recommend?`<tr><td><b>${t('recL')}</b></td><td>${recLabel(dp.recommend)}</td></tr>`:''}
+  </tbody></table>`:''}
+  ${trainRows?`<div class="pr-sec">${t('trainSec')}</div>
+  <table class="pr-table"><thead><tr><th>${t('trainName')}</th><th>${t('linkedAxis')}</th><th>${t('level')}</th><th>${t('startDate')}</th><th>${t('duration')}</th><th>${t('tstatus')}</th></tr></thead><tbody>${trainRows}</tbody></table>`:''}
+  <div class="pr-final">
+    <span style="font-size:12px;font-weight:700;">${t('finalGrade')} — ${t('behavSec').split('(')[0]}40% + KPIs 60%</span>
+    <span style="font-size:18px;font-weight:700;">${r.final}% — ${g.t}</span>
+  </div>
+  <div class="pr-sign">
+    <div>${t('signEmp')}</div><div>${t('signMgr')}</div><div>${t('signHR')}</div>
+  </div>
+  </div>`;
+  window.print();
+}
+
+/* ═══════════ TRAININGS ═══════════ */
+function axLabelById(id){
+  if(id==='GEN')return t('general');
+  const ax=BEHAV_AXES.find(a=>a.id===id);return ax?axName(ax):id;
+}
+function lvlLabel(v){return{basic:t('lvlBasic'),inter:t('lvlInter'),adv:t('lvlAdv')}[v]||v;}
+function tyLabel(v){return{course:t('tyCourse'),workshop:t('tyWorkshop'),ojt:t('tyOJT'),cert:t('tyCert'),online:t('tyOnline')}[v]||v;}
+function stLabel(v){return{planned:t('stPlanned'),progress:t('stProgress'),done:t('stDone'),cancel:t('stCancel')}[v]||v;}
+function durLabel(v){return{days:t('days'),weeks:t('weeks'),months:t('months'),hours:t('hours')}[v]||v;}
+function stBadge(v){return{planned:'b-gray',progress:'b-amber',done:'b-green',cancel:'b-red'}[v]||'b-gray';}
+function trainTable(list,canEdit){
+  let h=`<table><thead><tr><th>${t('trainName')}</th><th>${t('linkedAxis')}</th><th>${t('level')}</th><th>${t('ttype')}</th><th>${t('startDate')}</th><th>${t('duration')}</th><th>${t('tstatus')}</th>${canEdit?'<th></th>':''}</tr></thead><tbody>`;
+  list.forEach(tr=>{
+    h+=`<tr><td><b>${tr.name}</b>${tr.provider?'<br><span class="hint">'+tr.provider+'</span>':''}</td>
+    <td>${axLabelById(tr.axis)}</td><td>${lvlLabel(tr.level)}</td><td>${tyLabel(tr.type)}</td>
+    <td>${tr.startDate||'—'}</td><td>${tr.durVal} ${durLabel(tr.durUnit)}</td>
+    <td><span class="badge ${stBadge(tr.status)}">${stLabel(tr.status)}</span></td>
+    ${canEdit?`<td><button class="btn btn-sm" onclick="openTrainModal('${tr.empId}','${tr.id}')">${t('edit')}</button>
+    <button class="btn btn-sm btn-d" onclick="delTrain('${tr.id}')">✕</button></td>`:''}</tr>`;
+  });
+  return h+`</tbody></table>`;
+}
+function pgTrainings(){
+  const mine=DB.trainings.filter(x=>x.empId===USER.id);
+  const subs=getSubordinates(USER);
+  let h=`<div class="pg-title">${t('trainings')}</div><div class="pg-sub">${t('trainSub')}</div>
+  <div class="card"><div class="section-t">${t('myTrainings')}</div>
+  ${mine.length?trainTable(mine,false):`<div class="empty">${t('noTrainings')}</div>`}</div>`;
+  if(subs.length){
+    h+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+    <div class="section-t" style="margin:0;">${t('teamTrainings')}</div>
+    <button class="btn btn-p btn-sm" onclick="openTrainModal()">${t('addTrain')}</button></div>`;
+    const teamT=DB.trainings.filter(x=>subs.some(s=>s.id===x.empId));
+    h+=teamT.length?trainTable(teamT,true):`<div class="empty">${t('noTrainings')}</div>`;
+    h+=`</div>`;
+  }
+  return h;
+}
+function openTrainModal(empId,trainId){
+  const tr=trainId?DB.trainings.find(x=>x.id===trainId):null;
+  const subs=getSubordinates(USER);
+  const empOpts=subs.map(s=>`<option value="${s.id}" ${(tr&&tr.empId===s.id)||(empId&&empId===s.id)?'selected':''}>${s.name} — ${s.title}</option>`).join('');
+  const axOpts=`<option value="GEN" ${tr&&tr.axis==='GEN'?'selected':''}>${t('general')}</option>`+
+    BEHAV_AXES.map(a=>`<option value="${a.id}" ${tr&&tr.axis===a.id?'selected':''}>${axName(a)}</option>`).join('');
+  showModal(`<h3>${tr?t('edit'):t('addTrain')}</h3>
+  <div class="frow"><label>${t('forEmp')}</label><select id="tr-emp">${empOpts}</select></div>
+  <div class="frow"><label>${t('trainName')}</label><input id="tr-name" value="${tr?tr.name:''}"></div>
+  <div class="frow"><label>${t('linkedAxis')}</label><select id="tr-axis">${axOpts}</select></div>
+  <div class="grid2">
+  <div class="frow"><label>${t('level')}</label><select id="tr-level">
+  <option value="basic" ${tr&&tr.level==='basic'?'selected':''}>${t('lvlBasic')}</option>
+  <option value="inter" ${tr&&tr.level==='inter'?'selected':''}>${t('lvlInter')}</option>
+  <option value="adv" ${tr&&tr.level==='adv'?'selected':''}>${t('lvlAdv')}</option></select></div>
+  <div class="frow"><label>${t('ttype')}</label><select id="tr-type">
+  <option value="course" ${tr&&tr.type==='course'?'selected':''}>${t('tyCourse')}</option>
+  <option value="workshop" ${tr&&tr.type==='workshop'?'selected':''}>${t('tyWorkshop')}</option>
+  <option value="ojt" ${tr&&tr.type==='ojt'?'selected':''}>${t('tyOJT')}</option>
+  <option value="cert" ${tr&&tr.type==='cert'?'selected':''}>${t('tyCert')}</option>
+  <option value="online" ${tr&&tr.type==='online'?'selected':''}>${t('tyOnline')}</option></select></div></div>
+  <div class="frow"><label>${t('provider')}</label><input id="tr-prov" value="${tr?tr.provider||'':''}"></div>
+  <div class="grid3" style="grid-template-columns:1fr 1fr 1fr;">
+  <div class="frow"><label>${t('startDate')}</label><input id="tr-date" type="date" value="${tr?tr.startDate||'':''}"></div>
+  <div class="frow"><label>${t('duration')}</label><input id="tr-durval" type="number" min="1" value="${tr?tr.durVal:1}"></div>
+  <div class="frow"><label>${t('durUnit')}</label><select id="tr-durunit">
+  <option value="hours" ${tr&&tr.durUnit==='hours'?'selected':''}>${t('hours')}</option>
+  <option value="days" ${tr&&tr.durUnit==='days'?'selected':''}>${t('days')}</option>
+  <option value="weeks" ${tr&&tr.durUnit==='weeks'?'selected':''}>${t('weeks')}</option>
+  <option value="months" ${tr&&tr.durUnit==='months'?'selected':''}>${t('months')}</option></select></div></div>
+  <div class="frow"><label>${t('tstatus')}</label><select id="tr-status">
+  <option value="planned" ${tr&&tr.status==='planned'?'selected':''}>${t('stPlanned')}</option>
+  <option value="progress" ${tr&&tr.status==='progress'?'selected':''}>${t('stProgress')}</option>
+  <option value="done" ${tr&&tr.status==='done'?'selected':''}>${t('stDone')}</option>
+  <option value="cancel" ${tr&&tr.status==='cancel'?'selected':''}>${t('stCancel')}</option></select></div>
+  <div class="frow"><label>${t('notes')}</label><textarea id="tr-notes" rows="2">${tr?tr.notes||'':''}</textarea></div>
+  <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
+  <button class="btn" onclick="closeModal()">${t('cancel')}</button>
+  <button class="btn btn-p" onclick="saveTrain('${trainId||''}')">${t('save')}</button></div>`);
+}
+function saveTrain(trainId){
+  const name=document.getElementById('tr-name').value.trim();
+  if(!name){toast(t('trainName'));return;}
+  const d={empId:document.getElementById('tr-emp').value,name,
+  axis:document.getElementById('tr-axis').value,level:document.getElementById('tr-level').value,
+  type:document.getElementById('tr-type').value,provider:document.getElementById('tr-prov').value.trim(),
+  startDate:document.getElementById('tr-date').value,durVal:document.getElementById('tr-durval').value||1,
+  durUnit:document.getElementById('tr-durunit').value,status:document.getElementById('tr-status').value,
+  notes:document.getElementById('tr-notes').value.trim(),createdBy:USER.id};
+  if(trainId){const x=DB.trainings.find(y=>y.id===trainId);Object.assign(x,d);}
+  else{d.id='TR'+Date.now()+Math.floor(Math.random()*999);DB.trainings.push(d);}
+  saveDB();closeModal();toast(t('trainSaved'));go(CURRENT_PAGE==='team'?'team':'trainings');
+}
+function delTrain(id){
+  if(!confirm(t('delTrain')))return;
+  DB.trainings=DB.trainings.filter(x=>x.id!==id);
+  saveDB();toast(t('trainDeleted'));go('trainings');
+}
+
+/* ═══════════ TEAM ═══════════ */
+function pgTeam(){
+  const subs=getSubordinates(USER);
+  let h=`<div class="pg-title">${t('myTeam')}</div><div class="pg-sub">${t('teamSub')}</div>`;
+  if(!subs.length)return h+`<div class="card"><div class="empty">${t('noReports')}</div></div>`;
+  h+=`<div class="card"><table><thead><tr><th>${t('employee')}</th><th>${t('department')}</th><th>${t('confirmed')}</th><th>${t('final')}</th><th></th></tr></thead><tbody>`;
+  subs.forEach(s=>{
+    const r=computeResults(s.id);
+    h+=`<tr><td><b>${s.name}</b><br><span class="hint">${s.title}</span></td>
+    <td>${s.dept!=='—'?s.dept:divName(s.division)}</td>
+    <td>${confirmedFor(s.id).length} / ${evalsFor(s.id).length}</td>
+    <td><b>${r.final!==null?r.final+'%':'—'}</b></td>
+    <td><button class="btn btn-sm" onclick="viewMember('${s.id}')">${t('open')}</button>
+    <button class="btn btn-sm" onclick="openTrainModal('${s.id}')">${t('trainBtn')}</button></td></tr>`;
+  });
+  return h+`</tbody></table></div>`;
+}
+function viewMember(id){document.getElementById('main').innerHTML=pgResults(id,false);drawRadar(id);}
+
+/* ═══════════ ADMIN PAGES ═══════════ */
+function pgEmployees(){
+  let h=`<div class="pg-title">${t('employees')}</div><div class="pg-sub">${t('empSub')}</div>
+  <div style="margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;">
+  <button class="btn btn-p" onclick="openEmpModal()">${t('addEmp')}</button>
+  <input id="emp-search" placeholder="${t('searchP')}" style="max-width:240px;" oninput="filterEmps()"></div>
+  <div class="card"><table id="emp-table"><thead><tr><th>ID</th><th>${t('name')}</th><th>${t('title')}</th><th>${t('divDept')}</th><th>${t('role')}</th><th>${t('ratedBy')}</th><th></th></tr></thead><tbody>`;
+  DB.employees.forEach(e=>{
+    const m=getManagerOf(e);
+    h+=`<tr data-search="${(e.name+' '+e.id).toLowerCase()}">
+    <td><b>${e.id}</b></td><td>${e.name}${e.isAdmin?' <span class="badge b-teal">Admin</span>':''}${e.isCEO?' <span class="badge b-coral">CEO</span>':''}</td>
+    <td>${e.title}</td><td>${divName(e.division)}${e.dept&&e.dept!=='—'?'<br><span class="hint">'+e.dept+'</span>':''}</td>
+    <td><span class="badge b-gray">${e.role}</span></td>
+    <td>${m?m.name:'—'}${DB.overrides[e.id]?` <span class="badge b-amber">${t('override')}</span>`:''}</td>
+    <td><button class="btn btn-sm" onclick="openEmpModal('${e.id}')">${t('edit')}</button>
+    ${!e.isAdmin&&!e.isCEO?`<button class="btn btn-sm btn-d" onclick="delEmp('${e.id}')">✕</button>`:''}</td></tr>`;
+  });
+  return h+`</tbody></table></div>`;
+}
+function filterEmps(){
+  const q=document.getElementById('emp-search').value.toLowerCase();
+  document.querySelectorAll('#emp-table tbody tr').forEach(tr=>tr.style.display=tr.dataset.search.includes(q)?'':'none');
+}
+function openEmpModal(id){
+  const e=id?DB.employees.find(x=>x.id===id):null;
+  const divOpts=ORG.divisions.map(d=>`<option value="${d.id}" ${e&&e.division===d.id?'selected':''}>${LANG==='ar'?d.ar:d.name}</option>`).join('');
+  showModal(`<h3>${e?t('editEmp'):t('addEmpT')}</h3>
+  <div class="grid2">
+  <div class="frow"><label>${t('empId')}</label><input id="m-id" value="${e?e.id:''}" ${e?'disabled':''} placeholder="RTS-1XX"></div>
+  <div class="frow"><label>${t('password')}</label><input id="m-pw" value="${e?e.pw:'1234'}"></div></div>
+  <div class="frow"><label>${t('fullName')}</label><input id="m-name" value="${e?e.name:''}"></div>
+  <div class="frow"><label>${t('jobTitle')}</label><input id="m-title" value="${e?e.title:''}"></div>
+  <div class="grid2">
+  <div class="frow"><label>${t('phone')}</label><input id="m-phone" value="${e?e.phone||'':''}"></div>
+  <div class="frow"><label>${t('email')}</label><input id="m-email" value="${e?e.email||'':''}"></div></div>
+  <div class="grid2">
+  <div class="frow"><label>${t('division')}</label><select id="m-div" onchange="fillDepts()">${divOpts}</select></div>
+  <div class="frow"><label>${t('deptTeam')}</label><select id="m-dept"></select></div></div>
+  <div class="frow"><label>${t('roleStruct')}</label>
+  <select id="m-role">${['Employee','Coordinator','Dept Manager','Division Manager'].map(r=>`<option ${e&&e.role===r?'selected':''}>${r}</option>`).join('')}</select>
+  <p class="hint" style="margin-top:5px;">${t('chainHint')}</p></div>
+  <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
+  <button class="btn" onclick="closeModal()">${t('cancel')}</button>
+  <button class="btn btn-p" onclick="saveEmp('${e?e.id:''}')">${t('save')}</button></div>`);
+  fillDepts(e?e.dept:null);
+}
+function fillDepts(sel){
+  const d=ORG.divisions.find(x=>x.id===document.getElementById('m-div').value);
+  document.getElementById('m-dept').innerHTML='<option value="—">—</option>'+d.depts.map(x=>`<option ${sel===x?'selected':''}>${x}</option>`).join('');
+}
+function saveEmp(exId){
+  const id=exId||document.getElementById('m-id').value.trim().toUpperCase();
+  if(!id||!document.getElementById('m-name').value.trim()){toast(t('reqIdName'));return;}
+  if(!exId&&DB.employees.find(e=>e.id===id)){toast(t('idExists'));return;}
+  const d={id,pw:document.getElementById('m-pw').value||'1234',
+  name:document.getElementById('m-name').value.trim(),title:document.getElementById('m-title').value.trim(),
+  phone:document.getElementById('m-phone').value.trim(),email:document.getElementById('m-email').value.trim(),
+  division:document.getElementById('m-div').value,dept:document.getElementById('m-dept').value,
+  role:document.getElementById('m-role').value,isAdmin:false,isCEO:false};
+  if(exId){const e=DB.employees.find(x=>x.id===exId);d.isAdmin=e.isAdmin;d.isCEO=e.isCEO;Object.assign(e,d);
+    if(USER.id===exId)Object.assign(USER,d);}
+  else DB.employees.push(d);
+  saveDB();closeModal();toast(t('saved'));go('employees');
+}
+function delEmp(id){
+  if(!confirm(t('delConfirm')))return;
+  DB.employees=DB.employees.filter(e=>e.id!==id);
+  DB.evaluations=DB.evaluations.filter(v=>v.targetId!==id&&v.raterId!==id);
+  DB.trainings=DB.trainings.filter(x=>x.empId!==id);
+  delete DB.overrides[id];delete DB.peerMap[id];
+  saveDB();toast(t('deleted'));go('employees');
+}
+function pgRaters(){
+  let h=`<div class="pg-title">${t('raterCtl')}</div><div class="pg-sub">${t('raterSub')}</div>
+  <div class="card"><table><thead><tr><th>${t('employee')}</th><th>${t('mgrRater')}</th><th>${t('peerRaters')}</th><th>${t('subRaters')}</th><th></th></tr></thead><tbody>`;
+  DB.employees.filter(e=>!e.isCEO).forEach(e=>{
+    const eff=getManagerOf(e);const ov=DB.overrides[e.id];
+    const peers=getPeersOf(e);const subs=getSubordinates(e);
+    h+=`<tr><td><b>${e.name}</b><br><span class="hint">${e.title}</span></td>
+    <td>${eff?eff.name:'—'} ${ov?`<span class="badge b-amber">${t('override')}</span>`:`<span class="badge b-gray">${t('auto')}</span>`}</td>
+    <td>${peers.length?peers.map(p=>p.name.split(' ')[0]).join(', '):`<span class="hint">${t('none')}</span>`} ${DB.peerMap[e.id]?`<span class="badge b-blue">${t('custom')}</span>`:`<span class="badge b-gray">${t('auto')}</span>`}</td>
+    <td>${subs.length?subs.length+' '+t('rateUp'):`<span class="hint">${t('na')}</span>`}</td>
+    <td><button class="btn btn-sm" onclick="openOverride('${e.id}')">${t('mgrBtn')}</button>
+    <button class="btn btn-sm" onclick="openPeers('${e.id}')">${t('peersBtn')}</button></td></tr>`;
+  });
+  return h+`</tbody></table></div>`;
+}
+function openOverride(id){
+  const e=DB.employees.find(x=>x.id===id);
+  const opts=DB.employees.filter(x=>x.id!==id).map(x=>`<option value="${x.id}" ${DB.overrides[id]===x.id?'selected':''}>${x.name} — ${x.title}</option>`).join('');
+  showModal(`<h3>${t('ovTitle')} ${e.name}</h3>
+  <div class="frow"><label>${t('ovLbl')}</label><select id="ov-sel"><option value="">${t('autoRule')}</option>${opts}</select></div>
+  <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
+  <button class="btn" onclick="closeModal()">${t('cancel')}</button>
+  <button class="btn btn-p" onclick="saveOverride('${id}')">${t('save')}</button></div>`);
+}
+function saveOverride(id){
+  const v=document.getElementById('ov-sel').value;
+  if(v)DB.overrides[id]=v;else delete DB.overrides[id];
+  saveDB();closeModal();toast(t('saved'));go('raters');
+}
+function openPeers(id){
+  const e=DB.employees.find(x=>x.id===id);
+  const current=DB.peerMap[id]||getPeersOf(e).map(p=>p.id);
+  const list=DB.employees.filter(x=>x.id!==id&&!x.isCEO).map(x=>
+  `<label class="chk"><input type="checkbox" value="${x.id}" ${current.includes(x.id)?'checked':''}> ${x.name} <span class="hint">— ${x.title} (${x.dept!=='—'?x.dept:divName(x.division)})</span></label>`).join('');
+  showModal(`<h3>${t('peerTitle')} ${e.name}</h3>
+  <p class="hint" style="margin-bottom:10px;">${t('peerHint')}</p>
+  <div id="peer-list" style="max-height:300px;overflow-y:auto;border:1px solid var(--line);border-radius:8px;padding:8px 12px;">${list}</div>
+  <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
+  <button class="btn" onclick="delete DB.peerMap['${id}'];saveDB();closeModal();toast(t('backAuto'));go('raters');">${t('resetAuto')}</button>
+  <button class="btn btn-p" onclick="savePeers('${id}')">${t('save')}</button></div>`);
+}
+function savePeers(id){
+  DB.peerMap[id]=[...document.querySelectorAll('#peer-list input:checked')].map(c=>c.value);
+  saveDB();closeModal();toast(t('peerSaved'));go('raters');
+}
+function pgApprovals(){
+  const pend=DB.evaluations.filter(v=>v.status==='pending');
+  let h=`<div class="pg-title">${t('approvals')}</div><div class="pg-sub">${t('apprSub')}</div>`;
+  if(!pend.length)return h+`<div class="card"><div class="empty">${t('allDone')}</div></div>`;
+  h+=`<div style="margin-bottom:12px;"><button class="btn btn-p" onclick="confirmAll()">${t('confirmAllB')} (${pend.length})</button></div>
+  <div class="card"><table><thead><tr><th>${t('target')}</th><th>${t('rater')}</th><th>${t('type')}</th><th>${t('behavioral')}</th><th>${t('date')}</th><th></th></tr></thead><tbody>`;
+  pend.forEach(v=>{
+    const tg=DB.employees.find(e=>e.id===v.targetId)||{name:'?'};
+    const rt=DB.employees.find(e=>e.id===v.raterId)||{name:'?'};
+    const bp=behavioralPercent(v.scores,isLeader(tg));
+    h+=`<tr><td><b>${tg.name}</b></td><td>${rt.name}</td>
+    <td><span class="badge ${v.type==='self'?'b-teal':v.type==='manager'?'b-coral':v.type==='peer'?'b-blue':'b-purple'}">${v.type}</span></td>
+    <td>${bp!==null?Math.round(bp)+'%':'—'}${v.type==='manager'&&v.tech?' <span class="hint">+ KPIs '+Math.round(technicalPercent(v.tech))+'%</span>':''}</td>
+    <td class="hint">${v.date}</td>
+    <td><button class="btn btn-sm btn-p" onclick="confirmEval('${v.id}')">${t('confirm')}</button>
+    <button class="btn btn-sm btn-d" onclick="rejectEval('${v.id}')">${t('reject')}</button></td></tr>`;
+  });
+  return h+`</tbody></table></div>`;
+}
+function confirmEval(id){const v=DB.evaluations.find(x=>x.id===id);if(v){v.status='confirmed';saveDB();toast(t('confirmedLocked'));go('approvals');}}
+function rejectEval(id){if(!confirm(t('rejConfirm')))return;DB.evaluations=DB.evaluations.filter(x=>x.id!==id);saveDB();toast(t('rejected'));go('approvals');}
+function confirmAll(){DB.evaluations.forEach(v=>{if(v.status==='pending')v.status='confirmed';});saveDB();toast(t('allConfirmed'));go('approvals');}
+function pgOrg(){
+  let h=`<div class="pg-title">${t('orgStruct')}</div><div class="pg-sub">${t('orgSub')}</div>
+  <div class="card" style="background:var(--teal-light);border-color:#9FE1CB;">
+  <b style="font-size:13px;">${t('chainT')}</b>
+  <p class="hint" style="margin-top:6px;color:var(--teal);">${t('chainD')}</p></div>`;
+  ORG.divisions.forEach(d=>{
+    const mgr=DB.employees.find(e=>e.role==='Division Manager'&&e.division===d.id);
+    const members=DB.employees.filter(e=>e.division===d.id&&e.role!=='Division Manager');
+    h+=`<div class="tree-div"><div class="tree-head"><span>${LANG==='ar'?d.ar:d.name}</span>
+    <span class="hint">${t('managerL')}: ${mgr?mgr.name:'—'} <span class="badge b-coral">${t('ratedByCEO')}</span></span></div><div class="tree-body">`;
+    d.depts.forEach(dep=>{
+      const dm=members.find(e=>e.role==='Dept Manager'&&e.dept===dep);
+      const staff=members.filter(e=>e.dept===dep&&e.role!=='Dept Manager');
+      h+=`<div class="tree-row"><span><b>${dep}</b>${dm?' — '+dm.name+` <span class="badge b-blue">${t('ratedByDiv')}</span>`:` <span class="hint">${t('noDeptMgr')}</span>`}</span>
+      <span class="hint">${staff.length} ${t('staff')}</span></div>`;
+    });
+    h+=`</div></div>`;
+  });
+  return h;
+}
+
+/* ═══════════ HELPERS ═══════════ */
+function showModal(html){document.getElementById('modal-box').innerHTML=html;document.getElementById('modal-bg').style.display='flex';}
+function closeModal(){document.getElementById('modal-bg').style.display='none';}
+document.getElementById('modal-bg').addEventListener('click',e=>{if(e.target.id==='modal-bg')closeModal();});
+let toastT=null;
+function toast(m){const x=document.getElementById('toast');x.textContent=m;x.style.display='block';clearTimeout(toastT);toastT=setTimeout(()=>x.style.display='none',2600);}
+loadDB().then(loadLang);
+document.getElementById('l-pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+</script>
+</body>
+</html>
