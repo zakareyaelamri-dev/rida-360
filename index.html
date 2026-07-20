@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RIDA T.S. — 360° Performance Assessment</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 :root{
   --teal:#0F6E56; --teal-mid:#1D9E75; --teal-light:#E1F5EE;
@@ -131,9 +132,9 @@ tr:hover td{background:#FBFAF7;}
     <div class="login-logo">RT</div>
     <h1 style="text-align:center;font-size:19px;margin-bottom:2px;">RIDA Technical Services</h1>
     <p style="text-align:center;font-size:13px;color:var(--ink-2);margin-bottom:24px;" data-i="sysName">360° Performance Assessment</p>
-    <div class="frow"><label data-i="empId">Employee ID</label><input id="l-id" autocomplete="off"></div>
+    <div class="frow"><label data-i="email">Email</label><input id="l-email" type="email" autocomplete="off"></div>
     <div class="frow"><label data-i="password">Password</label><input id="l-pw" type="password"></div>
-    <p id="l-err" style="color:var(--red-dark);font-size:12px;display:none;margin-bottom:8px;" data-i="badLogin">Invalid ID or password</p>
+    <p id="l-err" style="color:var(--red-dark);font-size:12px;display:none;margin-bottom:8px;" data-i="badLogin">Invalid email or password</p>
     <button class="btn btn-p" style="width:100%;padding:11px;" onclick="doLogin()" data-i="signIn">Sign in</button>
     <p class="hint" style="text-align:center;margin-top:14px;" data-i="contactHR">Credentials are issued by HR. Contact the HR department if you can't sign in.</p>
   </div>
@@ -167,7 +168,7 @@ tr:hover td{background:#FBFAF7;}
 /* ═══════════ I18N ═══════════ */
 let LANG='en';
 const T={
- en:{sysName:'360° Performance Assessment',empId:'Employee ID',password:'Password',badLogin:'Invalid ID or password',signIn:'Sign in',contactHR:"Credentials are issued by HR. Contact the HR department if you can't sign in.",signOut:'Sign out',
+ en:{sysName:'360° Performance Assessment',empId:'Employee ID',password:'Password',badLogin:'Invalid email or password',signIn:'Sign in',contactHR:"Credentials are issued by HR. Contact the HR department if you can't sign in.",signOut:'Sign out',
  dashboard:'Dashboard',selfA:'Self-assessment',rateOthers:'Rate others',myResults:'My results',trainings:'Trainings',myTeam:'My team results',employees:'Employees',raterCtl:'Rater control',approvals:'Approvals',orgStruct:'Org structure',myAssess:'My assessment',mgmt:'Management',admin:'Administration',
  welcome:'Welcome',evalsReceived:'Evaluations received',confirmedN:'confirmed',ratingTasks:'My rating tasks',waitingInput:'waiting for your input',finalScore:'My final score',awaiting:'awaiting confirmations',pendingApprovals:'Pending approvals',needConfirm:'need your confirmation',myManager:'My manager',
  method:'360° methodology — official RIDA weights',mgrW:'Manager 40%',selfW:'Self 20%',peerW:'Peers 20%',subW:'Subordinates 20%',mgrWd:'Direct manager rates all direct reports — includes the technical KPIs section',selfWd:'Filled honestly and objectively by the employee',peerWd:'Same administrative level with real task overlap only',subWd:'Only for employees with direct reports',
@@ -179,7 +180,7 @@ const T={
  resultsSub:'confirmed evaluations only · rater identities are never shown',noConfirmed:'No confirmed evaluations yet.',finalGrade:'Final grade',behav40:'Behavioral (40%)',tech60:'Technical KPIs (60%)',weightsApplied:'Weights applied',w360:'360 weighted',fromMgr:'from manager evaluation',redistributed:'(redistributed)',partial:'partial data',
  byGroup:'Behavioral score by rater group',manager:'Manager',selfL:'Self',peers:'Peers',subordinates:'Subordinates',devFromMgr:'Development plan — from manager evaluation',nextGoals:'Next-period goals',printReport:'Print / Save PDF',
  teamSub:'You can view results only for employees who report to you',noReports:'No direct reports.',final:'Final',open:'Open',trainBtn:'Trainings',
- empSub:'Employee IDs and credentials are visible to the admin only',addEmp:'+ Add employee',searchP:'Search...',name:'Name',title:'Title',divDept:'Division / Dept',role:'Role',ratedBy:'Rated by',editEmp:'Edit employee',addEmpT:'Add employee',fullName:'Full name',jobTitle:'Job title',phone:'Phone',email:'Email',division:'Division',deptTeam:'Department / team',roleStruct:'Role in structure',chainHint:'Chain: Employee → Dept Mgr → Division Mgr → CEO. Coordinators with no dept manager report to their Division Manager.',save:'Save',cancel:'Cancel',saved:'Saved',deleted:'Deleted',reqIdName:'ID and name are required',idExists:'This ID already exists',delConfirm:'Delete this employee and all their evaluations?',
+ empSub:'Employee IDs and credentials are visible to the admin only',authNote:"After saving, create this person's login in the Supabase dashboard (Authentication → Users → Add user) and link it to this employee ID (set auth_user on the employees row).",addEmp:'+ Add employee',searchP:'Search...',name:'Name',title:'Title',divDept:'Division / Dept',role:'Role',ratedBy:'Rated by',editEmp:'Edit employee',addEmpT:'Add employee',fullName:'Full name',jobTitle:'Job title',phone:'Phone',email:'Email',division:'Division',deptTeam:'Department / team',roleStruct:'Role in structure',chainHint:'Chain: Employee → Dept Mgr → Division Mgr → CEO. Coordinators with no dept manager report to their Division Manager.',save:'Save',cancel:'Cancel',saved:'Saved',deleted:'Deleted',reqIdName:'ID and name are required',idExists:'This ID already exists',delConfirm:'Delete this employee and all their evaluations?',
  raterSub:'Manager chain is automatic (override when needed). Peer groups: only same administrative level with real task overlap — you decide who.',mgrRater:'Manager-rater',peerRaters:'Peer raters',subRaters:'Subordinate raters',auto:'auto',override:'override',custom:'custom',none:'none',na:'n/a',rateUp:'rate up',mgrBtn:'Manager',peersBtn:'Peers',
  ovTitle:'Manager-rater for',ovLbl:'Choose manager-rater (override)',autoRule:'— automatic rule —',
  peerTitle:'Peer raters for',peerHint:'Select only colleagues at the same administrative level whose tasks genuinely overlap.',resetAuto:'Reset to auto',peerSaved:'Peer group saved',backAuto:'Back to auto',
@@ -191,7 +192,7 @@ const T={
  stPlanned:'Planned',stProgress:'In progress',stDone:'Completed',stCancel:'Cancelled',
  days:'days',weeks:'weeks',months:'months',hours:'hours',forEmp:'For employee',noTrainings:'No trainings recorded yet.',trainSaved:'Training saved',trainDeleted:'Training deleted',delTrain:'Delete this training?',general:'General',
  repTitle:'Performance Evaluation Report',repPeriod:'Evaluation period',repEmp:'Employee name',repId:'Employee ID',repTitleJ:'Job title',repDept:'Department',repDiv:'Division',repMgr:'Direct manager',axis:'Axis',weight:'Weight',score:'Score',item:'Item',achieved:'Achieved %',grade:'Grade',behavSec:'Behavioral Assessment (40%)',techSec:'Technical KPIs & Objectives (60%)',trainSec:'Development Trainings',signEmp:'Employee signature',signMgr:'Direct manager signature',signHR:'HR Manager signature',genOn:'Generated on',byRaterG:'By rater group',recL:'Recommendation'},
- ar:{sysName:'نظام تقييم الأداء 360°',empId:'الرقم الوظيفي',password:'كلمة المرور',badLogin:'الرقم الوظيفي أو كلمة المرور غير صحيحة',signIn:'تسجيل الدخول',contactHR:'بيانات الدخول تصدر من إدارة الموارد البشرية. تواصل معهم إن لم تستطع الدخول.',signOut:'خروج',
+ ar:{sysName:'نظام تقييم الأداء 360°',empId:'الرقم الوظيفي',password:'كلمة المرور',badLogin:'البريد الإلكتروني أو كلمة المرور غير صحيحة',signIn:'تسجيل الدخول',contactHR:'بيانات الدخول تصدر من إدارة الموارد البشرية. تواصل معهم إن لم تستطع الدخول.',signOut:'خروج',
  dashboard:'الرئيسية',selfA:'التقييم الذاتي',rateOthers:'تقييم الآخرين',myResults:'نتائجي',trainings:'التدريبات',myTeam:'نتائج فريقي',employees:'الموظفون',raterCtl:'إدارة المقيّمين',approvals:'الاعتمادات',orgStruct:'الهيكل التنظيمي',myAssess:'تقييمي',mgmt:'الإدارة',admin:'صلاحيات الأدمن',
  welcome:'مرحباً',evalsReceived:'التقييمات المستلمة',confirmedN:'معتمدة',ratingTasks:'مهام التقييم',waitingInput:'بانتظار تقييمك',finalScore:'درجتي النهائية',awaiting:'بانتظار الاعتماد',pendingApprovals:'بانتظار اعتمادك',needConfirm:'تحتاج تأكيدك',myManager:'مديري المباشر',
  method:'منهجية 360° — الأوزان الرسمية المعتمدة',mgrW:'المدير 40%',selfW:'الذاتي 20%',peerW:'الزملاء 20%',subW:'المرؤوسون 20%',mgrWd:'المدير المباشر يقيّم جميع موظفيه المباشرين — ويشمل القسم الفني KPIs',selfWd:'يملأه الموظف بنفسه بصدق وموضوعية',peerWd:'فقط من هم في نفس المستوى الإداري وتتقاطع مهامهم فعلياً',subWd:'فقط للموظفين الذين لديهم مرؤوسون مباشرون',
@@ -203,7 +204,7 @@ const T={
  resultsSub:'التقييمات المعتمدة فقط · هوية المقيّمين لا تظهر أبداً',noConfirmed:'لا توجد تقييمات معتمدة بعد.',finalGrade:'الدرجة النهائية',behav40:'السلوكي (40%)',tech60:'الفني KPIs (60%)',weightsApplied:'الأوزان المطبقة',w360:'وزن 360 مجمّع',fromMgr:'من تقييم المدير',redistributed:'(معاد توزيعها)',partial:'بيانات جزئية',
  byGroup:'الدرجة السلوكية حسب جهة التقييم',manager:'المدير',selfL:'الذاتي',peers:'الزملاء',subordinates:'المرؤوسون',devFromMgr:'خطة التطوير — من تقييم المدير',nextGoals:'أهداف الفترة القادمة',printReport:'طباعة / حفظ PDF',
  teamSub:'يمكنك رؤية نتائج الموظفين التابعين لك فقط',noReports:'لا يوجد مرؤوسون مباشرون.',final:'النهائية',open:'فتح',trainBtn:'التدريبات',
- empSub:'الأرقام الوظيفية وبيانات الدخول تظهر للأدمن فقط',addEmp:'+ إضافة موظف',searchP:'بحث...',name:'الاسم',title:'المسمى',divDept:'الإدارة / القسم',role:'الدور',ratedBy:'يقيّمه',editEmp:'تعديل موظف',addEmpT:'إضافة موظف',fullName:'الاسم الكامل',jobTitle:'المسمى الوظيفي',phone:'الهاتف',email:'البريد',division:'الإدارة العامة',deptTeam:'القسم / الفريق',roleStruct:'الدور في الهيكل',chainHint:'السلسلة: موظف ← مدير قسم ← مدير إدارة ← المدير التنفيذي. المنسقون بدون مدير قسم يتبعون مدير الإدارة.',save:'حفظ',cancel:'إلغاء',saved:'تم الحفظ',deleted:'تم الحذف',reqIdName:'الرقم الوظيفي والاسم مطلوبان',idExists:'هذا الرقم الوظيفي موجود مسبقاً',delConfirm:'حذف هذا الموظف وجميع تقييماته؟',
+ empSub:'الأرقام الوظيفية وبيانات الدخول تظهر للأدمن فقط',authNote:'بعد الحفظ، أنشئ حساب دخول هذا الموظف من لوحة Supabase (Authentication ← Users ← Add user) واربطه بهذا الرقم الوظيفي (auth_user في جدول employees).',addEmp:'+ إضافة موظف',searchP:'بحث...',name:'الاسم',title:'المسمى',divDept:'الإدارة / القسم',role:'الدور',ratedBy:'يقيّمه',editEmp:'تعديل موظف',addEmpT:'إضافة موظف',fullName:'الاسم الكامل',jobTitle:'المسمى الوظيفي',phone:'الهاتف',email:'البريد',division:'الإدارة العامة',deptTeam:'القسم / الفريق',roleStruct:'الدور في الهيكل',chainHint:'السلسلة: موظف ← مدير قسم ← مدير إدارة ← المدير التنفيذي. المنسقون بدون مدير قسم يتبعون مدير الإدارة.',save:'حفظ',cancel:'إلغاء',saved:'تم الحفظ',deleted:'تم الحذف',reqIdName:'الرقم الوظيفي والاسم مطلوبان',idExists:'هذا الرقم الوظيفي موجود مسبقاً',delConfirm:'حذف هذا الموظف وجميع تقييماته؟',
  raterSub:'سلسلة المدير تلقائية (مع إمكانية التجاوز). مجموعات الزملاء: نفس المستوى الإداري وتقاطع مهام فعلي — أنت من يحدد.',mgrRater:'المدير المقيِّم',peerRaters:'الزملاء المقيِّمون',subRaters:'المرؤوسون المقيِّمون',auto:'تلقائي',override:'تجاوز',custom:'مخصص',none:'لا يوجد',na:'—',rateUp:'يقيّمون مديرهم',mgrBtn:'المدير',peersBtn:'الزملاء',
  ovTitle:'المدير المقيِّم لـ',ovLbl:'اختر المدير المقيِّم (تجاوز)',autoRule:'— القاعدة التلقائية —',
  peerTitle:'الزملاء المقيِّمون لـ',peerHint:'اختر فقط الزملاء في نفس المستوى الإداري الذين تتقاطع مهامهم فعلياً.',resetAuto:'العودة للتلقائي',peerSaved:'تم حفظ مجموعة الزملاء',backAuto:'عاد للتلقائي',
@@ -304,24 +305,35 @@ const ORG={divisions:[
  {id:'QHSE',name:'QHSE Division',ar:'إدارة QHSE',depts:['QHSE']},
  {id:'RAS',name:'RAS Division',ar:'إدارة RAS',depts:['AI Engineering']}
 ]};
-function seedEmployees(){return[
- {id:'RTS-000',pw:'1234',name:'CEO',role:'CEO',division:'—',dept:'Executive',isAdmin:false,isCEO:true,title:'Chief Executive Officer',phone:'',email:''},
- {id:'RTS-001',pw:'1234',name:'Zack',role:'Dept Manager',division:'RSS',dept:'Human Resources',isAdmin:true,isCEO:false,title:'HR Manager',phone:'',email:''},
- {id:'RTS-010',pw:'1234',name:'RSS Manager',role:'Division Manager',division:'RSS',dept:'—',isAdmin:false,isCEO:false,title:'RSS Manager',phone:'',email:''},
- {id:'RTS-011',pw:'1234',name:'Operation Manager',role:'Division Manager',division:'OPS',dept:'—',isAdmin:false,isCEO:false,title:'Operation Division Manager',phone:'',email:''},
- {id:'RTS-012',pw:'1234',name:'Sales Manager',role:'Division Manager',division:'SLS',dept:'—',isAdmin:false,isCEO:false,title:'Sales Division Manager',phone:'',email:''},
- {id:'RTS-013',pw:'1234',name:'QHSE Manager',role:'Division Manager',division:'QHSE',dept:'—',isAdmin:false,isCEO:false,title:'QHSE Manager',phone:'',email:''},
- {id:'RTS-014',pw:'1234',name:'RAS Manager',role:'Division Manager',division:'RAS',dept:'—',isAdmin:false,isCEO:false,title:'RAS Division Manager',phone:'',email:''}
-];}
+/* ═══════════ SUPABASE CLIENT ═══════════ */
+const SUPABASE_URL='https://cjcvtsdvgyjebwgigwsa.supabase.co';
+const SUPABASE_KEY='sb_publishable_wLhhpkwmL64asXOMI0rGUg_vyc-1Ln1';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
 let DB={employees:[],evaluations:[],overrides:{},peerMap:{},trainings:[]};
 let USER=null,CURRENT_PAGE='dashboard';
-async function saveDB(){try{await window.storage.set('rida360-db-v3',JSON.stringify(DB));}catch(e){}}
-async function loadDB(){
-  try{const r=await window.storage.get('rida360-db-v3');
-  if(r&&r.value){DB=JSON.parse(r.value);DB.peerMap=DB.peerMap||{};DB.trainings=DB.trainings||[];return;}}catch(e){}
-  try{const old=await window.storage.get('rida360-db-v2');
-  if(old&&old.value){DB=JSON.parse(old.value);DB.trainings=[];DB.peerMap=DB.peerMap||{};saveDB();return;}}catch(e){}
-  DB={employees:seedEmployees(),evaluations:[],overrides:{},peerMap:{},trainings:[]};saveDB();
+
+/* ── mapping helpers: DB (snake_case, relational) <-> app JS shape (camelCase) ── */
+function empFromDb(e){return{id:e.id,authUser:e.auth_user,name:e.name,title:e.title||'',role:e.role,division:e.division,dept:e.dept,isAdmin:!!e.is_admin,isCEO:!!e.is_ceo,phone:e.phone||'',email:e.email||''};}
+function empToDb(e){return{id:e.id,name:e.name,title:e.title,role:e.role,division:e.division,dept:e.dept,is_admin:!!e.isAdmin,is_ceo:!!e.isCEO,phone:e.phone||'',email:e.email||''};}
+function evalFromDb(v){return{id:v.id,targetId:v.target_id,raterId:v.rater_id,type:v.type,scores:v.scores||{},tech:v.tech||null,devPlan:v.dev_plan||null,status:v.status,date:v.eval_date};}
+function trainFromDb(x){return{id:x.id,empId:x.emp_id,name:x.name,axis:x.axis,level:x.level,type:x.type,provider:x.provider||'',startDate:x.start_date||'',durVal:x.dur_val,durUnit:x.dur_unit,status:x.status,notes:x.notes||'',createdBy:x.created_by};}
+function trainToDb(d){return{emp_id:d.empId,name:d.name,axis:d.axis,level:d.level,type:d.type,provider:d.provider,start_date:d.startDate||null,dur_val:d.durVal,dur_unit:d.durUnit,status:d.status,notes:d.notes,created_by:d.createdBy};}
+
+/* ── load all app data (called after auth) ── */
+async function loadAllData(){
+  const [emp,ev,ov,pa,tr]=await Promise.all([
+    sb.from('employees').select('*'),
+    sb.from('evaluations').select('*'),
+    sb.from('manager_overrides').select('*'),
+    sb.from('peer_assignments').select('*'),
+    sb.from('trainings').select('*')
+  ]);
+  DB.employees=(emp.data||[]).map(empFromDb);
+  DB.evaluations=(ev.data||[]).map(evalFromDb);
+  DB.overrides={};(ov.data||[]).forEach(r=>DB.overrides[r.employee_id]=r.manager_id);
+  DB.peerMap={};(pa.data||[]).forEach(r=>{(DB.peerMap[r.employee_id]=DB.peerMap[r.employee_id]||[]).push(r.peer_id);});
+  DB.trainings=(tr.data||[]).map(trainFromDb);
 }
 async function loadLang(){try{const r=await window.storage.get('rida360-lang');if(r&&r.value)LANG=r.value;}catch(e){}applyLang();}
 
@@ -388,38 +400,52 @@ function computeResults(targetId){
 }
 
 /* ═══════════ AUTH ═══════════ */
-function doLogin(){
-  const id=document.getElementById('l-id').value.trim().toUpperCase();
+async function doLogin(){
+  const email=document.getElementById('l-email').value.trim();
   const pw=document.getElementById('l-pw').value;
-  const u=DB.employees.find(e=>e.id.toUpperCase()===id&&e.pw===pw);
-  if(!u){document.getElementById('l-err').style.display='block';return;}
-  USER=u;
+  document.getElementById('l-err').style.display='none';
+  const{data,error}=await sb.auth.signInWithPassword({email,password:pw});
+  if(error||!data.user){document.getElementById('l-err').style.display='block';return;}
+  await enterApp();
+}
+async function enterApp(){
+  await loadAllData();
+  const{data:{user}}=await sb.auth.getUser();
+  if(!user){return;}
+  USER=DB.employees.find(e=>e.authUser===user.id);
+  if(!USER){document.getElementById('l-err').style.display='block';await sb.auth.signOut();return;}
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').style.display='block';
-  document.getElementById('u-name').textContent=u.name;
-  document.getElementById('u-role').textContent=u.title+(u.isAdmin?' · Admin':'');
-  document.getElementById('u-av').textContent=u.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  document.getElementById('u-name').textContent=USER.name;
+  document.getElementById('u-role').textContent=USER.title+(USER.isAdmin?' · Admin':'');
+  document.getElementById('u-av').textContent=USER.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
   buildNav();go('dashboard');
 }
-function logout(){USER=null;document.getElementById('app').style.display='none';document.getElementById('login-screen').style.display='flex';document.getElementById('l-pw').value='';}
+async function logout(){
+  await sb.auth.signOut();
+  USER=null;document.getElementById('app').style.display='none';document.getElementById('login-screen').style.display='flex';document.getElementById('l-pw').value='';
+}
+async function tryResumeSession(){
+  const{data:{session}}=await sb.auth.getSession();
+  if(session)await enterApp();
+}
 
 /* ═══════════ PASSWORD ═══════════ */
 function openPwModal(){
   showModal(`<h3>${t('chgPw')}</h3>
-  <div class="frow"><label>${t('curPw')}</label><input id="pw-cur" type="password"></div>
   <div class="frow"><label>${t('newPw')}</label><input id="pw-new" type="password"></div>
   <div class="frow"><label>${t('confPw')}</label><input id="pw-conf" type="password"></div>
   <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
   <button class="btn" onclick="closeModal()">${t('cancel')}</button>
   <button class="btn btn-p" onclick="savePw()">${t('save')}</button></div>`);
 }
-function savePw(){
-  const cur=document.getElementById('pw-cur').value,nw=document.getElementById('pw-new').value,cf=document.getElementById('pw-conf').value;
-  if(cur!==USER.pw){toast(t('pwWrong'));return;}
+async function savePw(){
+  const nw=document.getElementById('pw-new').value,cf=document.getElementById('pw-conf').value;
   if(nw.length<4){toast(t('pwShort'));return;}
   if(nw!==cf){toast(t('pwMismatch'));return;}
-  USER.pw=nw;const e=DB.employees.find(x=>x.id===USER.id);if(e)e.pw=nw;
-  saveDB();closeModal();toast(t('pwChanged'));
+  const{error}=await sb.auth.updateUser({password:nw});
+  if(error){toast(t('pwWrong'));return;}
+  closeModal();toast(t('pwChanged'));
 }
 
 /* ═══════════ NAV ═══════════ */
@@ -534,7 +560,7 @@ function pickB(btn,ax,qi,val){
   btn.parentElement.querySelectorAll('.rb').forEach(b=>b.classList.remove('sel'));
   btn.classList.add('sel');
 }
-function submitEval(targetId,type){
+async function submitEval(targetId,type){
   const tg=DB.employees.find(e=>e.id===targetId);
   const lead=isLeader(tg);
   const existing=findEval(targetId,USER.id);
@@ -559,9 +585,14 @@ function submitEval(targetId,type){
       goals:TEMP.dev.goals!==undefined?TEMP.dev.goals:(existing&&existing.devPlan?existing.devPlan.goals:''),
       recommend:TEMP.dev.recommend!==undefined?TEMP.dev.recommend:(existing&&existing.devPlan?existing.devPlan.recommend:'')};
   }
-  if(existing){existing.scores=scores;if(tech)existing.tech=tech;if(devPlan)existing.devPlan=devPlan;existing.date=new Date().toISOString().slice(0,10);}
-  else DB.evaluations.push({id:'EV'+Date.now()+Math.floor(Math.random()*999),targetId,raterId:USER.id,type,scores,tech,devPlan,status:'pending',date:new Date().toISOString().slice(0,10)});
-  saveDB();toast(existing?t('updated'):t('submitted'));go('rate');
+  const nowDate=new Date().toISOString().slice(0,10);
+  const row={target_id:targetId,rater_id:USER.id,type,scores,tech,dev_plan:devPlan,status:'pending',eval_date:nowDate};
+  const{data,error}=await sb.from('evaluations').upsert(row,{onConflict:'target_id,rater_id'}).select().single();
+  if(error){toast(error.message);return;}
+  const mapped=evalFromDb(data);
+  if(existing)Object.assign(existing,mapped);
+  else DB.evaluations.push(mapped);
+  toast(existing?t('updated'):t('submitted'));go('rate');
 }
 
 /* ═══════════ RATE OTHERS ═══════════ */
@@ -811,7 +842,7 @@ function openTrainModal(empId,trainId){
   <button class="btn" onclick="closeModal()">${t('cancel')}</button>
   <button class="btn btn-p" onclick="saveTrain('${trainId||''}')">${t('save')}</button></div>`);
 }
-function saveTrain(trainId){
+async function saveTrain(trainId){
   const name=document.getElementById('tr-name').value.trim();
   if(!name){toast(t('trainName'));return;}
   const d={empId:document.getElementById('tr-emp').value,name,
@@ -820,14 +851,23 @@ function saveTrain(trainId){
   startDate:document.getElementById('tr-date').value,durVal:document.getElementById('tr-durval').value||1,
   durUnit:document.getElementById('tr-durunit').value,status:document.getElementById('tr-status').value,
   notes:document.getElementById('tr-notes').value.trim(),createdBy:USER.id};
-  if(trainId){const x=DB.trainings.find(y=>y.id===trainId);Object.assign(x,d);}
-  else{d.id='TR'+Date.now()+Math.floor(Math.random()*999);DB.trainings.push(d);}
-  saveDB();closeModal();toast(t('trainSaved'));go(CURRENT_PAGE==='team'?'team':'trainings');
+  if(trainId){
+    const{error}=await sb.from('trainings').update(trainToDb(d)).eq('id',trainId);
+    if(error){toast(error.message);return;}
+    const x=DB.trainings.find(y=>y.id===trainId);Object.assign(x,d);
+  }else{
+    const{data,error}=await sb.from('trainings').insert(trainToDb(d)).select().single();
+    if(error){toast(error.message);return;}
+    DB.trainings.push(trainFromDb(data));
+  }
+  closeModal();toast(t('trainSaved'));go(CURRENT_PAGE==='team'?'team':'trainings');
 }
-function delTrain(id){
+async function delTrain(id){
   if(!confirm(t('delTrain')))return;
+  const{error}=await sb.from('trainings').delete().eq('id',id);
+  if(error){toast(error.message);return;}
   DB.trainings=DB.trainings.filter(x=>x.id!==id);
-  saveDB();toast(t('trainDeleted'));go('trainings');
+  toast(t('trainDeleted'));go('trainings');
 }
 
 /* ═══════════ TEAM ═══════════ */
@@ -876,9 +916,8 @@ function openEmpModal(id){
   const e=id?DB.employees.find(x=>x.id===id):null;
   const divOpts=ORG.divisions.map(d=>`<option value="${d.id}" ${e&&e.division===d.id?'selected':''}>${LANG==='ar'?d.ar:d.name}</option>`).join('');
   showModal(`<h3>${e?t('editEmp'):t('addEmpT')}</h3>
-  <div class="grid2">
   <div class="frow"><label>${t('empId')}</label><input id="m-id" value="${e?e.id:''}" ${e?'disabled':''} placeholder="RTS-1XX"></div>
-  <div class="frow"><label>${t('password')}</label><input id="m-pw" value="${e?e.pw:'1234'}"></div></div>
+  ${!e?`<p class="hint" style="margin-bottom:8px;">${t('authNote')}</p>`:''}
   <div class="frow"><label>${t('fullName')}</label><input id="m-name" value="${e?e.name:''}"></div>
   <div class="frow"><label>${t('jobTitle')}</label><input id="m-title" value="${e?e.title:''}"></div>
   <div class="grid2">
@@ -899,27 +938,31 @@ function fillDepts(sel){
   const d=ORG.divisions.find(x=>x.id===document.getElementById('m-div').value);
   document.getElementById('m-dept').innerHTML='<option value="—">—</option>'+d.depts.map(x=>`<option ${sel===x?'selected':''}>${x}</option>`).join('');
 }
-function saveEmp(exId){
+async function saveEmp(exId){
   const id=exId||document.getElementById('m-id').value.trim().toUpperCase();
   if(!id||!document.getElementById('m-name').value.trim()){toast(t('reqIdName'));return;}
   if(!exId&&DB.employees.find(e=>e.id===id)){toast(t('idExists'));return;}
-  const d={id,pw:document.getElementById('m-pw').value||'1234',
+  const d={id,
   name:document.getElementById('m-name').value.trim(),title:document.getElementById('m-title').value.trim(),
   phone:document.getElementById('m-phone').value.trim(),email:document.getElementById('m-email').value.trim(),
   division:document.getElementById('m-div').value,dept:document.getElementById('m-dept').value,
   role:document.getElementById('m-role').value,isAdmin:false,isCEO:false};
-  if(exId){const e=DB.employees.find(x=>x.id===exId);d.isAdmin=e.isAdmin;d.isCEO=e.isCEO;Object.assign(e,d);
-    if(USER.id===exId)Object.assign(USER,d);}
+  if(exId){const e=DB.employees.find(x=>x.id===exId);d.isAdmin=e.isAdmin;d.isCEO=e.isCEO;}
+  const{error}=await sb.from('employees').upsert(empToDb(d));
+  if(error){toast(error.message);return;}
+  if(exId){const e=DB.employees.find(x=>x.id===exId);Object.assign(e,d);if(USER.id===exId)Object.assign(USER,d);}
   else DB.employees.push(d);
-  saveDB();closeModal();toast(t('saved'));go('employees');
+  closeModal();toast(t('saved'));go('employees');
 }
-function delEmp(id){
+async function delEmp(id){
   if(!confirm(t('delConfirm')))return;
+  const{error}=await sb.from('employees').delete().eq('id',id);
+  if(error){toast(error.message);return;}
   DB.employees=DB.employees.filter(e=>e.id!==id);
   DB.evaluations=DB.evaluations.filter(v=>v.targetId!==id&&v.raterId!==id);
   DB.trainings=DB.trainings.filter(x=>x.empId!==id);
   delete DB.overrides[id];delete DB.peerMap[id];
-  saveDB();toast(t('deleted'));go('employees');
+  toast(t('deleted'));go('employees');
 }
 function pgRaters(){
   let h=`<div class="pg-title">${t('raterCtl')}</div><div class="pg-sub">${t('raterSub')}</div>
@@ -945,10 +988,14 @@ function openOverride(id){
   <button class="btn" onclick="closeModal()">${t('cancel')}</button>
   <button class="btn btn-p" onclick="saveOverride('${id}')">${t('save')}</button></div>`);
 }
-function saveOverride(id){
+async function saveOverride(id){
   const v=document.getElementById('ov-sel').value;
+  let error;
+  if(v){({error}=await sb.from('manager_overrides').upsert({employee_id:id,manager_id:v,set_by:USER.id}));}
+  else{({error}=await sb.from('manager_overrides').delete().eq('employee_id',id));}
+  if(error){toast(error.message);return;}
   if(v)DB.overrides[id]=v;else delete DB.overrides[id];
-  saveDB();closeModal();toast(t('saved'));go('raters');
+  closeModal();toast(t('saved'));go('raters');
 }
 function openPeers(id){
   const e=DB.employees.find(x=>x.id===id);
@@ -959,12 +1006,23 @@ function openPeers(id){
   <p class="hint" style="margin-bottom:10px;">${t('peerHint')}</p>
   <div id="peer-list" style="max-height:300px;overflow-y:auto;border:1px solid var(--line);border-radius:8px;padding:8px 12px;">${list}</div>
   <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
-  <button class="btn" onclick="delete DB.peerMap['${id}'];saveDB();closeModal();toast(t('backAuto'));go('raters');">${t('resetAuto')}</button>
+  <button class="btn" onclick="resetPeers('${id}')">${t('resetAuto')}</button>
   <button class="btn btn-p" onclick="savePeers('${id}')">${t('save')}</button></div>`);
 }
-function savePeers(id){
-  DB.peerMap[id]=[...document.querySelectorAll('#peer-list input:checked')].map(c=>c.value);
-  saveDB();closeModal();toast(t('peerSaved'));go('raters');
+async function resetPeers(id){
+  const{error}=await sb.from('peer_assignments').delete().eq('employee_id',id);
+  if(error){toast(error.message);return;}
+  delete DB.peerMap[id];closeModal();toast(t('backAuto'));go('raters');
+}
+async function savePeers(id){
+  const ids=[...document.querySelectorAll('#peer-list input:checked')].map(c=>c.value);
+  const{error:delErr}=await sb.from('peer_assignments').delete().eq('employee_id',id);
+  if(delErr){toast(delErr.message);return;}
+  if(ids.length){
+    const{error:insErr}=await sb.from('peer_assignments').insert(ids.map(pid=>({employee_id:id,peer_id:pid})));
+    if(insErr){toast(insErr.message);return;}
+  }
+  DB.peerMap[id]=ids;closeModal();toast(t('peerSaved'));go('raters');
 }
 function pgApprovals(){
   const pend=DB.evaluations.filter(v=>v.status==='pending');
@@ -985,9 +1043,26 @@ function pgApprovals(){
   });
   return h+`</tbody></table></div>`;
 }
-function confirmEval(id){const v=DB.evaluations.find(x=>x.id===id);if(v){v.status='confirmed';saveDB();toast(t('confirmedLocked'));go('approvals');}}
-function rejectEval(id){if(!confirm(t('rejConfirm')))return;DB.evaluations=DB.evaluations.filter(x=>x.id!==id);saveDB();toast(t('rejected'));go('approvals');}
-function confirmAll(){DB.evaluations.forEach(v=>{if(v.status==='pending')v.status='confirmed';});saveDB();toast(t('allConfirmed'));go('approvals');}
+async function confirmEval(id){
+  const v=DB.evaluations.find(x=>x.id===id);if(!v)return;
+  const{error}=await sb.from('evaluations').update({status:'confirmed',confirmed_at:new Date().toISOString(),confirmed_by:USER.id}).eq('id',id);
+  if(error){toast(error.message);return;}
+  v.status='confirmed';toast(t('confirmedLocked'));go('approvals');
+}
+async function rejectEval(id){
+  if(!confirm(t('rejConfirm')))return;
+  const{error}=await sb.from('evaluations').delete().eq('id',id);
+  if(error){toast(error.message);return;}
+  DB.evaluations=DB.evaluations.filter(x=>x.id!==id);toast(t('rejected'));go('approvals');
+}
+async function confirmAll(){
+  const ids=DB.evaluations.filter(v=>v.status==='pending').map(v=>v.id);
+  if(!ids.length)return;
+  const{error}=await sb.from('evaluations').update({status:'confirmed',confirmed_at:new Date().toISOString(),confirmed_by:USER.id}).in('id',ids);
+  if(error){toast(error.message);return;}
+  DB.evaluations.forEach(v=>{if(ids.includes(v.id))v.status='confirmed';});
+  toast(t('allConfirmed'));go('approvals');
+}
 function pgOrg(){
   let h=`<div class="pg-title">${t('orgStruct')}</div><div class="pg-sub">${t('orgSub')}</div>
   <div class="card" style="background:var(--teal-light);border-color:#9FE1CB;">
@@ -1015,7 +1090,8 @@ function closeModal(){document.getElementById('modal-bg').style.display='none';}
 document.getElementById('modal-bg').addEventListener('click',e=>{if(e.target.id==='modal-bg')closeModal();});
 let toastT=null;
 function toast(m){const x=document.getElementById('toast');x.textContent=m;x.style.display='block';clearTimeout(toastT);toastT=setTimeout(()=>x.style.display='none',2600);}
-loadDB().then(loadLang);
+loadLang();
+tryResumeSession();
 document.getElementById('l-pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 </script>
 </body>
