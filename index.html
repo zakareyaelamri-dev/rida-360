@@ -137,6 +137,7 @@ tr:hover td{background:#FBFAF7;}
     <div class="frow"><label data-i="password">Password</label><input id="l-pw" type="password"></div>
     <p id="l-err" style="color:var(--red-dark);font-size:12px;display:none;margin-bottom:8px;" data-i="badLogin">Invalid email or password</p>
     <button class="btn btn-p" style="width:100%;padding:11px;" onclick="doLogin()" data-i="signIn">Sign in</button>
+    <p style="text-align:center;margin-top:10px;"><a href="#" onclick="openForgotPw();return false;" data-i="forgotPw" style="font-size:13px;">Forgot password?</a></p>
     <p class="hint" style="text-align:center;margin-top:14px;" data-i="contactHR">Credentials are issued by HR. Contact the HR department if you can't sign in.</p>
   </div>
 </div>
@@ -188,6 +189,7 @@ const T={
  apprSub:'Pending evaluations remain editable by raters. Confirming locks them and includes them in results.',allDone:'No pending evaluations ✓',confirmAllB:'Confirm all',target:'Target',rater:'Rater',type:'Type',behavioral:'Behavioral',date:'Date',confirm:'Confirm',reject:'Reject',confirmedLocked:'Confirmed & locked',rejConfirm:'Reject and delete? Rater must resubmit.',rejected:'Rejected',allConfirmed:'All confirmed',
  orgSub:'The rating chain derives from this structure',chainT:'Rating chain',chainD:'Employee → Dept Manager · Dept Managers & Coordinators → Division Manager · Division Managers → CEO · Subordinates rate their direct manager (20%) · Overrides win over all rules.',ratedByCEO:'rated by CEO',ratedByDiv:'rated by Div. Mgr',noDeptMgr:'(no dept manager — staff → Div. Mgr)',staff:'staff',managerL:'Manager',
  chgPw:'Change my password',curPw:'Current password',newPw:'New password',confPw:'Confirm new password',pwWrong:'Current password is incorrect',pwMismatch:'New passwords do not match',pwShort:'Password must be at least 4 characters',pwChanged:'Password changed successfully',
+ forgotPw:'Forgot password?',resetPwTitle:'Reset your password',resetEmailPrompt:'Enter your email and we will send you a reset link.',sendResetLink:'Send reset link',resetLinkSent:'If that email exists, a reset link has been sent.',resetPwFail:'Could not send reset link. Please try again later.',setNewPwTitle:'Set a new password',setNewPwHint:'Enter a new password for your account to continue.',
  trainSub:'Training programs generated from development areas — managed by the direct manager',myTrainings:'My trainings',teamTrainings:'Team trainings',addTrain:'+ Add training',trainName:'Training name',linkedAxis:'Linked development area',level:'Level',ttype:'Type',provider:'Provider / trainer',startDate:'Start date',duration:'Duration',durUnit:'Unit',tstatus:'Status',notes:'Notes',
  lvlBasic:'Basic',lvlInter:'Intermediate',lvlAdv:'Advanced',tyCourse:'Course',tyWorkshop:'Workshop',tyOJT:'On-the-job',tyCert:'Certification',tyOnline:'Online',
  stPlanned:'Planned',stProgress:'In progress',stDone:'Completed',stCancel:'Cancelled',
@@ -212,6 +214,7 @@ const T={
  apprSub:'التقييمات المعلقة تبقى قابلة للتعديل. الاعتماد يقفلها ويدخلها في النتائج.',allDone:'لا توجد تقييمات معلقة ✓',confirmAllB:'اعتماد الكل',target:'الموظف المُقيَّم',rater:'المقيِّم',type:'النوع',behavioral:'السلوكي',date:'التاريخ',confirm:'اعتماد',reject:'رفض',confirmedLocked:'تم الاعتماد والقفل',rejConfirm:'رفض وحذف؟ يجب على المقيِّم إعادة الرفع.',rejected:'تم الرفض',allConfirmed:'تم اعتماد الكل',
  orgSub:'سلسلة التقييم مشتقة من هذا الهيكل',chainT:'سلسلة التقييم',chainD:'موظف ← مدير القسم · مدراء الأقسام والمنسقون ← مدير الإدارة · مدراء الإدارات ← المدير التنفيذي · المرؤوسون يقيّمون مديرهم المباشر (20%) · التجاوزات تتقدم على كل القواعد.',ratedByCEO:'يقيّمه CEO',ratedByDiv:'يقيّمه مدير الإدارة',noDeptMgr:'(بدون مدير قسم — الموظفون ← مدير الإدارة)',staff:'موظف',managerL:'المدير',
  chgPw:'تغيير كلمة المرور',curPw:'كلمة المرور الحالية',newPw:'كلمة المرور الجديدة',confPw:'تأكيد كلمة المرور الجديدة',pwWrong:'كلمة المرور الحالية غير صحيحة',pwMismatch:'كلمتا المرور غير متطابقتين',pwShort:'كلمة المرور 4 أحرف على الأقل',pwChanged:'تم تغيير كلمة المرور بنجاح',
+ forgotPw:'نسيت كلمة المرور؟',resetPwTitle:'إعادة تعيين كلمة المرور',resetEmailPrompt:'أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين.',sendResetLink:'إرسال رابط إعادة التعيين',resetLinkSent:'إذا كان هذا البريد مسجلاً، سيصلك رابط إعادة التعيين.',resetPwFail:'تعذر إرسال الرابط، حاول لاحقاً.',setNewPwTitle:'تعيين كلمة مرور جديدة',setNewPwHint:'أدخل كلمة مرور جديدة لحسابك للمتابعة.',
  trainSub:'برامج تدريبية مشتقة من مجالات التطوير — يديرها المدير المباشر',myTrainings:'تدريباتي',teamTrainings:'تدريبات الفريق',addTrain:'+ إضافة تدريب',trainName:'اسم التدريب',linkedAxis:'مجال التطوير المرتبط',level:'المستوى',ttype:'النوع',provider:'الجهة / المدرب',startDate:'تاريخ البدء',duration:'المدة',durUnit:'الوحدة',tstatus:'الحالة',notes:'ملاحظات',
  lvlBasic:'أساسي',lvlInter:'متوسط',lvlAdv:'متقدم',tyCourse:'دورة',tyWorkshop:'ورشة عمل',tyOJT:'تدريب أثناء العمل',tyCert:'شهادة مهنية',tyOnline:'أونلاين',
  stPlanned:'مخطط',stProgress:'قيد التنفيذ',stDone:'مكتمل',stCancel:'ملغي',
@@ -429,6 +432,44 @@ async function logout(){
 async function tryResumeSession(){
   const{data:{session}}=await sb.auth.getSession();
   if(session)await enterApp();
+}
+sb.auth.onAuthStateChange((event)=>{
+  if(event==='PASSWORD_RECOVERY')openSetNewPwModal();
+});
+
+/* ═══════════ FORGOT PASSWORD ═══════════ */
+function openForgotPw(){
+  const prefill=document.getElementById('l-email').value.trim();
+  showModal(`<h3>${t('resetPwTitle')}</h3>
+  <p class="hint" style="margin-bottom:10px;">${t('resetEmailPrompt')}</p>
+  <div class="frow"><label>${t('email')}</label><input id="fp-email" type="email" value="${prefill}"></div>
+  <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
+  <button class="btn" onclick="closeModal()">${t('cancel')}</button>
+  <button class="btn btn-p" onclick="sendResetLink()">${t('sendResetLink')}</button></div>`);
+}
+async function sendResetLink(){
+  const email=document.getElementById('fp-email').value.trim();
+  if(!email)return;
+  const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+window.location.pathname});
+  closeModal();
+  toast(error?t('resetPwFail'):t('resetLinkSent'));
+}
+function openSetNewPwModal(){
+  showModal(`<h3>${t('setNewPwTitle')}</h3>
+  <p class="hint" style="margin-bottom:10px;">${t('setNewPwHint')}</p>
+  <div class="frow"><label>${t('newPw')}</label><input id="np-new" type="password"></div>
+  <div class="frow"><label>${t('confPw')}</label><input id="np-conf" type="password"></div>
+  <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
+  <button class="btn btn-p" onclick="saveNewPwAfterRecovery()">${t('save')}</button></div>`);
+}
+async function saveNewPwAfterRecovery(){
+  const nw=document.getElementById('np-new').value,cf=document.getElementById('np-conf').value;
+  if(nw.length<4){toast(t('pwShort'));return;}
+  if(nw!==cf){toast(t('pwMismatch'));return;}
+  const{error}=await sb.auth.updateUser({password:nw});
+  if(error){toast(t('resetPwFail'));return;}
+  closeModal();toast(t('pwChanged'));
+  await enterApp();
 }
 
 /* ═══════════ PASSWORD ═══════════ */
