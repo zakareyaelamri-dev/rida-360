@@ -182,7 +182,7 @@ const T={
  resultsSub:'confirmed evaluations only · rater identities are never shown',noConfirmed:'No confirmed evaluations yet.',finalGrade:'Final grade',behav40:'Behavioral (40%)',tech60:'Technical KPIs (60%)',weightsApplied:'Weights applied',w360:'360 weighted',fromMgr:'from manager evaluation',redistributed:'(redistributed)',partial:'partial data',
  byGroup:'Behavioral score by rater group',manager:'Manager',selfL:'Self',peers:'Peers',subordinates:'Subordinates',devFromMgr:'Development plan — from manager evaluation',nextGoals:'Next-period goals',printReport:'Print / Save PDF',
  teamSub:'You can view results only for employees who report to you',noReports:'No direct reports.',final:'Final',open:'Open',trainBtn:'Trainings',
- empSub:'Employee IDs and credentials are visible to the admin only',authNote:"After saving, create this person's login in the Supabase dashboard (Authentication → Users → Add user) and link it to this employee ID (set auth_user on the employees row).",addEmp:'+ Add employee',searchP:'Search...',name:'Name',title:'Title',divDept:'Division / Dept',role:'Role',ratedBy:'Rated by',editEmp:'Edit employee',addEmpT:'Add employee',fullName:'Full name',jobTitle:'Job title',phone:'Phone',email:'Email',division:'Division',deptTeam:'Department / team',roleStruct:'Role in structure',chainHint:'Chain: Employee → Dept Mgr → Division Mgr → CEO. Coordinators with no dept manager report to their Division Manager.',save:'Save',cancel:'Cancel',saved:'Saved',deleted:'Deleted',reqIdName:'ID and name are required',idExists:'This ID already exists',delConfirm:'Delete this employee and all their evaluations?',
+ empSub:'Employee IDs and credentials are visible to the admin only',authNote:"This employee has no login yet. Click \"Create login\" (uses the email above) after saving.",createLogin:'Create login',creatingLogin:'Creating login…',loginCreated:'Login created — share these credentials securely:',loginNeedsEmail:'Add an email for this employee first, then create their login.',addEmp:'+ Add employee',searchP:'Search...',name:'Name',title:'Title',divDept:'Division / Dept',role:'Role',ratedBy:'Rated by',editEmp:'Edit employee',addEmpT:'Add employee',fullName:'Full name',jobTitle:'Job title',phone:'Phone',email:'Email',division:'Division',deptTeam:'Department / team',roleStruct:'Role in structure',chainHint:'Chain: Employee → Dept Mgr → Division Mgr → CEO. Coordinators with no dept manager report to their Division Manager.',save:'Save',cancel:'Cancel',saved:'Saved',deleted:'Deleted',reqIdName:'ID and name are required',idExists:'This ID already exists',delConfirm:'Delete this employee and all their evaluations?',
  raterSub:'Manager chain is automatic (override when needed). Peer groups: only same administrative level with real task overlap — you decide who.',mgrRater:'Manager-rater',peerRaters:'Peer raters',subRaters:'Subordinate raters',auto:'auto',override:'override',custom:'custom',none:'none',na:'n/a',rateUp:'rate up',mgrBtn:'Manager',peersBtn:'Peers',
  ovTitle:'Manager-rater for',ovLbl:'Choose manager-rater (override)',autoRule:'— automatic rule —',
  peerTitle:'Peer raters for',peerHint:'Select only colleagues at the same administrative level whose tasks genuinely overlap.',resetAuto:'Reset to auto',peerSaved:'Peer group saved',backAuto:'Back to auto',
@@ -207,7 +207,7 @@ const T={
  resultsSub:'التقييمات المعتمدة فقط · هوية المقيّمين لا تظهر أبداً',noConfirmed:'لا توجد تقييمات معتمدة بعد.',finalGrade:'الدرجة النهائية',behav40:'السلوكي (40%)',tech60:'الفني KPIs (60%)',weightsApplied:'الأوزان المطبقة',w360:'وزن 360 مجمّع',fromMgr:'من تقييم المدير',redistributed:'(معاد توزيعها)',partial:'بيانات جزئية',
  byGroup:'الدرجة السلوكية حسب جهة التقييم',manager:'المدير',selfL:'الذاتي',peers:'الزملاء',subordinates:'المرؤوسون',devFromMgr:'خطة التطوير — من تقييم المدير',nextGoals:'أهداف الفترة القادمة',printReport:'طباعة / حفظ PDF',
  teamSub:'يمكنك رؤية نتائج الموظفين التابعين لك فقط',noReports:'لا يوجد مرؤوسون مباشرون.',final:'النهائية',open:'فتح',trainBtn:'التدريبات',
- empSub:'الأرقام الوظيفية وبيانات الدخول تظهر للأدمن فقط',authNote:'بعد الحفظ، أنشئ حساب دخول هذا الموظف من لوحة Supabase (Authentication ← Users ← Add user) واربطه بهذا الرقم الوظيفي (auth_user في جدول employees).',addEmp:'+ إضافة موظف',searchP:'بحث...',name:'الاسم',title:'المسمى',divDept:'الإدارة / القسم',role:'الدور',ratedBy:'يقيّمه',editEmp:'تعديل موظف',addEmpT:'إضافة موظف',fullName:'الاسم الكامل',jobTitle:'المسمى الوظيفي',phone:'الهاتف',email:'البريد',division:'الإدارة العامة',deptTeam:'القسم / الفريق',roleStruct:'الدور في الهيكل',chainHint:'السلسلة: موظف ← مدير قسم ← مدير إدارة ← المدير التنفيذي. المنسقون بدون مدير قسم يتبعون مدير الإدارة.',save:'حفظ',cancel:'إلغاء',saved:'تم الحفظ',deleted:'تم الحذف',reqIdName:'الرقم الوظيفي والاسم مطلوبان',idExists:'هذا الرقم الوظيفي موجود مسبقاً',delConfirm:'حذف هذا الموظف وجميع تقييماته؟',
+ empSub:'الأرقام الوظيفية وبيانات الدخول تظهر للأدمن فقط',authNote:'هذا الموظف ما عنده حساب دخول بعد. اضغط "إنشاء حساب دخول" (يستخدم البريد أعلاه) بعد الحفظ.',createLogin:'إنشاء حساب دخول',creatingLogin:'جاري الإنشاء…',loginCreated:'تم إنشاء الحساب — شارك هذه البيانات بأمان:',loginNeedsEmail:'أضف بريدًا إلكترونيًا لهذا الموظف أولاً، ثم أنشئ حساب الدخول.',addEmp:'+ إضافة موظف',searchP:'بحث...',name:'الاسم',title:'المسمى',divDept:'الإدارة / القسم',role:'الدور',ratedBy:'يقيّمه',editEmp:'تعديل موظف',addEmpT:'إضافة موظف',fullName:'الاسم الكامل',jobTitle:'المسمى الوظيفي',phone:'الهاتف',email:'البريد',division:'الإدارة العامة',deptTeam:'القسم / الفريق',roleStruct:'الدور في الهيكل',chainHint:'السلسلة: موظف ← مدير قسم ← مدير إدارة ← المدير التنفيذي. المنسقون بدون مدير قسم يتبعون مدير الإدارة.',save:'حفظ',cancel:'إلغاء',saved:'تم الحفظ',deleted:'تم الحذف',reqIdName:'الرقم الوظيفي والاسم مطلوبان',idExists:'هذا الرقم الوظيفي موجود مسبقاً',delConfirm:'حذف هذا الموظف وجميع تقييماته؟',
  raterSub:'سلسلة المدير تلقائية (مع إمكانية التجاوز). مجموعات الزملاء: نفس المستوى الإداري وتقاطع مهام فعلي — أنت من يحدد.',mgrRater:'المدير المقيِّم',peerRaters:'الزملاء المقيِّمون',subRaters:'المرؤوسون المقيِّمون',auto:'تلقائي',override:'تجاوز',custom:'مخصص',none:'لا يوجد',na:'—',rateUp:'يقيّمون مديرهم',mgrBtn:'المدير',peersBtn:'الزملاء',
  ovTitle:'المدير المقيِّم لـ',ovLbl:'اختر المدير المقيِّم (تجاوز)',autoRule:'— القاعدة التلقائية —',
  peerTitle:'الزملاء المقيِّمون لـ',peerHint:'اختر فقط الزملاء في نفس المستوى الإداري الذين تتقاطع مهامهم فعلياً.',resetAuto:'العودة للتلقائي',peerSaved:'تم حفظ مجموعة الزملاء',backAuto:'عاد للتلقائي',
@@ -946,6 +946,7 @@ function pgEmployees(){
     <td><span class="badge b-gray">${e.role}</span></td>
     <td>${m?m.name:'—'}${DB.overrides[e.id]?` <span class="badge b-amber">${t('override')}</span>`:''}</td>
     <td><button class="btn btn-sm" onclick="openEmpModal('${e.id}')">${t('edit')}</button>
+    ${!e.authUser?`<button class="btn btn-sm btn-p" onclick="createLogin('${e.id}')">${t('createLogin')}</button>`:''}
     ${!e.isAdmin&&!e.isCEO?`<button class="btn btn-sm btn-d" onclick="delEmp('${e.id}')">✕</button>`:''}</td></tr>`;
   });
   return h+`</tbody></table></div>`;
@@ -959,7 +960,7 @@ function openEmpModal(id){
   const divOpts=ORG.divisions.map(d=>`<option value="${d.id}" ${e&&e.division===d.id?'selected':''}>${LANG==='ar'?d.ar:d.name}</option>`).join('');
   showModal(`<h3>${e?t('editEmp'):t('addEmpT')}</h3>
   <div class="frow"><label>${t('empId')}</label><input id="m-id" value="${e?e.id:''}" ${e?'disabled':''} placeholder="RTS-1XX"></div>
-  ${!e?`<p class="hint" style="margin-bottom:8px;">${t('authNote')}</p>`:''}
+  ${!e||!e.authUser?`<p class="hint" style="margin-bottom:8px;">${t('authNote')}</p>`:''}
   <div class="frow"><label>${t('fullName')}</label><input id="m-name" value="${e?e.name:''}"></div>
   <div class="frow"><label>${t('jobTitle')}</label><input id="m-title" value="${e?e.title:''}"></div>
   <div class="grid2">
@@ -1005,6 +1006,20 @@ async function delEmp(id){
   DB.trainings=DB.trainings.filter(x=>x.empId!==id);
   delete DB.overrides[id];delete DB.peerMap[id];
   toast(t('deleted'));go('employees');
+}
+async function createLogin(id){
+  const e=DB.employees.find(x=>x.id===id);
+  if(!e||!e.email){toast(t('loginNeedsEmail'));return;}
+  toast(t('creatingLogin'));
+  const{data,error}=await sb.functions.invoke('create-employee-login',{body:{employeeId:id}});
+  if(error||data?.error){toast((data&&data.error)||error.message);return;}
+  e.authUser=true;
+  showModal(`<h3>${t('createLogin')}</h3>
+  <p class="hint" style="margin-bottom:10px;">${t('loginCreated')}</p>
+  <div class="frow"><label>${t('email')}</label><input value="${data.email}" readonly onclick="this.select()"></div>
+  <div class="frow"><label>${t('password')}</label><input value="${data.password}" readonly onclick="this.select()"></div>
+  <div style="display:flex;justify-content:flex-end;margin-top:16px;">
+  <button class="btn btn-p" onclick="closeModal();go('employees');">${t('save')}</button></div>`);
 }
 function pgRaters(){
   let h=`<div class="pg-title">${t('raterCtl')}</div><div class="pg-sub">${t('raterSub')}</div>
