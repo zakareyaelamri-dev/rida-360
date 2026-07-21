@@ -47,6 +47,7 @@ create table evaluations (
   eval_date date default current_date,
   confirmed_at timestamptz,
   confirmed_by text references employees(id),
+  hidden_from_target boolean not null default false,  -- admin can hide a confirmed eval from the employee it's about
   unique (target_id, rater_id)
 );
 
@@ -115,13 +116,14 @@ create policy emp_admin_write on employees for all using (i_am_admin());
 
 -- Evaluations:
 --  read: admin, the rater who wrote it, the target's effective manager,
---        the target himself ONLY when confirmed (and never learns rater identity —
---        enforce that in the UI by aggregating, never selecting rater_id for targets)
+--        the target himself ONLY when confirmed and not hidden_from_target
+--        (and never learns rater identity — enforce that in the UI by
+--        aggregating, never selecting rater_id for targets)
 create policy ev_read on evaluations for select using (
   i_am_admin()
   or rater_id = my_employee_id()
   or effective_manager(target_id) = my_employee_id()
-  or (target_id = my_employee_id() and status = 'confirmed')
+  or (target_id = my_employee_id() and status = 'confirmed' and hidden_from_target = false)
 );
 --  insert: the rater inserts own evaluation
 create policy ev_insert on evaluations for insert with check (rater_id = my_employee_id());
