@@ -16,7 +16,15 @@ create table employees (
   is_ceo boolean default false,
   phone text,
   email text,
-  created_at timestamptz default now()
+  created_at timestamptz default now(),
+  -- Sub-permissions for admins (ignored when is_admin = false).
+  -- All default true so existing full admins are unaffected; set any
+  -- to false to grant a "limited admin" who can't do that action.
+  perm_employees boolean not null default true,
+  perm_raters boolean not null default true,
+  perm_approvals boolean not null default true,
+  perm_allresults boolean not null default true,
+  perm_org boolean not null default true
 );
 
 -- ── Manager overrides (admin-set, wins over auto chain) ────────
@@ -100,6 +108,21 @@ returns boolean language sql stable as $$
   select coalesce((select is_admin from employees where auth_user = auth.uid()), false);
 $$;
 
+-- Sub-permission check for limited admins. perm must be one of:
+-- 'employees' | 'raters' | 'approvals' | 'allresults' | 'org'
+create or replace function my_perm(perm text)
+returns boolean language sql stable as $$
+  select coalesce(
+    (select case perm
+      when 'employees' then perm_employees
+      when 'raters' then perm_raters
+      when 'approvals' then perm_approvals
+      when 'allresults' then perm_allresults
+      when 'org' then perm_org
+      else false
+    end from employees where auth_user = auth.uid()), false);
+$$;
+
 -- ═══════════════════════════════════════════════════════════════
 -- Row Level Security
 -- ═══════════════════════════════════════════════════════════════
@@ -112,7 +135,7 @@ alter table peer_assignments enable row level security;
 -- Employees: everyone signed-in reads basic directory (needed for names in UI);
 -- only admin writes.
 create policy emp_read on employees for select using (auth.uid() is not null);
-create policy emp_admin_write on employees for all using (i_am_admin());
+create policy emp_admin_write on employees for all using (i_am_admin() and my_perm('employees'));
 
 -- Evaluations:
 --  read: admin, the rater who wrote it, the target's effective manager,
@@ -130,7 +153,7 @@ create policy ev_insert on evaluations for insert with check (rater_id = my_empl
 --  update: rater edits while pending; admin can update anything (confirm/reject)
 create policy ev_update_rater on evaluations for update
   using (rater_id = my_employee_id() and status = 'pending');
-create policy ev_admin_all on evaluations for all using (i_am_admin());
+create policy ev_admin_all on evaluations for all using (i_am_admin() and my_perm('approvals'));
 
 -- Trainings: admin all; direct manager manages; employee reads own
 create policy tr_read on trainings for select using (
@@ -148,9 +171,9 @@ create policy tr_mgr_delete on trainings for delete using (
 
 -- Overrides & peer assignments: admin only (others read to compute chains)
 create policy ov_read on manager_overrides for select using (auth.uid() is not null);
-create policy ov_admin on manager_overrides for all using (i_am_admin());
+create policy ov_admin on manager_overrides for all using (i_am_admin() and my_perm('raters'));
 create policy pa_read on peer_assignments for select using (auth.uid() is not null);
-create policy pa_admin on peer_assignments for all using (i_am_admin());
+create policy pa_admin on peer_assignments for all using (i_am_admin() and my_perm('raters'));
 
 -- ═══════════════════════════════════════════════════════════════
 -- Seed: divisions reference (informational) + first admin
