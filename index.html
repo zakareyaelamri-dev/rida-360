@@ -180,6 +180,7 @@ const T={
  submitEval:'Submit evaluation',updateEval:'Update evaluation',editableNote:'Editable while pending — locks after HR confirmation',fillAllB:'Please rate all behavioral items',fillAllT:'Please complete all technical percentages',submitted:'Submitted — pending HR confirmation',updated:'Updated — still pending',
  rateSub:'Assignments generated from the org structure and peer groups',noTasks:'No rating assignments for you.',employee:'Employee',department:'Department',yourRole:'Your role',status:'Status',notStarted:'Not started',pending:'Pending',confirmed:'Confirmed',rateNow:'Rate now',edit:'Edit',view:'View',
  resultsSub:'confirmed evaluations only · rater identities are never shown',noConfirmed:'No confirmed evaluations yet.',finalGrade:'Final grade',behav40:'Behavioral (40%)',tech60:'Technical KPIs (60%)',weightsApplied:'Weights applied',w360:'360 weighted',fromMgr:'from manager evaluation',redistributed:'(redistributed)',partial:'partial data',
+ allResults:'All results',allResultsSub:'Every employee\'s results, grouped by division — filter to narrow down',allDivisions:'All divisions',
  byGroup:'Behavioral score by rater group',manager:'Manager',selfL:'Self',peers:'Peers',subordinates:'Subordinates',devFromMgr:'Development plan — from manager evaluation',nextGoals:'Next-period goals',printReport:'Print / Save PDF',
  teamSub:'You can view results only for employees who report to you',noReports:'No direct reports.',final:'Final',open:'Open',trainBtn:'Trainings',
  empSub:'Employee IDs and credentials are visible to the admin only',authNote:"This employee has no login yet. Click \"Create login\" (uses the email above) after saving.",createLogin:'Create login',creatingLogin:'Creating login…',loginCreated:'Login created — share these credentials securely:',loginNeedsEmail:'Add an email for this employee first, then create their login.',addEmp:'+ Add employee',searchP:'Search...',name:'Name',title:'Title',divDept:'Division / Dept',role:'Role',ratedBy:'Rated by',editEmp:'Edit employee',addEmpT:'Add employee',fullName:'Full name',jobTitle:'Job title',phone:'Phone',email:'Email',division:'Division',deptTeam:'Department / team',roleStruct:'Role in structure',chainHint:'Chain: Employee → Dept Mgr → Division Mgr → CEO. Coordinators with no dept manager report to their Division Manager.',save:'Save',cancel:'Cancel',saved:'Saved',deleted:'Deleted',reqIdName:'ID and name are required',idExists:'This ID already exists',delConfirm:'Delete this employee and all their evaluations?',
@@ -205,6 +206,7 @@ const T={
  submitEval:'رفع التقييم',updateEval:'تحديث التقييم',editableNote:'قابل للتعديل حتى اعتماد الموارد البشرية',fillAllB:'يرجى تقييم جميع البنود السلوكية',fillAllT:'يرجى إدخال نسب القسم الفني كاملة',submitted:'تم الرفع — بانتظار اعتماد الموارد البشرية',updated:'تم التحديث — لا يزال قيد الانتظار',
  rateSub:'المهام مولّدة تلقائياً من الهيكل التنظيمي ومجموعات الزملاء',noTasks:'لا توجد مهام تقييم لك.',employee:'الموظف',department:'الإدارة',yourRole:'صفتك',status:'الحالة',notStarted:'لم يبدأ',pending:'قيد الانتظار',confirmed:'معتمد',rateNow:'قيّم الآن',edit:'تعديل',view:'عرض',
  resultsSub:'التقييمات المعتمدة فقط · هوية المقيّمين لا تظهر أبداً',noConfirmed:'لا توجد تقييمات معتمدة بعد.',finalGrade:'الدرجة النهائية',behav40:'السلوكي (40%)',tech60:'الفني KPIs (60%)',weightsApplied:'الأوزان المطبقة',w360:'وزن 360 مجمّع',fromMgr:'من تقييم المدير',redistributed:'(معاد توزيعها)',partial:'بيانات جزئية',
+ allResults:'كل النتائج',allResultsSub:'نتائج جميع الموظفين، مقسّمة حسب الإدارة — فلتر لتضييق العرض',allDivisions:'كل الإدارات',
  byGroup:'الدرجة السلوكية حسب جهة التقييم',manager:'المدير',selfL:'الذاتي',peers:'الزملاء',subordinates:'المرؤوسون',devFromMgr:'خطة التطوير — من تقييم المدير',nextGoals:'أهداف الفترة القادمة',printReport:'طباعة / حفظ PDF',
  teamSub:'يمكنك رؤية نتائج الموظفين التابعين لك فقط',noReports:'لا يوجد مرؤوسون مباشرون.',final:'النهائية',open:'فتح',trainBtn:'التدريبات',
  empSub:'الأرقام الوظيفية وبيانات الدخول تظهر للأدمن فقط',authNote:'هذا الموظف ما عنده حساب دخول بعد. اضغط "إنشاء حساب دخول" (يستخدم البريد أعلاه) بعد الحفظ.',createLogin:'إنشاء حساب دخول',creatingLogin:'جاري الإنشاء…',loginCreated:'تم إنشاء الحساب — شارك هذه البيانات بأمان:',loginNeedsEmail:'أضف بريدًا إلكترونيًا لهذا الموظف أولاً، ثم أنشئ حساب الدخول.',addEmp:'+ إضافة موظف',searchP:'بحث...',name:'الاسم',title:'المسمى',divDept:'الإدارة / القسم',role:'الدور',ratedBy:'يقيّمه',editEmp:'تعديل موظف',addEmpT:'إضافة موظف',fullName:'الاسم الكامل',jobTitle:'المسمى الوظيفي',phone:'الهاتف',email:'البريد',division:'الإدارة العامة',deptTeam:'القسم / الفريق',roleStruct:'الدور في الهيكل',chainHint:'السلسلة: موظف ← مدير قسم ← مدير إدارة ← المدير التنفيذي. المنسقون بدون مدير قسم يتبعون مدير الإدارة.',save:'حفظ',cancel:'إلغاء',saved:'تم الحفظ',deleted:'تم الحذف',reqIdName:'الرقم الوظيفي والاسم مطلوبان',idExists:'هذا الرقم الوظيفي موجود مسبقاً',delConfirm:'حذف هذا الموظف وجميع تقييماته؟',
@@ -504,6 +506,7 @@ function buildNav(){
   <button class="nav-item" data-p="employees" onclick="go('employees')">◫ <span>${t('employees')}</span></button>
   <button class="nav-item" data-p="raters" onclick="go('raters')">⇄ <span>${t('raterCtl')}</span></button>
   <button class="nav-item" data-p="approvals" onclick="go('approvals')">✔ <span>${t('approvals')}</span></button>
+  <button class="nav-item" data-p="allresults" onclick="go('allresults')">◉ <span>${t('allResults')}</span></button>
   <button class="nav-item" data-p="org" onclick="go('org')">▤ <span>${t('orgStruct')}</span></button>`;
   document.getElementById('sidenav').innerHTML=h;
 }
@@ -520,6 +523,7 @@ function go(p){
   else if(p==='employees')M.innerHTML=pgEmployees();
   else if(p==='raters')M.innerHTML=pgRaters();
   else if(p==='approvals')M.innerHTML=pgApprovals();
+  else if(p==='allresults')M.innerHTML=pgAllResults();
   else if(p==='org')M.innerHTML=pgOrg();
   if(p==='results')drawRadar(USER.id);
   TEMP={behav:{},tech:{},dev:{}};
@@ -968,6 +972,37 @@ function pgTeam(){
   return h+`</tbody></table></div>`;
 }
 function viewMember(id){document.getElementById('main').innerHTML=pgResults(id,false);drawRadar(id);}
+function pgAllResults(){
+  let h=`<div class="pg-title">${t('allResults')}</div><div class="pg-sub">${t('allResultsSub')}</div>
+  <div style="margin-bottom:14px;"><select id="ar-div" onchange="renderAllResults()" style="max-width:260px;">
+  <option value="">${t('allDivisions')}</option>
+  ${ORG.divisions.map(d=>`<option value="${d.id}">${LANG==='ar'?d.ar:d.name}</option>`).join('')}
+  </select></div><div id="ar-body"></div>`;
+  setTimeout(renderAllResults,0);
+  return h;
+}
+function renderAllResults(){
+  const box=document.getElementById('ar-body');if(!box)return;
+  const sel=document.getElementById('ar-div').value;
+  const divs=sel?ORG.divisions.filter(d=>d.id===sel):ORG.divisions;
+  let h='';
+  divs.forEach(d=>{
+    const emps=DB.employees.filter(e=>e.division===d.id);
+    if(!emps.length)return;
+    h+=`<div class="pg-title" style="font-size:16px;margin-top:18px;">${LANG==='ar'?d.ar:d.name}</div>
+    <div class="card"><table><thead><tr><th>${t('employee')}</th><th>${t('department')}</th><th>${t('confirmed')}</th><th>${t('final')}</th><th></th></tr></thead><tbody>`;
+    emps.forEach(s=>{
+      const r=computeResults(s.id);
+      h+=`<tr><td><b>${s.name}</b><br><span class="hint">${s.title}</span></td>
+      <td>${s.dept!=='—'?s.dept:'—'}</td>
+      <td>${confirmedFor(s.id).length} / ${evalsFor(s.id).length}</td>
+      <td><b>${r.final!==null?r.final+'%':'—'}</b></td>
+      <td><button class="btn btn-sm" onclick="viewMember('${s.id}')">${t('open')}</button></td></tr>`;
+    });
+    h+=`</tbody></table></div>`;
+  });
+  box.innerHTML=h||`<div class="card"><div class="empty">${t('noReports')}</div></div>`;
+}
 
 /* ═══════════ ADMIN PAGES ═══════════ */
 function pgEmployees(){
