@@ -264,7 +264,12 @@ const BEHAV_AXES=[
   {a:'الاستماع الفعال وفهم التعليمات والتوجيهات بدقة.',e:'Active listening; understands instructions precisely.'},
   {a:'التواصل الاستباقي عند وجود عقبات أو تأخيرات.',e:'Proactive communication when obstacles or delays arise.'},
   {a:'الاحترافية في المراسلات مع الجهات الداخلية والخارجية.',e:'Professionalism in internal and external correspondence.'},
-  {a:'القدرة على عرض المعلومات وتقديمها بشكل منظم.',e:'Presents information in an organized manner.'}]},
+  {a:'القدرة على عرض المعلومات وتقديمها بشكل منظم.',e:'Presents information in an organized manner.'}],
+  subQs:[
+  {a:'يوضح المهام والتعليمات بشكل مفهوم وسهل التنفيذ.',e:'Explains tasks and instructions clearly and in an actionable way.'},
+  {a:'يستمع لملاحظات ومقترحات الفريق ويأخذها بعين الاعتبار.',e:"Listens to the team's feedback and suggestions and takes them into account."},
+  {a:'متاح للتواصل عند الحاجة ويرد على الاستفسارات خلال وقت مناسب.',e:'Available for communication when needed and responds to inquiries in reasonable time.'},
+  {a:'يبقي الفريق على اطلاع بالمستجدات والقرارات التي تخصهم.',e:'Keeps the team informed of updates and decisions relevant to them.'}]},
  {id:'A4',w:15,ar:'العمل الجماعي والتعاون',en:'Teamwork & Cooperation',qs:[
   {a:'دعم الزملاء ومشاركة المعرفة والخبرات.',e:'Supports colleagues; shares knowledge and experience.'},
   {a:'المرونة والتعاون في العمل مع فرق متعددة الأقسام.',e:'Flexibility and cooperation across multi-department teams.'},
@@ -284,7 +289,7 @@ const BEHAV_AXES=[
   {a:'تحمل المسؤولية الكاملة عن نتائج الفريق.',e:'Takes full responsibility for team results.'},
   {a:'إدارة الأداء الضعيف بأسلوب بناء وداعم.',e:'Manages underperformance constructively and supportively.'},
   {a:'بناء بيئة عمل محفزة تشجع على الإبداع والتعلم.',e:'Builds a motivating environment encouraging creativity and learning.'}]},
- {id:'A7',w:15,ar:'التطوير والتعلم المهني المستمر',en:'Continuous Professional Development',qs:[
+ {id:'A7',w:15,ar:'التطوير والتعلم المهني المستمر',en:'Continuous Professional Development',subExcluded:true,qs:[
   {a:'المشاركة الفعالة في برامج التدريب والتطوير المقدمة.',e:'Active participation in offered training and development programs.'},
   {a:'تطبيق المهارات والمعرفة المكتسبة فعلياً في بيئة العمل.',e:'Applies acquired skills and knowledge in the workplace.'},
   {a:'البحث الذاتي عن مصادر التطوير المهني - كورسات، شهادات.',e:'Self-driven pursuit of development — courses, certifications.'},
@@ -299,6 +304,7 @@ const TECH_QS=[
 ];
 const RECOMMENDS={en:['Normal continuation','Promotion','Salary increase','Development program','Warning'],ar:['استمرار طبيعي','ترقية','زيادة مالية','برنامج تطوير','إنذار']};
 function axName(ax){return LANG==='ar'?ax.ar:ax.en;}
+function axisQs(ax,type){return type==='subordinate'&&ax.subQs?ax.subQs:ax.qs;}
 function qText(q){return LANG==='ar'?q.a:q.e;}
 function techName(q){return LANG==='ar'?q.ar:q.e;}
 function gradeLabel(p){
@@ -587,8 +593,9 @@ function pgEvalForm(targetId,type,adminEvalId){
   BEHAV_AXES.forEach(ax=>{
     if(ax.leadersOnly&&!lead)return;
     if(ax.peerExcluded&&type==='peer')return;
+    if(ax.subExcluded&&type==='subordinate')return;
     h+=`<div class="axis-head"><span class="axis-title">${axName(ax)}</span><span class="badge b-teal">${ax.w}%</span></div><div class="card" style="padding:6px 18px;">`;
-    ax.qs.forEach((q,qi)=>{
+    axisQs(ax,type).forEach((q,qi)=>{
       const cur=existing&&existing.scores[ax.id]?existing.scores[ax.id][qi]:0;
       h+=`<div class="q-row"><div class="q-text">${qText(q)}</div>
       <div class="rate-btns">${[1,2,3,4,5].map(n=>`<button class="rb ${cur===n?'sel':''}" ${locked?'disabled':''} onclick="pickB(this,'${ax.id}',${qi},${n})">${n}</button>`).join('')}</div></div>`;
@@ -630,7 +637,8 @@ async function adminSaveEval(evalId,targetId,type){
   BEHAV_AXES.forEach(ax=>{
     if(ax.leadersOnly&&!lead)return;
     if(ax.peerExcluded&&type==='peer')return;
-    scores[ax.id]=ax.qs.map((_,qi)=>{
+    if(ax.subExcluded&&type==='subordinate')return;
+    scores[ax.id]=axisQs(ax,type).map((_,qi)=>{
       if(TEMP.behav[ax.id]&&TEMP.behav[ax.id][qi]!==undefined)return TEMP.behav[ax.id][qi];
       if(existing&&existing.scores[ax.id])return existing.scores[ax.id][qi];
       return 0;});
@@ -667,7 +675,8 @@ async function submitEval(targetId,type){
   BEHAV_AXES.forEach(ax=>{
     if(ax.leadersOnly&&!lead)return;
     if(ax.peerExcluded&&type==='peer')return;
-    scores[ax.id]=ax.qs.map((_,qi)=>{
+    if(ax.subExcluded&&type==='subordinate')return;
+    scores[ax.id]=axisQs(ax,type).map((_,qi)=>{
       if(TEMP.behav[ax.id]&&TEMP.behav[ax.id][qi]!==undefined)return TEMP.behav[ax.id][qi];
       if(existing&&existing.scores[ax.id])return existing.scores[ax.id][qi];
       return 0;});
