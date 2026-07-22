@@ -246,7 +246,7 @@ function applyLang(){
 
 /* ═══════════ ASSESSMENT MODEL ═══════════ */
 const BEHAV_AXES=[
- {id:'A1',w:15,ar:'الالتزام والانضباط الوظيفي',en:'Commitment & Discipline',qs:[
+ {id:'A1',w:15,ar:'الالتزام والانضباط الوظيفي',en:'Commitment & Discipline',peerExcluded:true,qs:[
   {a:'الحضور والانصراف في الوقت المحدد باستمرار.',e:'Consistent on-time attendance and departure.'},
   {a:'الالتزام بالمواعيد النهائية لجميع المهام الموكلة.',e:'Meets deadlines for all assigned tasks.'},
   {a:'الاستجابة السريعة والفورية للطلبات والتعليمات.',e:'Quick and immediate response to requests and instructions.'},
@@ -586,6 +586,7 @@ function pgEvalForm(targetId,type,adminEvalId){
   <p class="hint" style="margin-top:4px;">${t('sec1d')}</p></div>`;
   BEHAV_AXES.forEach(ax=>{
     if(ax.leadersOnly&&!lead)return;
+    if(ax.peerExcluded&&type==='peer')return;
     h+=`<div class="axis-head"><span class="axis-title">${axName(ax)}</span><span class="badge b-teal">${ax.w}%</span></div><div class="card" style="padding:6px 18px;">`;
     ax.qs.forEach((q,qi)=>{
       const cur=existing&&existing.scores[ax.id]?existing.scores[ax.id][qi]:0;
@@ -628,6 +629,7 @@ async function adminSaveEval(evalId,targetId,type){
   const scores={};let missing=false;
   BEHAV_AXES.forEach(ax=>{
     if(ax.leadersOnly&&!lead)return;
+    if(ax.peerExcluded&&type==='peer')return;
     scores[ax.id]=ax.qs.map((_,qi)=>{
       if(TEMP.behav[ax.id]&&TEMP.behav[ax.id][qi]!==undefined)return TEMP.behav[ax.id][qi];
       if(existing&&existing.scores[ax.id])return existing.scores[ax.id][qi];
@@ -664,6 +666,7 @@ async function submitEval(targetId,type){
   const scores={};let missing=false;
   BEHAV_AXES.forEach(ax=>{
     if(ax.leadersOnly&&!lead)return;
+    if(ax.peerExcluded&&type==='peer')return;
     scores[ax.id]=ax.qs.map((_,qi)=>{
       if(TEMP.behav[ax.id]&&TEMP.behav[ax.id][qi]!==undefined)return TEMP.behav[ax.id][qi];
       if(existing&&existing.scores[ax.id])return existing.scores[ax.id][qi];
