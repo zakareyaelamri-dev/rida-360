@@ -316,7 +316,8 @@ const ORG={divisions:[
  {id:'OPS',name:'Operation Division',ar:'إدارة العمليات',depts:['Technical','Service','Project','Construction','Repair Center']},
  {id:'SLS',name:'Sales Division',ar:'إدارة المبيعات',depts:['Supply Chain','Sales','Business & Development']},
  {id:'QHSE',name:'QHSE Division',ar:'إدارة QHSE',depts:['QHSE']},
- {id:'RAS',name:'RAS Division',ar:'إدارة RAS',depts:['AI Engineering']}
+ {id:'RAS',name:'RAS Division',ar:'إدارة RAS',depts:['AI Engineering']},
+ {id:'EXEC',name:'Executive (CEO)',ar:'الإدارة التنفيذية (CEO)',depts:['Executive Office']}
 ]};
 /* ═══════════ SUPABASE CLIENT ═══════════ */
 const SUPABASE_URL='https://cjcvtsdvgyjebwgigwsa.supabase.co';
@@ -1288,6 +1289,14 @@ function pgOrg(){
   <b style="font-size:13px;">${t('chainT')}</b>
   <p class="hint" style="margin-top:6px;color:var(--teal);">${t('chainD')}</p></div>`;
   ORG.divisions.forEach(d=>{
+    if(d.id==='EXEC'){
+      const ceo=DB.employees.find(e=>e.isCEO);
+      h+=`<div class="tree-div"><div class="tree-head"><span>${LANG==='ar'?d.ar:d.name}</span>
+      <span class="hint">${t('managerL')}: ${ceo?ceo.name:'—'}</span></div><div class="tree-body">
+      <div class="tree-row"><span><b>${LANG==='ar'?'يقيّم جميع مدراء الإدارات':'Rates all Division Managers'}</b></span></div>
+      </div></div>`;
+      return;
+    }
     const mgr=DB.employees.find(e=>e.role==='Division Manager'&&e.division===d.id);
     const members=DB.employees.filter(e=>e.division===d.id&&e.role!=='Division Manager');
     h+=`<div class="tree-div"><div class="tree-head"><span>${LANG==='ar'?d.ar:d.name}</span>
