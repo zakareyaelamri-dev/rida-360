@@ -86,6 +86,8 @@ tr:hover td{background:#FBFAF7;}
 .modal{background:#fff;border-radius:14px;padding:24px;width:100%;max-width:560px;max-height:88vh;overflow-y:auto;}
 .modal h3{font-size:16px;margin-bottom:16px;}
 .frow{margin-bottom:12px;}
+.check-row{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:13px;color:var(--ink);font-weight:400;cursor:pointer;}
+.check-row input[type=checkbox]{width:auto;flex-shrink:0;margin:0;}
 .tree-div{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden;}
 .tree-head{background:var(--paper);padding:11px 14px;font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center;}
 .tree-body{padding:6px 14px 10px;}
@@ -1065,7 +1067,7 @@ function adminPermsHtml(e){
   const isAdm=!!(e&&e.isAdmin);
   const perms=(e&&e.perms)||{employees:true,raters:true,approvals:true,allResults:true,org:true};
   const full=isAdm&&perms.employees&&perms.raters&&perms.approvals&&perms.allResults&&perms.org;
-  return `<div class="frow"><label><input type="checkbox" id="m-isadmin" ${isAdm?'checked':''} onchange="toggleAdminPerms()"> ${t('adminToggle')}</label></div>
+  return `<div class="frow"><label class="check-row"><input type="checkbox" id="m-isadmin" ${isAdm?'checked':''} onchange="toggleAdminPerms()"> ${t('adminToggle')}</label></div>
   <div id="m-perms-box" style="display:${isAdm?'block':'none'};margin:6px 0 4px 18px;">
   <div class="frow"><label>${t('adminLevelLbl')}</label>
   <select id="m-adminlevel" onchange="toggleAdminPerms()">
@@ -1073,11 +1075,11 @@ function adminPermsHtml(e){
   <option value="limited" ${!full?'selected':''}>${t('limitedAccess')}</option>
   </select></div>
   <div id="m-perms-list" style="display:${full?'none':'block'};">
-  <label style="display:block;margin:4px 0;"><input type="checkbox" id="m-perm-employees" ${perms.employees?'checked':''}> ${t('permEmployees')}</label>
-  <label style="display:block;margin:4px 0;"><input type="checkbox" id="m-perm-raters" ${perms.raters?'checked':''}> ${t('permRaters')}</label>
-  <label style="display:block;margin:4px 0;"><input type="checkbox" id="m-perm-approvals" ${perms.approvals?'checked':''}> ${t('permApprovals')}</label>
-  <label style="display:block;margin:4px 0;"><input type="checkbox" id="m-perm-allresults" ${perms.allResults?'checked':''}> ${t('permAllResults')}</label>
-  <label style="display:block;margin:4px 0;"><input type="checkbox" id="m-perm-org" ${perms.org?'checked':''}> ${t('permOrg')}</label>
+  <label class="check-row"><input type="checkbox" id="m-perm-employees" ${perms.employees?'checked':''}> ${t('permEmployees')}</label>
+  <label class="check-row"><input type="checkbox" id="m-perm-raters" ${perms.raters?'checked':''}> ${t('permRaters')}</label>
+  <label class="check-row"><input type="checkbox" id="m-perm-approvals" ${perms.approvals?'checked':''}> ${t('permApprovals')}</label>
+  <label class="check-row"><input type="checkbox" id="m-perm-allresults" ${perms.allResults?'checked':''}> ${t('permAllResults')}</label>
+  <label class="check-row"><input type="checkbox" id="m-perm-org" ${perms.org?'checked':''}> ${t('permOrg')}</label>
   </div></div>`;
 }
 function toggleAdminPerms(){
