@@ -162,10 +162,7 @@ create policy emp_read on employees for select using (auth.uid() is not null);
 create policy emp_admin_write on employees for all using (i_am_admin() and my_perm('employees'));
 
 -- Evaluations:
---  read: admin, the rater who wrote it, the target's effective manager,
---        the target himself ONLY when confirmed and not hidden_from_target
---        (and never learns rater identity — enforce that in the UI by
---        aggregating, never selecting rater_id for targets)
+--  read: admin, the rater who wrote it, the target's effective manager.
 -- The evaluated employee is deliberately NOT granted access to the base table:
 -- rater_id would travel to their browser even if the UI hid it. They read their
 -- own results through the anonymised view my_evaluations (below) instead.
