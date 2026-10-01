@@ -6,21 +6,30 @@ a readable reference — never run it against a live database.
 
 ## One-time setup
 
+This folder is **already linked** to project `cjcvtsdvgyjebwgigwsa`
+(`supabase/.temp/project-ref`), so only the CLI and a login are missing.
+
 ```bash
 # 1. install the CLI  (Windows, via Scoop)
 scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
 scoop install supabase
-#    (alternatives: `npm i -g supabase`, or the .exe from the releases page)
+#    no-install alternative, the CLI has been used here before:  npx supabase@latest <cmd>
+#    (`npm i -g supabase` is NOT supported by the project)
 
 # 2. authenticate — opens a browser, token is stored in your OS keyring
 supabase login
+```
 
-# 3. link this folder to the project (project_id is already in config.toml)
+If `supabase migration list` ever says the project is not linked, re-link with:
+
+```bash
 supabase link --project-ref cjcvtsdvgyjebwgigwsa
 ```
 
 `supabase login` keeps the access token in the system keyring, outside the repo.
 Nothing secret is ever committed.
+
+Remote server: PostgreSQL 17.6.
 
 ## Applying migrations
 
