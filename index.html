@@ -185,7 +185,7 @@ const T={
  sec2:'Section 2 — Technical KPIs & Objectives',sec2d:'Manager only — enter achievement percentage 0–100 for each item',devPlanT:'Development Plan & Next-Period Goals',strengths:'Key strengths',devAreas:'Development areas required',goals:'Next-period goals (one per line — up to 5)',mgrRec:'Manager recommendation',choose:'— choose —',
  submitEval:'Submit evaluation',updateEval:'Update evaluation',editableNote:'Editable while pending — locks after HR confirmation',fillAllB:'Please rate all behavioral items',fillAllT:'Please complete all technical percentages',submitted:'Submitted — pending HR confirmation',updated:'Updated — still pending',
  rateSub:'Assignments generated from the org structure and peer groups',noTasks:'No rating assignments for you.',employee:'Employee',department:'Department',yourRole:'Your role',status:'Status',notStarted:'Not started',pending:'Pending',confirmed:'Confirmed',rateNow:'Rate now',edit:'Edit',view:'View',
- resultsSub:'confirmed evaluations only · rater identities are never shown',noConfirmed:'No confirmed evaluations yet.',finalGrade:'Final grade',behav40:'Behavioral (40%)',tech60:'Technical KPIs (60%)',weightsApplied:'Weights applied',w360:'360 weighted',fromMgr:'from manager evaluation',redistributed:'(redistributed)',partial:'partial data',
+ resultsSub:'confirmed evaluations only · rater identities are never shown',noConfirmed:'No confirmed evaluations yet.',finalGrade:'Final grade',behav40:'Behavioral (40%)',tech60:'Technical KPIs (60%)',weightsApplied:'Weights applied',w360:'360 weighted',fromMgr:'from manager evaluation',redistributed:'(redistributed)',partial:'partial data',anonHeld:'withheld (confidentiality)',anonNote:'A rater group is only reported separately once it has at least 3 confirmed raters. Its scores are still included in the weighted result.',noFinalYet:'Final grade pending — technical KPIs not yet entered by the manager.',
  allResults:'All results',allResultsSub:'Every employee\'s results, grouped by division — filter to narrow down',allDivisions:'All divisions',
  byGroup:'Behavioral score by rater group',manager:'Manager',selfL:'Self',peers:'Peers',subordinates:'Subordinates',devFromMgr:'Development plan — from manager evaluation',nextGoals:'Next-period goals',printReport:'Print / Save PDF',
  teamSub:'You can view results only for employees who report to you',noReports:'No direct reports.',final:'Final',open:'Open',trainBtn:'Trainings',
@@ -212,7 +212,7 @@ const T={
  sec2:'القسم الثاني — المحاور الفنية KPIs والأهداف',sec2d:'للمدير فقط — أدخل نسبة الإنجاز 0–100 لكل بند',devPlanT:'خطة التطوير وأهداف الفترة القادمة',strengths:'نقاط القوة البارزة',devAreas:'مجالات التطوير المطلوبة',goals:'أهداف الفترة القادمة (هدف في كل سطر — حتى 5)',mgrRec:'توصية المدير',choose:'— اختر —',
  submitEval:'رفع التقييم',updateEval:'تحديث التقييم',editableNote:'قابل للتعديل حتى اعتماد الموارد البشرية',fillAllB:'يرجى تقييم جميع البنود السلوكية',fillAllT:'يرجى إدخال نسب القسم الفني كاملة',submitted:'تم الرفع — بانتظار اعتماد الموارد البشرية',updated:'تم التحديث — لا يزال قيد الانتظار',
  rateSub:'المهام مولّدة تلقائياً من الهيكل التنظيمي ومجموعات الزملاء',noTasks:'لا توجد مهام تقييم لك.',employee:'الموظف',department:'الإدارة',yourRole:'صفتك',status:'الحالة',notStarted:'لم يبدأ',pending:'قيد الانتظار',confirmed:'معتمد',rateNow:'قيّم الآن',edit:'تعديل',view:'عرض',
- resultsSub:'التقييمات المعتمدة فقط · هوية المقيّمين لا تظهر أبداً',noConfirmed:'لا توجد تقييمات معتمدة بعد.',finalGrade:'الدرجة النهائية',behav40:'السلوكي (40%)',tech60:'الفني KPIs (60%)',weightsApplied:'الأوزان المطبقة',w360:'وزن 360 مجمّع',fromMgr:'من تقييم المدير',redistributed:'(معاد توزيعها)',partial:'بيانات جزئية',
+ resultsSub:'التقييمات المعتمدة فقط · هوية المقيّمين لا تظهر أبداً',noConfirmed:'لا توجد تقييمات معتمدة بعد.',finalGrade:'الدرجة النهائية',behav40:'السلوكي (40%)',tech60:'الفني KPIs (60%)',weightsApplied:'الأوزان المطبقة',w360:'وزن 360 مجمّع',fromMgr:'من تقييم المدير',redistributed:'(معاد توزيعها)',partial:'بيانات جزئية',anonHeld:'محجوب (حماية السرية)',anonNote:'لا تُفصَّل نتيجة أي مجموعة مقيّمين إلا إذا بلغت 3 مقيّمين معتمدين على الأقل. ودرجاتها محسوبة ضمن النتيجة المرجّحة في كل الأحوال.',noFinalYet:'الدرجة النهائية معلّقة — لم يُدخل المدير مؤشرات الأداء الفنية بعد.',
  allResults:'كل النتائج',allResultsSub:'نتائج جميع الموظفين، مقسّمة حسب الإدارة — فلتر لتضييق العرض',allDivisions:'كل الإدارات',
  byGroup:'الدرجة السلوكية حسب جهة التقييم',manager:'المدير',selfL:'الذاتي',peers:'الزملاء',subordinates:'المرؤوسون',devFromMgr:'خطة التطوير — من تقييم المدير',nextGoals:'أهداف الفترة القادمة',printReport:'طباعة / حفظ PDF',
  teamSub:'يمكنك رؤية نتائج الموظفين التابعين لك فقط',noReports:'لا يوجد مرؤوسون مباشرون.',final:'النهائية',open:'فتح',trainBtn:'التدريبات',
@@ -230,10 +230,11 @@ const T={
  days:'أيام',weeks:'أسابيع',months:'أشهر',hours:'ساعات',forEmp:'للموظف',noTrainings:'لا توجد تدريبات مسجلة بعد.',trainSaved:'تم حفظ التدريب',trainDeleted:'تم حذف التدريب',delTrain:'حذف هذا التدريب؟',general:'عام',
  repTitle:'تقرير تقييم الأداء',repPeriod:'فترة التقييم',repEmp:'اسم الموظف',repId:'الرقم الوظيفي',repTitleJ:'المسمى الوظيفي',repDept:'القسم',repDiv:'الإدارة',repMgr:'المدير المباشر',axis:'المحور',weight:'الوزن',score:'الدرجة',item:'البند',achieved:'نسبة الإنجاز',grade:'التقدير',behavSec:'المحور السلوكي (40%)',techSec:'المحاور الفنية KPIs (60%)',trainSec:'التدريبات التطويرية',signEmp:'توقيع الموظف',signMgr:'توقيع المدير المباشر',signHR:'توقيع مدير الموارد البشرية',genOn:'تاريخ الإصدار',byRaterG:'حسب جهة التقييم',recL:'التوصية'}
 };
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function t(k){return T[LANG][k]||T.en[k]||k;}
 function toggleLang(){
   LANG=LANG==='en'?'ar':'en';
-  try{window.storage.set('rida360-lang',LANG);}catch(e){}
+  try{localStorage.setItem('rida360-lang',LANG);}catch(e){}
   applyLang();
 }
 function applyLang(){
@@ -344,20 +345,25 @@ function trainToDb(d){return{emp_id:d.empId,name:d.name,axis:d.axis,level:d.leve
 
 /* ── load all app data (called after auth) ── */
 async function loadAllData(){
-  const [emp,ev,ov,pa,tr]=await Promise.all([
+  const [emp,ev,mine,ov,pa,tr]=await Promise.all([
     sb.from('employees').select('*'),
     sb.from('evaluations').select('*'),
+    sb.from('my_evaluations').select('*'),
     sb.from('manager_overrides').select('*'),
     sb.from('peer_assignments').select('*'),
     sb.from('trainings').select('*')
   ]);
   DB.employees=(emp.data||[]).map(empFromDb);
+  // Rows about me that I may not see identified arrive through my_evaluations
+  // with rater_id stripped server-side; identified rows win on id collision.
   DB.evaluations=(ev.data||[]).map(evalFromDb);
+  const haveId=new Set(DB.evaluations.map(v=>v.id));
+  (mine.data||[]).forEach(r=>{if(!haveId.has(r.id))DB.evaluations.push(evalFromDb(r));});
   DB.overrides={};(ov.data||[]).forEach(r=>DB.overrides[r.employee_id]=r.manager_id);
   DB.peerMap={};(pa.data||[]).forEach(r=>{(DB.peerMap[r.employee_id]=DB.peerMap[r.employee_id]||[]).push(r.peer_id);});
   DB.trainings=(tr.data||[]).map(trainFromDb);
 }
-async function loadLang(){try{const r=await window.storage.get('rida360-lang');if(r&&r.value)LANG=r.value;}catch(e){}applyLang();}
+function loadLang(){try{const v=localStorage.getItem('rida360-lang');if(v==='en'||v==='ar')LANG=v;}catch(e){}applyLang();}
 
 /* ═══════════ CHAIN ═══════════ */
 function divName(id){const d=ORG.divisions.find(x=>x.id===id);if(!d)return id||'—';return LANG==='ar'?d.ar:d.name;}
@@ -395,6 +401,9 @@ function technicalPercent(tech){
   TECH_QS.forEach(q=>{if(tech[q.id]!==undefined&&tech[q.id]!==''){total+=Number(tech[q.id])*q.w;wsum+=q.w;}});
   return wsum?total/wsum:null;
 }
+const MIN_ANON=3;  // minimum raters in a peer/subordinate group before that
+                   // group is broken out to the employee being assessed
+function anonHeld(r,k,selfView){return !!selfView&&(k==='peer'||k==='sub')&&r.counts[k]>0&&r.counts[k]<MIN_ANON;}
 function axisAvg(evList,axId){
   const ps=evList.map(v=>{const arr=v.scores[axId]||[];return arr.length?arr.reduce((a,b)=>a+b,0)/arr.length/5*100:null;}).filter(x=>x!==null);
   return ps.length?ps.reduce((a,b)=>a+b,0)/ps.length:null;
@@ -415,8 +424,9 @@ function computeResults(targetId){
   const behavioral360=bW?bT/bW:null;
   const technical=mgrEv?technicalPercent(mgrEv.tech):null;
   let final=null;
+  // An incomplete assessment yields no final grade: a partial score cannot be
+  // signed off. The behavioural and technical parts are still reported separately.
   if(behavioral360!==null&&technical!==null)final=behavioral360*.4+technical*.6;
-  else if(behavioral360!==null)final=behavioral360*.4;
   return{B,counts,W,hasSubs,behavioral360,technical,final:final!==null?Math.round(final):null,
     devPlan:mgrEv?mgrEv.devPlan||null:null,mgrEv,lead,evs};
 }
@@ -460,7 +470,7 @@ function openForgotPw(){
   const prefill=document.getElementById('l-email').value.trim();
   showModal(`<h3>${t('resetPwTitle')}</h3>
   <p class="hint" style="margin-bottom:10px;">${t('resetEmailPrompt')}</p>
-  <div class="frow"><label>${t('email')}</label><input id="fp-email" type="email" value="${prefill}"></div>
+  <div class="frow"><label>${t('email')}</label><input id="fp-email" type="email" value="${esc(prefill)}"></div>
   <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
   <button class="btn" onclick="closeModal()">${t('cancel')}</button>
   <button class="btn btn-p" onclick="sendResetLink()">${t('sendResetLink')}</button></div>`);
@@ -544,7 +554,7 @@ function go(p){
   else if(p==='approvals')M.innerHTML=pgApprovals();
   else if(p==='allresults')M.innerHTML=pgAllResults();
   else if(p==='org')M.innerHTML=pgOrg();
-  if(p==='results')drawRadar(USER.id);
+  if(p==='results')drawRadar(USER.id,true);
   TEMP={behav:{},tech:{},dev:{}};
 }
 
@@ -553,8 +563,8 @@ function pgDashboard(){
   const myTasks=rateTasks().filter(x=>!x.eval).length;
   const pending=DB.evaluations.filter(v=>v.status==='pending').length;
   const r=computeResults(USER.id);
-  let h=`<div class="pg-title">${t('welcome')}, ${USER.name.split(' ')[0]}</div>
-  <div class="pg-sub">${USER.title} — ${USER.dept!=='—'?USER.dept+', ':''}${divName(USER.division)}</div>
+  let h=`<div class="pg-title">${t('welcome')}, ${esc(USER.name.split(' ')[0])}</div>
+  <div class="pg-sub">${esc(USER.title)} — ${USER.dept!=='—'?USER.dept+', ':''}${divName(USER.division)}</div>
   <div class="grid4">
   <div class="stat"><div class="stat-l">${t('evalsReceived')}</div><div class="stat-v">${evalsFor(USER.id).length}</div><div class="stat-s">${confirmedFor(USER.id).length} ${t('confirmedN')}</div></div>
   <div class="stat"><div class="stat-l">${t('ratingTasks')}</div><div class="stat-v">${myTasks}</div><div class="stat-s">${t('waitingInput')}</div></div>
@@ -583,7 +593,7 @@ function pgEvalForm(targetId,type,adminEvalId){
   const locked=existing&&existing.status==='confirmed'&&!adminOverride;
   const lead=isLeader(tg);
   let h=`<div class="pg-title">${type==='self'?t('selfA'):t('evaluate')+': '+tg.name}</div>
-  <div class="pg-sub">${tg.title} — ${tg.dept!=='—'?tg.dept+', ':''}${divName(tg.division)}
+  <div class="pg-sub">${esc(tg.title)} — ${tg.dept!=='—'?tg.dept+', ':''}${divName(tg.division)}
   &nbsp;<span class="badge ${type==='self'?'b-teal':type==='manager'?'b-coral':type==='peer'?'b-blue':'b-purple'}">${type}</span>
   ${existing?`&nbsp;<span class="badge ${locked?'b-green':'b-amber'}">${locked?t('confirmedLock'):t('pendingEdit')}</span>`:''}</div>`;
   if(locked)h+=`<div class="card"><p class="hint">${t('lockedMsg')}</p></div>`;
@@ -608,12 +618,12 @@ function pgEvalForm(targetId,type,adminEvalId){
     TECH_QS.forEach(q=>{
       const cur=existing&&existing.tech?existing.tech[q.id]:'';
       h+=`<div class="q-row"><div class="q-text">${techName(q)} <span class="badge b-blue">${q.w}%</span></div>
-      <input type="number" min="0" max="100" style="width:90px;flex-shrink:0;" value="${cur!==undefined?cur:''}" ${locked?'disabled':''} onchange="TEMP.tech['${q.id}']=this.value" placeholder="%"></div>`;
+      <input type="number" min="0" max="100" style="width:90px;flex-shrink:0;" value="${cur!==undefined?cur:''}" ${locked?'disabled':''} onchange="TEMP.tech['${q.id}']=clampPct(this)" placeholder="%"></div>`;
     });
     h+=`</div><div class="card"><b style="font-size:13.5px;">${t('devPlanT')}</b>
-    <div class="frow" style="margin-top:10px;"><label>${t('strengths')}</label><textarea rows="2" ${locked?'disabled':''} onchange="TEMP.dev.strengths=this.value">${existing&&existing.devPlan?existing.devPlan.strengths||'':''}</textarea></div>
-    <div class="frow"><label>${t('devAreas')}</label><textarea rows="2" ${locked?'disabled':''} onchange="TEMP.dev.areas=this.value">${existing&&existing.devPlan?existing.devPlan.areas||'':''}</textarea></div>
-    <div class="frow"><label>${t('goals')}</label><textarea rows="4" ${locked?'disabled':''} onchange="TEMP.dev.goals=this.value">${existing&&existing.devPlan?existing.devPlan.goals||'':''}</textarea></div>
+    <div class="frow" style="margin-top:10px;"><label>${t('strengths')}</label><textarea rows="2" ${locked?'disabled':''} onchange="TEMP.dev.strengths=this.value">${existing&&existing.devPlan?esc(existing.devPlan.strengths||''):''}</textarea></div>
+    <div class="frow"><label>${t('devAreas')}</label><textarea rows="2" ${locked?'disabled':''} onchange="TEMP.dev.areas=this.value">${existing&&existing.devPlan?esc(existing.devPlan.areas||''):''}</textarea></div>
+    <div class="frow"><label>${t('goals')}</label><textarea rows="4" ${locked?'disabled':''} onchange="TEMP.dev.goals=this.value">${existing&&existing.devPlan?esc(existing.devPlan.goals||''):''}</textarea></div>
     <div class="frow"><label>${t('mgrRec')}</label><select ${locked?'disabled':''} onchange="TEMP.dev.recommend=this.value">
     <option value="">${t('choose')}</option>
     ${RECOMMENDS[LANG].map((r,i)=>`<option value="${RECOMMENDS.en[i]}" ${existing&&existing.devPlan&&existing.devPlan.recommend===RECOMMENDS.en[i]?'selected':''}>${r}</option>`).join('')}
@@ -661,6 +671,7 @@ async function adminSaveEval(evalId,targetId,type){
   Object.assign(existing,{scores,tech,devPlan});
   toast(t('saved'));go('approvals');
 }
+function clampPct(inp){let v=Number(inp.value);if(!isFinite(v))v='';else{v=Math.max(0,Math.min(100,v));inp.value=v;}return v===''?'':String(v);}
 function pickB(btn,ax,qi,val){
   if(!TEMP.behav[ax])TEMP.behav[ax]={};
   TEMP.behav[ax][qi]=val;
@@ -725,10 +736,10 @@ function pgRateOthers(){
     const st=!x.eval?`<span class="badge b-gray">${t('notStarted')}</span>`:x.eval.status==='confirmed'?`<span class="badge b-green">${t('confirmed')}</span>`:`<span class="badge b-amber">${t('pending')}</span>`;
     const badge=x.type==='manager'?'b-coral':x.type==='peer'?'b-blue':'b-purple';
     const roleL=x.type==='manager'?t('manager'):x.type==='peer'?t('peers'):t('subordinates');
-    h+=`<tr><td><b>${x.emp.name}</b><br><span class="hint">${x.emp.title}</span></td>
+    h+=`<tr><td><b>${esc(x.emp.name)}</b><br><span class="hint">${esc(x.emp.title)}</span></td>
     <td>${x.emp.dept!=='—'?x.emp.dept:divName(x.emp.division)}</td>
     <td><span class="badge ${badge}">${roleL}</span></td><td>${st}</td>
-    <td><button class="btn btn-sm" onclick="openRate('${x.emp.id}','${x.type}')">${!x.eval?t('rateNow'):x.eval.status==='pending'?t('edit'):t('view')}</button></td></tr>`;
+    <td><button class="btn btn-sm" onclick="openRate('${esc(x.emp.id)}','${x.type}')">${!x.eval?t('rateNow'):x.eval.status==='pending'?t('edit'):t('view')}</button></td></tr>`;
   });
   return h+`</tbody></table></div>`;
 }
@@ -739,7 +750,7 @@ function pgResults(targetId,selfView){
   const tg=DB.employees.find(e=>e.id===targetId);
   const r=computeResults(targetId);
   let h=`<div class="pg-title">${selfView?t('myResults'):tg.name}</div>
-  <div class="pg-sub">${tg.title} — ${t('resultsSub')}</div>`;
+  <div class="pg-sub">${esc(tg.title)} — ${t('resultsSub')}</div>`;
   if(r.behavioral360===null&&r.technical===null)
     return h+`<div class="card"><div class="empty">${t('noConfirmed')}</div></div>`;
   const g=r.final!==null?gradeLabel(r.final):null;
@@ -751,6 +762,7 @@ function pgResults(targetId,selfView){
   <div class="stat"><div class="stat-l">${t('tech60')}</div><div class="stat-v">${r.technical!==null?Math.round(r.technical)+'%':'—'}</div><div class="stat-s">${t('fromMgr')}</div></div>
   <div class="stat"><div class="stat-l">${t('weightsApplied')}</div><div class="stat-v" style="font-size:14px;padding-top:8px;">${r.hasSubs?'40·20·20·20':'50·25·25'}</div><div class="stat-s">${r.hasSubs?'':t('redistributed')}</div></div>
   </div>`;
+  if(r.final===null&&r.behavioral360!==null)h+=`<div class="card" style="margin-bottom:14px;"><p class="hint">${t('noFinalYet')}</p></div>`;
   if(canPrint)h+=`<div style="margin-bottom:14px;"><button class="btn btn-p" onclick="printReport('${targetId}')">🖨 ${t('printReport')}</button></div>`;
   h+=`<div class="card"><canvas id="resRadar" style="max-height:360px;"></canvas></div>
   <div class="card"><div class="section-t">${t('byGroup')}</div>`;
@@ -758,16 +770,23 @@ function pgResults(targetId,selfView){
   groups.forEach(([k,lbl,col])=>{
     if(k==='sub'&&!r.hasSubs)return;
     const v=r.B[k];
+    if(anonHeld(r,k,selfView)){
+      h+=`<div class="gapbar"><span>${lbl}</span>
+      <div class="gtrack"></div><span class="hint" style="white-space:nowrap;">${t('anonHeld')}</span></div>`;
+      return;
+    }
     h+=`<div class="gapbar"><span>${lbl}${k==='peer'?` (${r.counts.peer})`:''}${k==='sub'?` (${r.counts.sub})`:''}</span>
     <div class="gtrack"><div class="gfill" style="width:${v!==null?Math.round(v):0}%;background:${col};"></div></div>
     <span>${v!==null?Math.round(v)+'%':'—'}</span></div>`;
   });
+  if(selfView&&(anonHeld(r,'peer',true)||anonHeld(r,'sub',true)))
+    h+=`<p class="hint" style="margin-top:10px;">${t('anonNote')}</p>`;
   h+=`</div>`;
   if(r.devPlan&&(r.devPlan.strengths||r.devPlan.areas||r.devPlan.goals)){
     h+=`<div class="card"><div class="section-t">${t('devFromMgr')}</div>
-    ${r.devPlan.strengths?`<div class="frow"><label>${t('strengths')}</label><p style="font-size:13px;">${r.devPlan.strengths}</p></div>`:''}
-    ${r.devPlan.areas?`<div class="frow"><label>${t('devAreas')}</label><p style="font-size:13px;">${r.devPlan.areas}</p></div>`:''}
-    ${r.devPlan.goals?`<div class="frow"><label>${t('nextGoals')}</label><p style="font-size:13px;white-space:pre-line;">${r.devPlan.goals}</p></div>`:''}
+    ${r.devPlan.strengths?`<div class="frow"><label>${t('strengths')}</label><p style="font-size:13px;">${esc(r.devPlan.strengths)}</p></div>`:''}
+    ${r.devPlan.areas?`<div class="frow"><label>${t('devAreas')}</label><p style="font-size:13px;">${esc(r.devPlan.areas)}</p></div>`:''}
+    ${r.devPlan.goals?`<div class="frow"><label>${t('nextGoals')}</label><p style="font-size:13px;white-space:pre-line;">${esc(r.devPlan.goals)}</p></div>`:''}
     ${r.devPlan.recommend&&!selfView?`<div class="frow"><label>${t('mgrRec')}</label><span class="badge b-teal">${recLabel(r.devPlan.recommend)}</span></div>`:''}
     </div>`;
   }
@@ -778,24 +797,27 @@ function pgResults(targetId,selfView){
   return h;
 }
 function recLabel(enVal){const i=RECOMMENDS.en.indexOf(enVal);return i>=0?RECOMMENDS[LANG][i]:enVal;}
-function drawRadar(targetId){
+function drawRadar(targetId,selfView){
   const el=document.getElementById('resRadar');if(!el)return;
+  const prev=Chart.getChart(el);if(prev)prev.destroy();
   const tg=DB.employees.find(e=>e.id===targetId);
   const lead=isLeader(tg);
   const evs=confirmedFor(targetId);
+  const rr=computeResults(targetId);
   const axList=BEHAV_AXES.filter(ax=>!(ax.leadersOnly&&!lead));
   const mk=ty=>{
+    if(anonHeld(rr,ty==='subordinate'?'sub':ty,selfView))return null;
     const l=evs.filter(v=>v.type===ty);if(!l.length)return null;
-    return axList.map(ax=>{const v=axisAvg(l,ax.id);return v!==null?Math.round(v):0;});
+    return axList.map(ax=>{const v=axisAvg(l,ax.id);return v!==null?Math.round(v):null;});
   };
   const ds=[];
   const s=mk('self');if(s)ds.push({label:t('selfL'),data:s,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,.10)',borderWidth:2,pointBackgroundColor:'#1D9E75'});
   const p=mk('peer');if(p)ds.push({label:t('peers'),data:p,borderColor:'#378ADD',backgroundColor:'rgba(55,138,221,.06)',borderWidth:1.5,borderDash:[4,3],pointBackgroundColor:'#378ADD'});
   const m=mk('manager');if(m)ds.push({label:t('manager'),data:m,borderColor:'#D85A30',backgroundColor:'rgba(216,90,48,.06)',borderWidth:1.5,borderDash:[2,4],pointBackgroundColor:'#D85A30'});
-  const sb=mk('subordinate');if(sb)ds.push({label:t('subordinates'),data:sb,borderColor:'#7A6FD0',backgroundColor:'rgba(122,111,208,.06)',borderWidth:1.5,borderDash:[1,3],pointBackgroundColor:'#7A6FD0'});
+  const sub=mk('subordinate');if(sub)ds.push({label:t('subordinates'),data:sub,borderColor:'#7A6FD0',backgroundColor:'rgba(122,111,208,.06)',borderWidth:1.5,borderDash:[1,3],pointBackgroundColor:'#7A6FD0'});
   if(!ds.length)return;
   new Chart(el,{type:'radar',data:{labels:axList.map(a=>axName(a)),datasets:ds},
-  options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10}}},
+  options:{responsive:true,spanGaps:true,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10}}},
   scales:{r:{min:0,max:100,ticks:{stepSize:20,font:{size:10},backdropColor:'transparent'},pointLabels:{font:{size:10.5,weight:'600'}}}}}});
 }
 
@@ -803,8 +825,10 @@ function drawRadar(targetId){
 function printReport(targetId){
   const tg=DB.employees.find(e=>e.id===targetId);
   const r=computeResults(targetId);
+  if(r.final===null){toast(t('noConfirmed'));return;}
   const mgr=getManagerOf(tg);
   const g=gradeLabel(r.final);
+  const WP=r.hasSubs?['40%','20%','20%','20%']:['50%','25%','25%','—'];
   const dir=LANG==='ar'?'rtl':'ltr';
   const year=new Date().getFullYear();
   let axRows='';
@@ -826,7 +850,7 @@ function printReport(targetId){
   const trainings=DB.trainings.filter(x=>x.empId===targetId);
   let trainRows='';
   trainings.slice(0,5).forEach(tr=>{
-    trainRows+=`<tr><td>${tr.name}</td><td>${axLabelById(tr.axis)}</td><td style="text-align:center;">${lvlLabel(tr.level)}</td><td style="text-align:center;">${tr.startDate||'—'}</td><td style="text-align:center;">${tr.durVal} ${durLabel(tr.durUnit)}</td><td style="text-align:center;">${stLabel(tr.status)}</td></tr>`;
+    trainRows+=`<tr><td>${esc(tr.name)}</td><td>${axLabelById(tr.axis)}</td><td style="text-align:center;">${lvlLabel(tr.level)}</td><td style="text-align:center;">${tr.startDate||'—'}</td><td style="text-align:center;">${tr.durVal} ${durLabel(tr.durUnit)}</td><td style="text-align:center;">${stLabel(tr.status)}</td></tr>`;
   });
   const dp=r.devPlan||{};
   document.getElementById('print-area').innerHTML=`
@@ -840,23 +864,23 @@ function printReport(targetId){
     <div class="pr-sub">${t('genOn')}: ${new Date().toISOString().slice(0,10)}</div>
   </div>
   <div class="pr-grid">
-    <div><b>${t('repEmp')}:</b> ${tg.name}</div>
-    <div><b>${t('repId')}:</b> ${tg.id}</div>
-    <div><b>${t('repTitleJ')}:</b> ${tg.title}</div>
+    <div><b>${t('repEmp')}:</b> ${esc(tg.name)}</div>
+    <div><b>${t('repId')}:</b> ${esc(tg.id)}</div>
+    <div><b>${t('repTitleJ')}:</b> ${esc(tg.title)}</div>
     <div><b>${t('repDiv')}:</b> ${divName(tg.division)}</div>
-    <div><b>${t('repDept')}:</b> ${tg.dept}</div>
+    <div><b>${t('repDept')}:</b> ${esc(tg.dept)}</div>
     <div><b>${t('repMgr')}:</b> ${mgr?mgr.name:'—'}</div>
   </div>
   <div class="pr-sec">${t('behavSec')} — ${t('byRaterG')}</div>
-  <table class="pr-table"><thead><tr><th>${t('axis')}</th><th>${t('weight')}</th><th>${t('manager')} (40%)</th><th>${t('selfL')} (20%)</th><th>${t('peers')} (20%)</th><th>${t('subordinates')} (20%)</th></tr></thead>
+  <table class="pr-table"><thead><tr><th>${t('axis')}</th><th>${t('weight')}</th><th>${t('manager')} (${WP[0]})</th><th>${t('selfL')} (${WP[1]})</th><th>${t('peers')} (${WP[2]})</th><th>${t('subordinates')} (${WP[3]})</th></tr></thead>
   <tbody>${axRows}</tbody></table>
   <div class="pr-sec">${t('techSec')}</div>
   <table class="pr-table"><thead><tr><th>${t('item')}</th><th>${t('weight')}</th><th>${t('achieved')}</th></tr></thead><tbody>${techRows}</tbody></table>
   ${(dp.strengths||dp.areas||dp.goals)?`
   <div class="pr-sec">${t('devPlanT')}</div>
   <table class="pr-table"><tbody>
-  ${dp.strengths?`<tr><td style="width:28%;"><b>${t('strengths')}</b></td><td>${dp.strengths}</td></tr>`:''}
-  ${dp.areas?`<tr><td><b>${t('devAreas')}</b></td><td>${dp.areas}</td></tr>`:''}
+  ${dp.strengths?`<tr><td style="width:28%;"><b>${t('strengths')}</b></td><td>${esc(dp.strengths)}</td></tr>`:''}
+  ${dp.areas?`<tr><td><b>${t('devAreas')}</b></td><td>${esc(dp.areas)}</td></tr>`:''}
   ${dp.goals?`<tr><td><b>${t('nextGoals')}</b></td><td>${dp.goals.replace(/\n/g,'<br>')}</td></tr>`:''}
   ${dp.recommend?`<tr><td><b>${t('recL')}</b></td><td>${recLabel(dp.recommend)}</td></tr>`:''}
   </tbody></table>`:''}
@@ -886,7 +910,7 @@ function stBadge(v){return{planned:'b-gray',progress:'b-amber',done:'b-green',ca
 function trainTable(list,canEdit){
   let h=`<table><thead><tr><th>${t('trainName')}</th><th>${t('linkedAxis')}</th><th>${t('level')}</th><th>${t('ttype')}</th><th>${t('startDate')}</th><th>${t('duration')}</th><th>${t('tstatus')}</th>${canEdit?'<th></th>':''}</tr></thead><tbody>`;
   list.forEach(tr=>{
-    h+=`<tr><td><b>${tr.name}</b>${tr.provider?'<br><span class="hint">'+tr.provider+'</span>':''}</td>
+    h+=`<tr><td><b>${esc(tr.name)}</b>${tr.provider?'<br><span class="hint">'+esc(tr.provider)+'</span>':''}</td>
     <td>${axLabelById(tr.axis)}</td><td>${lvlLabel(tr.level)}</td><td>${tyLabel(tr.type)}</td>
     <td>${tr.startDate||'—'}</td><td>${tr.durVal} ${durLabel(tr.durUnit)}</td>
     <td><span class="badge ${stBadge(tr.status)}">${stLabel(tr.status)}</span></td>
@@ -914,12 +938,12 @@ function pgTrainings(){
 function openTrainModal(empId,trainId){
   const tr=trainId?DB.trainings.find(x=>x.id===trainId):null;
   const subs=getSubordinates(USER);
-  const empOpts=subs.map(s=>`<option value="${s.id}" ${(tr&&tr.empId===s.id)||(empId&&empId===s.id)?'selected':''}>${s.name} — ${s.title}</option>`).join('');
+  const empOpts=subs.map(s=>`<option value="${esc(s.id)}" ${(tr&&tr.empId===s.id)||(empId&&empId===s.id)?'selected':''}>${esc(s.name)} — ${esc(s.title)}</option>`).join('');
   const axOpts=`<option value="GEN" ${tr&&tr.axis==='GEN'?'selected':''}>${t('general')}</option>`+
     BEHAV_AXES.map(a=>`<option value="${a.id}" ${tr&&tr.axis===a.id?'selected':''}>${axName(a)}</option>`).join('');
   showModal(`<h3>${tr?t('edit'):t('addTrain')}</h3>
   <div class="frow"><label>${t('forEmp')}</label><select id="tr-emp">${empOpts}</select></div>
-  <div class="frow"><label>${t('trainName')}</label><input id="tr-name" value="${tr?tr.name:''}"></div>
+  <div class="frow"><label>${t('trainName')}</label><input id="tr-name" value="${tr?esc(tr.name):''}"></div>
   <div class="frow"><label>${t('linkedAxis')}</label><select id="tr-axis">${axOpts}</select></div>
   <div class="grid2">
   <div class="frow"><label>${t('level')}</label><select id="tr-level">
@@ -932,7 +956,7 @@ function openTrainModal(empId,trainId){
   <option value="ojt" ${tr&&tr.type==='ojt'?'selected':''}>${t('tyOJT')}</option>
   <option value="cert" ${tr&&tr.type==='cert'?'selected':''}>${t('tyCert')}</option>
   <option value="online" ${tr&&tr.type==='online'?'selected':''}>${t('tyOnline')}</option></select></div></div>
-  <div class="frow"><label>${t('provider')}</label><input id="tr-prov" value="${tr?tr.provider||'':''}"></div>
+  <div class="frow"><label>${t('provider')}</label><input id="tr-prov" value="${tr?esc(tr.provider||''):''}"></div>
   <div class="grid3" style="grid-template-columns:1fr 1fr 1fr;">
   <div class="frow"><label>${t('startDate')}</label><input id="tr-date" type="date" value="${tr?tr.startDate||'':''}"></div>
   <div class="frow"><label>${t('duration')}</label><input id="tr-durval" type="number" min="1" value="${tr?tr.durVal:1}"></div>
@@ -946,7 +970,7 @@ function openTrainModal(empId,trainId){
   <option value="progress" ${tr&&tr.status==='progress'?'selected':''}>${t('stProgress')}</option>
   <option value="done" ${tr&&tr.status==='done'?'selected':''}>${t('stDone')}</option>
   <option value="cancel" ${tr&&tr.status==='cancel'?'selected':''}>${t('stCancel')}</option></select></div>
-  <div class="frow"><label>${t('notes')}</label><textarea id="tr-notes" rows="2">${tr?tr.notes||'':''}</textarea></div>
+  <div class="frow"><label>${t('notes')}</label><textarea id="tr-notes" rows="2">${tr?esc(tr.notes||''):''}</textarea></div>
   <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
   <button class="btn" onclick="closeModal()">${t('cancel')}</button>
   <button class="btn btn-p" onclick="saveTrain('${trainId||''}')">${t('save')}</button></div>`);
@@ -987,12 +1011,12 @@ function pgTeam(){
   h+=`<div class="card"><table><thead><tr><th>${t('employee')}</th><th>${t('department')}</th><th>${t('confirmed')}</th><th>${t('final')}</th><th></th></tr></thead><tbody>`;
   subs.forEach(s=>{
     const r=computeResults(s.id);
-    h+=`<tr><td><b>${s.name}</b><br><span class="hint">${s.title}</span></td>
+    h+=`<tr><td><b>${esc(s.name)}</b><br><span class="hint">${esc(s.title)}</span></td>
     <td>${s.dept!=='—'?s.dept:divName(s.division)}</td>
     <td>${confirmedFor(s.id).length} / ${evalsFor(s.id).length}</td>
     <td><b>${r.final!==null?r.final+'%':'—'}</b></td>
-    <td><button class="btn btn-sm" onclick="viewMember('${s.id}')">${t('open')}</button>
-    <button class="btn btn-sm" onclick="openTrainModal('${s.id}')">${t('trainBtn')}</button></td></tr>`;
+    <td><button class="btn btn-sm" onclick="viewMember('${esc(s.id)}')">${t('open')}</button>
+    <button class="btn btn-sm" onclick="openTrainModal('${esc(s.id)}')">${t('trainBtn')}</button></td></tr>`;
   });
   return h+`</tbody></table></div>`;
 }
@@ -1018,11 +1042,11 @@ function renderAllResults(){
     <div class="card"><table><thead><tr><th>${t('employee')}</th><th>${t('department')}</th><th>${t('confirmed')}</th><th>${t('final')}</th><th></th></tr></thead><tbody>`;
     emps.forEach(s=>{
       const r=computeResults(s.id);
-      h+=`<tr><td><b>${s.name}</b><br><span class="hint">${s.title}</span></td>
+      h+=`<tr><td><b>${esc(s.name)}</b><br><span class="hint">${esc(s.title)}</span></td>
       <td>${s.dept!=='—'?s.dept:'—'}</td>
       <td>${confirmedFor(s.id).length} / ${evalsFor(s.id).length}</td>
       <td><b>${r.final!==null?r.final+'%':'—'}</b></td>
-      <td><button class="btn btn-sm" onclick="viewMember('${s.id}')">${t('open')}</button></td></tr>`;
+      <td><button class="btn btn-sm" onclick="viewMember('${esc(s.id)}')">${t('open')}</button></td></tr>`;
     });
     h+=`</tbody></table></div>`;
   });
@@ -1039,13 +1063,13 @@ function pgEmployees(){
   DB.employees.forEach(e=>{
     const m=getManagerOf(e);
     h+=`<tr data-search="${(e.name+' '+e.id).toLowerCase()}">
-    <td><b>${e.id}</b></td><td>${e.name}${e.isAdmin?' <span class="badge b-teal">Admin</span>':''}${e.isCEO?' <span class="badge b-coral">CEO</span>':''}</td>
-    <td>${e.title}</td><td>${divName(e.division)}${e.dept&&e.dept!=='—'?'<br><span class="hint">'+e.dept+'</span>':''}</td>
+    <td><b>${esc(e.id)}</b></td><td>${esc(e.name)}${e.isAdmin?' <span class="badge b-teal">Admin</span>':''}${e.isCEO?' <span class="badge b-coral">CEO</span>':''}</td>
+    <td>${esc(e.title)}</td><td>${divName(e.division)}${e.dept&&e.dept!=='—'?'<br><span class="hint">'+esc(e.dept)+'</span>':''}</td>
     <td><span class="badge b-gray">${e.role}</span></td>
     <td>${m?m.name:'—'}${DB.overrides[e.id]?` <span class="badge b-amber">${t('override')}</span>`:''}</td>
-    <td><button class="btn btn-sm" onclick="openEmpModal('${e.id}')">${t('edit')}</button>
-    ${!e.authUser?`<button class="btn btn-sm btn-p" onclick="createLogin('${e.id}')">${t('createLogin')}</button>`:''}
-    ${!e.isAdmin&&!e.isCEO?`<button class="btn btn-sm btn-d" onclick="delEmp('${e.id}')">✕</button>`:''}</td></tr>`;
+    <td><button class="btn btn-sm" onclick="openEmpModal('${esc(e.id)}')">${t('edit')}</button>
+    ${!e.authUser?`<button class="btn btn-sm btn-p" onclick="createLogin('${esc(e.id)}')">${t('createLogin')}</button>`:''}
+    ${!e.isAdmin&&!e.isCEO?`<button class="btn btn-sm btn-d" onclick="delEmp('${esc(e.id)}')">✕</button>`:''}</td></tr>`;
   });
   return h+`</tbody></table></div>`;
 }
@@ -1057,13 +1081,13 @@ function openEmpModal(id){
   const e=id?DB.employees.find(x=>x.id===id):null;
   const divOpts=ORG.divisions.map(d=>`<option value="${d.id}" ${e&&e.division===d.id?'selected':''}>${LANG==='ar'?d.ar:d.name}</option>`).join('');
   showModal(`<h3>${e?t('editEmp'):t('addEmpT')}</h3>
-  <div class="frow"><label>${t('empId')}</label><input id="m-id" value="${e?e.id:''}" ${e?'disabled':''} placeholder="RTS-1XX"></div>
+  <div class="frow"><label>${t('empId')}</label><input id="m-id" value="${e?esc(e.id):''}" ${e?'disabled':''} placeholder="RTS-1XX"></div>
   ${!e||!e.authUser?`<p class="hint" style="margin-bottom:8px;">${t('authNote')}</p>`:''}
-  <div class="frow"><label>${t('fullName')}</label><input id="m-name" value="${e?e.name:''}"></div>
-  <div class="frow"><label>${t('jobTitle')}</label><input id="m-title" value="${e?e.title:''}"></div>
+  <div class="frow"><label>${t('fullName')}</label><input id="m-name" value="${e?esc(e.name):''}"></div>
+  <div class="frow"><label>${t('jobTitle')}</label><input id="m-title" value="${e?esc(e.title):''}"></div>
   <div class="grid2">
-  <div class="frow"><label>${t('phone')}</label><input id="m-phone" value="${e?e.phone||'':''}"></div>
-  <div class="frow"><label>${t('email')}</label><input id="m-email" value="${e?e.email||'':''}"></div></div>
+  <div class="frow"><label>${t('phone')}</label><input id="m-phone" value="${e?esc(e.phone||''):''}"></div>
+  <div class="frow"><label>${t('email')}</label><input id="m-email" value="${e?esc(e.email||''):''}"></div></div>
   <div class="grid2">
   <div class="frow"><label>${t('division')}</label><select id="m-div" onchange="fillDepts()">${divOpts}</select></div>
   <div class="frow"><label>${t('deptTeam')}</label><select id="m-dept"></select></div></div>
@@ -1155,8 +1179,8 @@ async function createLogin(id){
   e.authUser=true;
   showModal(`<h3>${t('createLogin')}</h3>
   <p class="hint" style="margin-bottom:10px;">${t('loginCreated')}</p>
-  <div class="frow"><label>${t('email')}</label><input value="${data.email}" readonly onclick="this.select()"></div>
-  <div class="frow"><label>${t('password')}</label><input value="${data.password}" readonly onclick="this.select()"></div>
+  <div class="frow"><label>${t('email')}</label><input value="${esc(data.email)}" readonly onclick="this.select()"></div>
+  <div class="frow"><label>${t('password')}</label><input value="${esc(data.password)}" readonly onclick="this.select()"></div>
   <div style="display:flex;justify-content:flex-end;margin-top:16px;">
   <button class="btn btn-p" onclick="closeModal();go('employees');">${t('save')}</button></div>`);
 }
@@ -1166,19 +1190,19 @@ function pgRaters(){
   DB.employees.filter(e=>!e.isCEO).forEach(e=>{
     const eff=getManagerOf(e);const ov=DB.overrides[e.id];
     const peers=getPeersOf(e);const subs=getSubordinates(e);
-    h+=`<tr><td><b>${e.name}</b><br><span class="hint">${e.title}</span></td>
+    h+=`<tr><td><b>${esc(e.name)}</b><br><span class="hint">${esc(e.title)}</span></td>
     <td>${eff?eff.name:'—'} ${ov?`<span class="badge b-amber">${t('override')}</span>`:`<span class="badge b-gray">${t('auto')}</span>`}</td>
     <td>${peers.length?peers.map(p=>p.name.split(' ')[0]).join(', '):`<span class="hint">${t('none')}</span>`} ${DB.peerMap[e.id]?`<span class="badge b-blue">${t('custom')}</span>`:`<span class="badge b-gray">${t('auto')}</span>`}</td>
     <td>${subs.length?subs.length+' '+t('rateUp'):`<span class="hint">${t('na')}</span>`}</td>
-    <td><button class="btn btn-sm" onclick="openOverride('${e.id}')">${t('mgrBtn')}</button>
-    <button class="btn btn-sm" onclick="openPeers('${e.id}')">${t('peersBtn')}</button></td></tr>`;
+    <td><button class="btn btn-sm" onclick="openOverride('${esc(e.id)}')">${t('mgrBtn')}</button>
+    <button class="btn btn-sm" onclick="openPeers('${esc(e.id)}')">${t('peersBtn')}</button></td></tr>`;
   });
   return h+`</tbody></table></div>`;
 }
 function openOverride(id){
   const e=DB.employees.find(x=>x.id===id);
-  const opts=DB.employees.filter(x=>x.id!==id).map(x=>`<option value="${x.id}" ${DB.overrides[id]===x.id?'selected':''}>${x.name} — ${x.title}</option>`).join('');
-  showModal(`<h3>${t('ovTitle')} ${e.name}</h3>
+  const opts=DB.employees.filter(x=>x.id!==id).map(x=>`<option value="${x.id}" ${DB.overrides[id]===x.id?'selected':''}>${esc(x.name)} — ${x.title}</option>`).join('');
+  showModal(`<h3>${t('ovTitle')} ${esc(e.name)}</h3>
   <div class="frow"><label>${t('ovLbl')}</label><select id="ov-sel"><option value="">${t('autoRule')}</option>${opts}</select></div>
   <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
   <button class="btn" onclick="closeModal()">${t('cancel')}</button>
@@ -1197,8 +1221,8 @@ function openPeers(id){
   const e=DB.employees.find(x=>x.id===id);
   const current=DB.peerMap[id]||getPeersOf(e).map(p=>p.id);
   const list=DB.employees.filter(x=>x.id!==id&&!x.isCEO).map(x=>
-  `<label class="chk"><input type="checkbox" value="${x.id}" ${current.includes(x.id)?'checked':''}> ${x.name} <span class="hint">— ${x.title} (${x.dept!=='—'?x.dept:divName(x.division)})</span></label>`).join('');
-  showModal(`<h3>${t('peerTitle')} ${e.name}</h3>
+  `<label class="chk"><input type="checkbox" value="${x.id}" ${current.includes(x.id)?'checked':''}> ${esc(x.name)} <span class="hint">— ${x.title} (${x.dept!=='—'?x.dept:divName(x.division)})</span></label>`).join('');
+  showModal(`<h3>${t('peerTitle')} ${esc(e.name)}</h3>
   <p class="hint" style="margin-bottom:10px;">${t('peerHint')}</p>
   <div id="peer-list" style="max-height:300px;overflow-y:auto;border:1px solid var(--line);border-radius:8px;padding:8px 12px;">${list}</div>
   <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
@@ -1232,7 +1256,7 @@ function pgApprovals(){
       const tg=DB.employees.find(e=>e.id===v.targetId)||{name:'?'};
       const rt=DB.employees.find(e=>e.id===v.raterId)||{name:'?'};
       const bp=behavioralPercent(v.scores,isLeader(tg));
-      h+=`<tr><td><b>${tg.name}</b></td><td>${rt.name}</td>
+      h+=`<tr><td><b>${esc(tg.name)}</b></td><td>${esc(rt.name)}</td>
       <td><span class="badge ${v.type==='self'?'b-teal':v.type==='manager'?'b-coral':v.type==='peer'?'b-blue':'b-purple'}">${v.type}</span></td>
       <td>${bp!==null?Math.round(bp)+'%':'—'}${v.type==='manager'&&v.tech?' <span class="hint">+ KPIs '+Math.round(technicalPercent(v.tech))+'%</span>':''}</td>
       <td class="hint">${v.date}</td>
@@ -1248,7 +1272,7 @@ function pgApprovals(){
       const tg=DB.employees.find(e=>e.id===v.targetId)||{name:'?'};
       const rt=DB.employees.find(e=>e.id===v.raterId)||{name:'?'};
       const bp=behavioralPercent(v.scores,isLeader(tg));
-      h+=`<tr><td><b>${tg.name}</b>${v.hiddenFromTarget?` <span class="badge b-gray">${t('hiddenBadge')}</span>`:''}</td><td>${rt.name}</td>
+      h+=`<tr><td><b>${esc(tg.name)}</b>${v.hiddenFromTarget?` <span class="badge b-gray">${t('hiddenBadge')}</span>`:''}</td><td>${esc(rt.name)}</td>
       <td><span class="badge ${v.type==='self'?'b-teal':v.type==='manager'?'b-coral':v.type==='peer'?'b-blue':'b-purple'}">${v.type}</span></td>
       <td>${bp!==null?Math.round(bp)+'%':'—'}${v.type==='manager'&&v.tech?' <span class="hint">+ KPIs '+Math.round(technicalPercent(v.tech))+'%</span>':''}</td>
       <td class="hint">${v.date}</td>

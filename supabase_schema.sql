@@ -81,7 +81,7 @@ create table trainings (
 -- Helper: resolve the effective manager of an employee (auto chain + override)
 -- ═══════════════════════════════════════════════════════════════
 create or replace function effective_manager(emp_id text)
-returns text language sql stable as $$
+returns text language sql stable security definer set search_path = public as $$
   select coalesce(
     (select manager_id from manager_overrides where employee_id = emp_id),
     (select case
@@ -99,19 +99,19 @@ $$;
 
 -- Helper: current logged-in employee id
 create or replace function my_employee_id()
-returns text language sql stable as $$
+returns text language sql stable security definer set search_path = public as $$
   select id from employees where auth_user = auth.uid();
 $$;
 
 create or replace function i_am_admin()
-returns boolean language sql stable as $$
+returns boolean language sql stable security definer set search_path = public as $$
   select coalesce((select is_admin from employees where auth_user = auth.uid()), false);
 $$;
 
 -- Sub-permission check for limited admins. perm must be one of:
 -- 'employees' | 'raters' | 'approvals' | 'allresults' | 'org'
 create or replace function my_perm(perm text)
-returns boolean language sql stable as $$
+returns boolean language sql stable security definer set search_path = public as $$
   select coalesce(
     (select case perm
       when 'employees' then perm_employees
@@ -121,6 +121,30 @@ returns boolean language sql stable as $$
       when 'org' then perm_org
       else false
     end from employees where auth_user = auth.uid()), false);
+$$;
+
+-- Helper: is the current employee a legitimate rater of `target` as `rtype`?
+-- Mirrors the rating chain enforced in the UI, so the API cannot be used to
+-- inject evaluations outside it.
+create or replace function may_rate(target text, rtype text)
+returns boolean language sql stable security definer set search_path = public as $$
+  select case rtype
+    when 'self'        then target = my_employee_id()
+    when 'manager'     then effective_manager(target) = my_employee_id()
+    when 'subordinate' then effective_manager(my_employee_id()) = target
+    when 'peer'        then (
+      -- admin-picked peer list wins, otherwise same division + dept + role
+      case when exists (select 1 from peer_assignments where employee_id = target)
+        then exists (select 1 from peer_assignments
+                     where employee_id = target and peer_id = my_employee_id())
+        else exists (select 1 from employees me, employees tg
+                     where me.id = my_employee_id() and tg.id = target
+                       and me.id <> tg.id and not me.is_ceo
+                       and me.division = tg.division and me.dept = tg.dept
+                       and me.role = tg.role)
+      end)
+    else false
+  end;
 $$;
 
 -- ═══════════════════════════════════════════════════════════════
@@ -142,18 +166,38 @@ create policy emp_admin_write on employees for all using (i_am_admin() and my_pe
 --        the target himself ONLY when confirmed and not hidden_from_target
 --        (and never learns rater identity — enforce that in the UI by
 --        aggregating, never selecting rater_id for targets)
+-- The evaluated employee is deliberately NOT granted access to the base table:
+-- rater_id would travel to their browser even if the UI hid it. They read their
+-- own results through the anonymised view my_evaluations (below) instead.
 create policy ev_read on evaluations for select using (
   i_am_admin()
   or rater_id = my_employee_id()
   or effective_manager(target_id) = my_employee_id()
-  or (target_id = my_employee_id() and status = 'confirmed' and hidden_from_target = false)
 );
 --  insert: the rater inserts own evaluation
-create policy ev_insert on evaluations for insert with check (rater_id = my_employee_id());
+--  a rater may only ever write a row as 'pending' - confirming is admin-only
+create policy ev_insert on evaluations for insert with check (
+  rater_id = my_employee_id() and status = 'pending' and may_rate(target_id, type)
+);
 --  update: rater edits while pending; admin can update anything (confirm/reject)
 create policy ev_update_rater on evaluations for update
-  using (rater_id = my_employee_id() and status = 'pending');
+  using (rater_id = my_employee_id() and status = 'pending')
+  with check (rater_id = my_employee_id() and status = 'pending');
 create policy ev_admin_all on evaluations for all using (i_am_admin() and my_perm('approvals'));
+
+-- ── Anonymised window for the evaluated employee ──
+-- A plain (security_invoker = off) view: it runs with the owner's rights, so it
+-- is the ONLY path by which a target reads evaluations about themselves, and it
+-- never exposes rater_id. Confirmed + not hidden only.
+create or replace view my_evaluations as
+  select id, target_id, null::text as rater_id, type, scores, tech, dev_plan,
+         status, eval_date, hidden_from_target
+  from evaluations
+  where target_id = my_employee_id()
+    and status = 'confirmed'
+    and hidden_from_target = false;
+revoke all on my_evaluations from anon;
+grant select on my_evaluations to authenticated;
 
 -- Trainings: admin all; direct manager manages; employee reads own
 create policy tr_read on trainings for select using (
