@@ -1,3 +1,6 @@
+# Linked Supabase project (RIDA 360). `supabase link` also writes this.
+project_id = "cjcvtsdvgyjebwgigwsa"
+
 
 [functions.create-employee-login]
 enabled = true
