@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx -y supabase@latest projects list*)",
+      "Bash(npx -y supabase@latest migration list*)",
+      "Bash(npx -y supabase@latest migration new*)",
+      "Bash(npx -y supabase@latest db push*)",
+      "Bash(npx -y supabase@latest db diff*)",
+      "Bash(npx -y supabase@latest --version)"
+    ],
+    "deny": [
+      "Bash(npx -y supabase@latest db reset*)",
+      "Bash(npx supabase db reset*)",
+      "Bash(supabase db reset*)",
+      "Bash(npx -y supabase@latest projects delete*)",
+      "Bash(npx supabase projects delete*)",
+      "Bash(supabase projects delete*)",
+      "Bash(npx -y supabase@latest db dump*)",
+      "Bash(npx -y supabase@latest branches delete*)"
+    ]
+  }
+}
