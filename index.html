@@ -958,7 +958,7 @@ function openTrainModal(empId,trainId){
   <option value="online" ${tr&&tr.type==='online'?'selected':''}>${t('tyOnline')}</option></select></div></div>
   <div class="frow"><label>${t('provider')}</label><input id="tr-prov" value="${tr?esc(tr.provider||''):''}"></div>
   <div class="grid3" style="grid-template-columns:1fr 1fr 1fr;">
-  <div class="frow"><label>${t('startDate')}</label><input id="tr-date" type="date" value="${tr?tr.startDate||'':''}"></div>
+  <div class="frow"><label>${t('startDate')}</label><input id="tr-date" type="date" value="${tr?esc(tr.startDate||''):''}"></div>
   <div class="frow"><label>${t('duration')}</label><input id="tr-durval" type="number" min="1" value="${tr?tr.durVal:1}"></div>
   <div class="frow"><label>${t('durUnit')}</label><select id="tr-durunit">
   <option value="hours" ${tr&&tr.durUnit==='hours'?'selected':''}>${t('hours')}</option>
@@ -1128,7 +1128,8 @@ function toggleAdminPerms(){
 }
 function fillDepts(sel){
   const d=ORG.divisions.find(x=>x.id===document.getElementById('m-div').value);
-  document.getElementById('m-dept').innerHTML='<option value="—">—</option>'+d.depts.map(x=>`<option ${sel===x?'selected':''}>${x}</option>`).join('');
+  const depts=d?d.depts:[];
+  document.getElementById('m-dept').innerHTML='<option value="—">—</option>'+depts.map(x=>`<option ${sel===x?'selected':''}>${esc(x)}</option>`).join('');
 }
 async function saveEmp(exId){
   const id=exId||document.getElementById('m-id').value.trim().toUpperCase();
