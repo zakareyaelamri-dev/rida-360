@@ -156,9 +156,13 @@ alter table trainings enable row level security;
 alter table manager_overrides enable row level security;
 alter table peer_assignments enable row level security;
 
--- Employees: everyone signed-in reads basic directory (needed for names in UI);
--- only admin writes.
-create policy emp_read on employees for select using (auth.uid() is not null);
+-- Employees: the base table carries contact details, auth_user and the
+-- permission flags, so only the admin -- and each employee for their own row --
+-- may read it. Everyone else reads the roster through employees_directory
+-- (below), which holds only the columns the UI and the rating chain need.
+create policy emp_read on employees for select using (
+  i_am_admin() or id = my_employee_id()
+);
 create policy emp_admin_write on employees for all using (i_am_admin() and my_perm('employees'));
 
 -- Evaluations:
@@ -181,6 +185,14 @@ create policy ev_update_rater on evaluations for update
   using (rater_id = my_employee_id() and status = 'pending')
   with check (rater_id = my_employee_id() and status = 'pending');
 create policy ev_admin_all on evaluations for all using (i_am_admin() and my_perm('approvals'));
+
+-- ── Roster visible to every signed-in user ──
+-- A plain view (security_invoker off), so it reads past the policy above.
+create or replace view employees_directory as
+  select id, name, title, role, division, dept, is_admin, is_ceo
+  from employees;
+revoke all on employees_directory from anon;
+grant select on employees_directory to authenticated;
 
 -- ── Anonymised window for the evaluated employee ──
 -- A plain (security_invoker = off) view: it runs with the owner's rights, so it

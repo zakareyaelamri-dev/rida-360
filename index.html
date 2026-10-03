@@ -345,7 +345,8 @@ function trainToDb(d){return{emp_id:d.empId,name:d.name,axis:d.axis,level:d.leve
 
 /* ── load all app data (called after auth) ── */
 async function loadAllData(){
-  const [emp,ev,mine,ov,pa,tr]=await Promise.all([
+  const [dir,emp,ev,mine,ov,pa,tr]=await Promise.all([
+    sb.from('employees_directory').select('*'),
     sb.from('employees').select('*'),
     sb.from('evaluations').select('*'),
     sb.from('my_evaluations').select('*'),
@@ -353,7 +354,14 @@ async function loadAllData(){
     sb.from('peer_assignments').select('*'),
     sb.from('trainings').select('*')
   ]);
-  DB.employees=(emp.data||[]).map(empFromDb);
+  // The directory is the roster everyone may see (no contact details, no
+  // auth_user, no permission flags). Rows from the base table — the admin's
+  // full view, or just your own row — overlay it.
+  DB.employees=(dir.data||[]).map(empFromDb);
+  (emp.data||[]).forEach(r=>{
+    const full=empFromDb(r),i=DB.employees.findIndex(e=>e.id===full.id);
+    if(i>=0)DB.employees[i]=full; else DB.employees.push(full);
+  });
   // Rows about me that I may not see identified arrive through my_evaluations
   // with rater_id stripped server-side; identified rows win on id collision.
   DB.evaluations=(ev.data||[]).map(evalFromDb);

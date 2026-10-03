@@ -2,9 +2,19 @@ import "@supabase/functions-js/edge-runtime.d.ts";
 import { withSupabase } from "@supabase/server";
 
 function randomPassword() {
+  // Math.random() is not cryptographically secure - its state is recoverable
+  // from observed output, which would make issued passwords predictable.
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+  const bytes = new Uint8Array(16);
+  crypto.getRandomValues(bytes);
   let out = "";
-  for (let i = 0; i < 10; i++) out += chars[Math.floor(Math.random() * chars.length)];
+  // 56 is not a divisor of 256; reject the top of the range so every
+  // character stays equally likely.
+  const limit = 256 - (256 % chars.length);
+  for (let i = 0; out.length < 16; i++) {
+    if (i >= bytes.length) { crypto.getRandomValues(bytes); i = 0; }
+    if (bytes[i] < limit) out += chars[bytes[i] % chars.length];
+  }
   return out;
 }
 
@@ -32,11 +42,13 @@ export default {
 
     const { data: callerEmp } = await ctx.supabaseAdmin
       .from("employees")
-      .select("is_admin")
+      .select("is_admin, perm_employees")
       .eq("auth_user", callerData.user.id)
       .maybeSingle();
 
-    if (!callerEmp?.is_admin) {
+    // Mirror the UI gate: an admin limited away from the Employees page must
+    // not be able to mint logins through the API either.
+    if (!callerEmp?.is_admin || callerEmp.perm_employees === false) {
       return Response.json({ error: "Admin access required" }, { status: 403 });
     }
 
