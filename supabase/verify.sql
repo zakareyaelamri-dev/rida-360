@@ -8,4 +8,4 @@ union all select 'helpers_security_definer [5]', (select count(*)::text from pg_
 union all select 'ev_read_excludes_target [true]', (coalesce((select qual::text from pg_policies where tablename='evaluations' and policyname='ev_read'),'') not like '%target_id = my_employee_id()%')::text
 union all select 'ev_insert_checks_chain [true]', (coalesce((select with_check::text from pg_policies where tablename='evaluations' and policyname='ev_insert'),'') like '%may_rate%')::text
 union all select 'ev_update_has_with_check [true]', ((select with_check from pg_policies where tablename='evaluations' and policyname='ev_update_rater') is not null)::text
-union all select 'anon_cannot_read_view [true]', (not has_table_privilege('anon','public.my_evaluations','select'))::text;
+union all select 'anon_cannot_read_view [true]', (case when to_regclass('public.my_evaluations') is null then 'view missing' else (not has_table_privilege('anon','public.my_evaluations','select'))::text end);
