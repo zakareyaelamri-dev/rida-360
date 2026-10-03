@@ -152,6 +152,10 @@ $$;
 create or replace function set_eval_audit()
 returns trigger language plpgsql security definer set search_path = public as $$
 begin
+  -- submission date: stamped by the server, correctable only by the admin
+  if tg_op = 'INSERT' then new.eval_date := current_date;
+  elsif not i_am_admin() then new.eval_date := old.eval_date; end if;
+
   if new.status = 'confirmed'
      and (tg_op = 'INSERT' or old.status is distinct from 'confirmed') then
     new.confirmed_by := coalesce(my_employee_id(), new.confirmed_by);
