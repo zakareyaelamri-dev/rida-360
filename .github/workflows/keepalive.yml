@@ -1,0 +1,31 @@
+# Supabase pauses a free-tier project after ~7 days without activity, which
+# takes the whole system offline until someone resumes it by hand. It has
+# happened twice. This pings the REST API daily so the project stays awake.
+#
+# The key below is the publishable (anon) key already shipped in index.html —
+# it is meant to be public and grants nothing on its own; RLS returns no rows
+# to an unauthenticated caller. The request still counts as project activity.
+#
+# Not a substitute for the Pro plan: if GitHub disables this schedule (it does
+# so after 60 days with no repo activity) or a run fails quietly, the project
+# pauses again.
+name: Keep Supabase awake
+
+on:
+  schedule:
+    - cron: '17 6 * * *'   # 06:17 UTC daily
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping PostgREST
+        run: |
+          code=$(curl -s -o /tmp/out -w '%{http_code}' --max-time 30 \
+            'https://cjcvtsdvgyjebwgigwsa.supabase.co/rest/v1/employees?select=id&limit=1' \
+            -H 'apikey: sb_publishable_wLhhpkwmL64asXOMI0rGUg_vyc-1Ln1')
+          echo "HTTP $code"; cat /tmp/out; echo
+          # 200 = awake. Anything else (000 = DNS gone while paused) fails the
+          # run, so the scheduled-job failure mail is the early warning.
+          test "$code" = "200"
