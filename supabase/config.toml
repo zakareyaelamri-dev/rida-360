@@ -12,3 +12,23 @@ entrypoint = "./functions/create-employee-login/index.ts"
 # Specifies static files to be bundled with the function. Supports glob patterns.
 # For example, if you want to serve static HTML pages in your function:
 # static_files = [ "./functions/create-employee-login/*.html" ]
+
+[auth]
+additional_redirect_urls = ["https://rida-360.vercel.app"]
+site_url = "https://rida-360.vercel.app"
+
+[auth.email]
+enable_confirmations = true
+max_frequency = "1m0s"
+otp_length = 8
+
+[auth.mfa.totp]
+enroll_enabled = true
+verify_enabled = true
+
+[db.pooler]
+default_pool_size = 15
+max_client_conn = 200
+
+[storage.vector]
+enabled = false
